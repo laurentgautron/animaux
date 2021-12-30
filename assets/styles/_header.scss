@@ -1,3 +1,11 @@
 header {
     background-color: #3498db;
+    .bear {
+        border-radius: 50%;
+        object-fit: contain;
+    }
+    .btn:hover {
+        color: white;
+        background-color: blue;;
+    }
 }

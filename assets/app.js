@@ -15,7 +15,6 @@ import './styles/app.scss';
 //import './bootstrap';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Bonjour from './appAnimaux/bonjour'
 
 console.log('bonjour')
 

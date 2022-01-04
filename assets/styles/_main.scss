@@ -1,3 +1,9 @@
 body {
     background-color: var(--bs-gray-dark);
+    .btn {
+        border-radius: 5px;
+        &.register {
+            background-color: var(--bs-blue);
+        }
+    }
 }

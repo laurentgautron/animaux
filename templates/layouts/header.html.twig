@@ -3,14 +3,14 @@
         <div class="row justify-content-between align-items-center">
             <img class="col col-sm-2 my-1 bear" src="{{asset('images/bear_hello.jpg')}}" alt="bear say welcome">
             <h1 class="col text-uppercase text-center">adm</h1>
-            <div class="row col-2 flex-column cta">
+            <div class="col cta">
                 {% if app.user %}
-                <a class="col col-2 btn btn-info btn-sm mx-3" href="{{ path('app_logout') }}" >Deconnexion</a>
+                <a class="col btn btn-info btn-sm mx-3" href="{{ path('app_logout') }}" >Deconnexion</a>
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a class="col col-sm-2 col-lg-1 btn btn-info btn-sm mx-3" href="{{ path('app_user') }}" >Utilisateurs</a>
+                        <a class="btn btn-info btn-sm mx-3" href="{{ path('app_user') }}" >Utilisateurs</a>
                     {% endif %}
                 {% else %}
-                <a class="col col-sm-2 col-lg-1 btn btn-info btn-sm mx-3" href="{{ path('app_login') }}" >Connexion</a>
+                <a class="btn btn-info btn-sm mx-3" href="{{ path('app_login') }}" >Connexion</a>
                 {% endif %}
             </div>
         </div>

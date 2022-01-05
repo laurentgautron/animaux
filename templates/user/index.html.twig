@@ -1,7 +1,36 @@
+<<<<<<< HEAD
 {% extends 'layouts/base.html.twig' %}
 
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
     <h1>Bonjour users</h1>
+=======
+{% extends "layouts/base.html.twig" %}
+
+{%  block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <h1>Bonjour users</h1>
+        <table class="table col-6">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">consulter</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <th scope="row">{{ user.id }}</th>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td><a href="#"><i class="far fa-eye" title="consulter"></i></td></a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+>>>>>>> user_list
 {% endblock %}

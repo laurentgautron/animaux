@@ -6,7 +6,7 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import 'bootswatch/dist/superhero/bootstrap.css'
+//import 'bootswatch/dist/superhero/bootstrap.css'
 import './styles/app.scss';
 
 

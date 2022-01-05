@@ -5,12 +5,12 @@
             <h1 class="col text-uppercase text-center">adm</h1>
             <div class="col cta">
                 {% if app.user %}
-                <a class="col btn btn-info btn-sm mx-3" href="{{ path('app_logout') }}" >Deconnexion</a>
+                    <a class="btn btn-info btn-sm" href="{{ path('app_logout') }}" >Deconnexion</a>
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a class="btn btn-info btn-sm mx-3" href="{{ path('app_user') }}" >Utilisateurs</a>
+                        <a class="col btn btn-info btn-sm" href="{{ path('app_user') }}" >Utilisateurs</a>
                     {% endif %}
-                {% else %}
-                <a class="btn btn-info btn-sm mx-3" href="{{ path('app_login') }}" >Connexion</a>
+                    {% else %}
+                    <a class="btn btn-info btn-sm mx-3" href="{{ path('app_login') }}" >Connexion</a>
                 {% endif %}
             </div>
         </div>

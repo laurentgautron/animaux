@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,7 @@ class UserFormType extends AbstractType
     {
         if ($options['research']) {
             $builder
-                ->add('lastName', null, [
+                ->add('lastName', TextType::class, [
                     'label' => 'Nom',
                     'attr' => ['placeholder' => 'Ex: DURAND'],
                 ])
@@ -23,8 +24,8 @@ class UserFormType extends AbstractType
                 ->add('firstName')
                 ->add('lastName')
                 ->add('email')
-                ->add('roles')
-                ->add('password')
+                // ->add('roles')
+                // ->add('password')
             ;
         }
 

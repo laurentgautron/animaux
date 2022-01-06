@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
+    #[Route('/user/research', name: 'app_user_research')]
     public function index(UserRepository $userRepository, Request $request ): Response
     {
         $userList = $userRepository->findAll();
@@ -33,11 +34,10 @@ class UserController extends AbstractController
     #[Route('/user/read/{id}', name: 'app_user_read')]
     public function edit(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $em)
     {
-        $form = $this->createForm(UserType::class, $user);
+        
+        $form = $this->createForm(UserFormType::class, $user, ['research' => false]);
 
-        $form->handleRequest($request);
-
-        return $this->render('user/read.hml.twig', [
+        return $this->render('user/read.html.twig', [
             'form'  => $form->createView(),
         ]);
     }

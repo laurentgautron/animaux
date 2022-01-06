@@ -2,7 +2,7 @@ body {
     background-color: var(--bs-gray-dark);
     .btn {
         border-radius: 5px;
-        &.register {
+        &.register, &.research {
             background-color: var(--bs-blue);
         }
     }

@@ -3,7 +3,17 @@
 {%  block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-    <h1>Bonjour users</h1>
+    {{ form_start(userForm) }}
+    <div class="row my-4">
+        <div class="col-12 col-sm">
+            {{ form_row(userForm.lastName) }}
+        </div>
+        <div class="col-12 col-sm align-self-end">
+            <button type-"submit" class="btn research mb-3">Recherche</button>
+        </div>
+    </div>
+    {{ form_end(userForm) }}
+    <h1 class="my-5">Liste des utilisateurs</h1>
         <table class="table text-center">
             <thead>
                 <tr>
@@ -16,10 +26,10 @@
             <tbody>
                 {% for user in users %}
                 <tr>
-                    <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.firstName }}</td>
-                    <td><a href="#"><i class="far fa-eye" title="consulter"></i></td></a>
+                    <th scope="row" class="align-middle">{{ user.id }}</th>
+                    <td class="align-middle">{{ user.lastName }}</td>
+                    <td class="align-middle">{{ user.firstName }}</td>
+                    <td class="align-middle"><a href="#"><i class="far fa-eye" title="consulter"></i></td></a>
                 </tr>
                 {% endfor %}
             </tbody>

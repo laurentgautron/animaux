@@ -4,12 +4,15 @@
 
 {% block body %}
     {{ form_start(userForm) }}
-    <div class="row my-4">
+    <div class="row mt-4 align-items-end justify-content-start">
         <div class="col-12 col-sm">
             {{ form_row(userForm.lastName) }}
         </div>
-        <div class="col-12 col-sm align-self-end">
+        <div class="col-12 col-md-2 p-md-0">
             <button type-"submit" class="btn research mb-3">Recherche</button>
+        </div>
+        <div class="col addUser p-md-0">
+            <a href="{{ path('app_register') }}" class="btn addUserButton mb-3"><i class="fas fa-plus me-2"></i>Ajouter un utilisateur</a>
         </div>
     </div>
     {{ form_end(userForm) }}

@@ -28,3 +28,13 @@ tbody {
         color: white;
     }
 }
+
+.addUserButton {
+    font-style: italic;
+    color: var(--bs-blue);
+    background-color: #fff;
+    &:hover {
+        color: white;
+        background-color: var(--bs-blue);
+    }
+}

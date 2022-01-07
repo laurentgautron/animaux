@@ -1,0 +1,16 @@
+.list-group-item {
+    span {
+        width: 80px;
+        font-weight: bold;
+    }
+    background-color: var(--bs-info);
+    color: var(--bs-gray-dark)
+}
+
+.cta a{
+    background-color: var(--bs-blue);
+    &:hover {
+        background-color: #fff;
+        color: var(--bs-blue);
+    }
+}

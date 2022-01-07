@@ -4,13 +4,15 @@ header {
         border-radius: 50%;
         object-fit: contain;
     }
-    .btn:hover {
-        color: var(--bs-info);
-        background-color: var(--bs-white);
+    .btn {
+        color: var(--bs-white);
+        background-color: (--bs-info);
+        &:hover {
+            color: var(--bs-info);
+            background-color: var(--bs-white);
+        }
     }
-    // .col {
-    //     &.cta {
-    //         flex: 0;
-    //     }
-    // }
+    span {
+        color: white;
+    }
 }

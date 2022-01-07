@@ -12,9 +12,6 @@ thead {
 tbody {
     background-color: #fff;
     color: var(--bs-gray-dark);
-    // td, th {
-    //     vertical-align: middle;
-    // }
 }
 
 .far {
@@ -37,4 +34,9 @@ tbody {
         color: white;
         background-color: var(--bs-blue);
     }
+}
+
+.userResearch {
+    background-color: var(--bs-blue);
+    color: white;
 }

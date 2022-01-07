@@ -3,8 +3,22 @@
 {%  block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-    <h1>Bonjour users</h1>
-        <table class="table text-center">
+    {{ form_start(userForm) }}
+    <div class="row justify-content-start align-items-end mb-sm-5">
+        <div class="col">
+            {{ form_row(userForm.lastName) }}
+        </div>
+        <div class="col-12 col-sm-1 mb-3">
+            <button type="submit" class="btn userResearch">Rechercher</button>
+        </div>
+        <div class="col-12 col-sm mb-3">
+            <a href="{{ path('app_register') }}" class="btn addUserButton"><i class="fas fa-plus me-2"></i>Ajouter un utilisateur</a>
+        </div>
+    </div>
+    {{ form_end(userForm) }}
+
+    <h1 class="mb-sm-5">Liste des utilisateurs</h1>
+        <table class="table text-center mt-sm-3">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -14,14 +28,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% set rank = 0 %}
                 {% for user in users %}
+                {% set rank = rank + 1 %}
                 <tr>
-                    <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.firstName }}</td>
-                    <td><a href="{{ path('app_user_read', { id: user.id }) }}"><i class="far fa-eye" title="consulter"></i></td></a>
+                    <th scope="row" class="align-middle">{{ rank }}</th>
+                    <td class="align-middle">{{ user.lastName }}</td>
+                    <td class="align-middle">{{ user.firstName }}</td>
+                    <td class="align-middle"><a href="{{ path('app_user_read', { id: user.id }) }}"><i class="far fa-eye" title="consulter"></i></td></a>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {{ knp_pagination_render(users) }}
 {% endblock %}

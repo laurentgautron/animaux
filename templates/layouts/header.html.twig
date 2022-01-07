@@ -1,9 +1,9 @@
 <header>
     <div class="container-fluid">
         <div class="row justify-content-between align-items-center">
-            <img class="col col-sm-2 my-1 bear" src="{{asset('images/bear_hello.jpg')}}" alt="bear say welcome">
+            <a href="#" class="col-3 my-1"><img class="bear w-100" src="{{asset('images/bear_hello.jpg')}}" alt="bear say welcome"></a>
             <h1 class="col text-center"><span class="text-uppercase">adm</span> </h1>
-            <div class="col col-sm-3 d-flex flex-column flex-xl-row cta justify-content-end">
+            <div class="col col-sm-3 d-flex flex-column flex-xl-row justify-content-end">
                 {% if app.user %}
                     <a class="btn btn-info btn-sm m-1" href="{{ path('app_logout') }}" >Deconnexion</a>
                     {% if is_granted("ROLE_ADMIN") %}

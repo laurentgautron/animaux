@@ -18,11 +18,11 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $data = $userRepository->findAll();
-        
+
         $form = $this->createForm(UserFormType::class, null, ['research' => true]);
-        
+
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $userList = $userRepository->findByLastName($form->getData()->getLastName());
         } else {
@@ -33,9 +33,10 @@ class UserController extends AbstractController
             );
         }
 
-        return $this->render('user/index.html.twig',[
+        return $this->render('user/index.html.twig', [
             'userForm' => $form->createView(),
             'users' => $userList,
+            'page' => $request->query->getInt('page', 1)
         ]);
     }
 

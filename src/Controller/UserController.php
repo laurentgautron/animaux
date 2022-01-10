@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,24 +19,39 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $data = $userRepository->findAll();
+        $is_find = true;
 
-        $form = $this->createForm(UserFormType::class, null, ['research' => true]);
+        $form = $this->createForm(RegistrationFormType::class);
+        $form->remove('plainPassword');
+        $form->remove('agreeTerms');
+        $form->remove('role');
+        $form->remove('email');
+        $form->remove('firstName');
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userList = $userRepository->findByLastName($form->getData()->getLastName());
-        } else {
-            $userList = $paginator->paginate(
-                $data,
-                $request->query->getInt('page', 1),
-                3
-            );
+            if ($userRepository->findBy(['lastName' => $form->getData()->getLastName()]) != null) {
+                $data = $userRepository->findBy(['lastName' => $form->getData()->getLastName()]);
+            } else {
+                $is_find = false;
+            }
         }
+
+        $userList = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            3
+        );
+
+        //dd($form->getData()->getLastName());
+
+        //dd($is_find);
 
         return $this->render('user/index.html.twig', [
             'userForm' => $form->createView(),
             'users' => $userList,
+            'is_find'  => $is_find,
             'page' => $request->query->getInt('page', 1)
         ]);
     }
@@ -43,8 +59,9 @@ class UserController extends AbstractController
     #[Route('/user/edit/{id}', name: 'app_user_edit')]
     public function edit(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $em)
     {
-        $roles = ['Administrateur' => 'ROLL_ADMIN', 'Collaborateur' => 'ROLL_COLL'];
-        $form = $this->createForm(UserFormType::class, $user, ['research' => false]);
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->remove('agreeTerms');
+        $form->remove('plainPassword');
 
         $form->handleRequest($request);
 
@@ -57,6 +74,7 @@ class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', [
             'form'  => $form->createView(),
+            'user' => $user,
         ]);
     }
 

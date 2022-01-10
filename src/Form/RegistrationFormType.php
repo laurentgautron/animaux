@@ -31,9 +31,8 @@ class RegistrationFormType extends AbstractType
                     new NotBlank(['message' => 'Vous devez choisir un rôle'])
                 ],
                 'choices' => [
-                    ''               => '',
+                    'Collaborateur'  => 'ROLE_COLL',
                     'Administrateur' => 'ROLE_ADMIN',
-                    'Collaborateur'  => 'ROLE_COLL'
                 ]
             ])
             ->add('firstName', null, [

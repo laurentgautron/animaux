@@ -19,6 +19,8 @@
 </div>
 {{ form_end(userForm) }}
 
+{% if is_find %}
+
 <h1 class="mb-sm-5">Liste des utilisateurs</h1>
 <table class="table text-center mt-sm-3">
 	<thead>
@@ -40,9 +42,16 @@
 				<td class="align-middle">
 					<a href="{{ path('app_user_read', { id: user.id }) }}">
 						<i class="far fa-eye" title="consulter"></i>
-					</td>
+                    </a>
 				</td>
 			</tr>
-		</a>
+		{% endfor %}        
 	</tbody>
-</tr>{% endfor %}</tbody></table>{{ knp_pagination_render(users) }}{% endblock %}
+</table>{{ knp_pagination_render(users) }}
+
+{% else %}
+    <p>Aucun utilisateur trouvé !</p>
+    <a href='{{ path('app_user_research') }}' class='btn btn-info'>Retour à la liste</a>
+{% endif %}
+
+{% endblock %}

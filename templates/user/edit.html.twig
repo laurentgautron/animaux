@@ -1,7 +1,28 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block body %}
-    {{ form_start(form) }}
-        <button class="btn">Enregistrer</button>
-    {{ form_end(form) }}
+	{{ form_start(form) }}
+    <div class="row flex-column align-items-center">
+        <h1 class='col text-center my-3'>Modifier <i>{{ user.firstName }}&nbsp;{{ user.lastName }}</i></h1>
+        <div class="col-sm-8">
+            <div class="row flex-column flex-sm-row bg-info align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
+            {{ form_label(form.firstName, 'Nom:', {'label_attr': {'class': 'col-sm-2 col-3'}}) }}
+            {{ form_widget(form.firstName, {'attr': {'class': 'col'}}) }}
+            </div>
+            <div class="row bg-info flex-column flex-sm-row align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
+            {{ form_label(form.lastName, 'Prénom:', {'label_attr': {'class': 'col-sm-2 col-3'}}) }}
+            {{ form_widget(form.lastName, {'attr': {'class': 'col'}}) }}
+            </div>
+            <div class="row bg-info flex-column flex-sm-row align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
+            {{ form_label(form.role, 'Rôle:', {'label_attr': {'class': 'col-sm-2 col-3'}}) }}
+            {{ form_widget(form.role, {'attr': {'class': 'col'}}) }}
+            </div>
+            <div class="row bg-info flex-column flex-sm-row align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
+            {{ form_label(form.email, 'Email:', {'label_attr': {'class': 'col-sm-2 col-3'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'col'}}) }}
+            </div>
+            <button class="btn bg-info mt-3 w-100">Enregistrer</button>
+        </div>
+    </div>
+	{{ form_end(form) }}
 {% endblock %}

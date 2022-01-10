@@ -25,7 +25,7 @@ class UserFormType extends AbstractType
                 ->add('firstName')
                 ->add('lastName')
                 ->add('email')
-                ->add('roles', ChoiceType::class, [
+                ->add('role', ChoiceType::class, [
                     'choices' => [
                         'Administrateur'  => 'ROLE_ADMIN',
                         'Collaborateur'   => 'ROLE_COLL',

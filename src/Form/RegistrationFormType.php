@@ -26,7 +26,8 @@ class RegistrationFormType extends AbstractType
             ->add('role', ChoiceType::class, [
                 'mapped' => false,
                 'label'   => 'Rôle',
-                'multiple' => false,
+                'expanded' =>true,
+                'multiple' => true,
                 'constraints' => [
                     new NotBlank(['message' => 'Vous devez choisir un rôle'])
                 ],

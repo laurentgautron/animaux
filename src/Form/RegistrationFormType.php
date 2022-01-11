@@ -23,11 +23,11 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => ['placeholder' => 'Ex: jeanDUPONT@sfr.fr']
             ])
-            ->add('role', ChoiceType::class, [
-                'mapped' => false,
+            ->add('roles', ChoiceType::class, [
+                // 'mapped' => false,
                 'label'   => 'Rôle',
-                'expanded' =>true,
-                'multiple' => false,
+                'expanded' =>false,
+                'multiple' => true,
                 'constraints' => [
                     new NotBlank(['message' => 'Vous devez choisir un rôle'])
                 ],

@@ -9,7 +9,7 @@
         <div class="col-sm-8">
             {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Nom', 'formField': registrationForm.firstName}) }}
             {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Prénom', 'formField': registrationForm.lastName}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Rôle', 'formField': registrationForm.role}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Rôle', 'formField': registrationForm.roles}) }}
             {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Email', 'formField': registrationForm.email}) }}
             {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Mot de Passe', 'formField': registrationForm.plainPassword}) }}
             {{ form_row(registrationForm.agreeTerms) }}

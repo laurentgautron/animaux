@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class);
         $form->remove('plainPassword');
         $form->remove('agreeTerms');
-        $form->remove('role');
+        $form->remove('roles');
         $form->remove('email');
         $form->remove('firstName');
 
@@ -56,7 +56,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/edit/{id}', name: 'app_user_edit')]
+    #[Route('admin/user/edit/{id}', name: 'app_user_edit')]
     public function edit(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $em)
     {
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -78,13 +78,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/read/{id}', name: 'app_user_read')]
+    #[Route('profile/user/read/{id}', name: 'app_user_read')]
     public function read(User $user)
     {
         return $this->render('user/read.html.twig', compact('user'));
     }
 
-    #[Route('/user/delete/{id}', name: 'app_user_delete')]
+    #[Route('admin/user/delete/{id}', name: 'app_user_delete')]
     public function del(User $user, EntityManagerInterface $em)
     {
         $em->remove($user);

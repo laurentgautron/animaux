@@ -1,18 +1,24 @@
-.table > :not(caption) > * > * {
-    box-shadow: none;
-  }
-  
-thead {
-    th {
-        background-color: var(--bs-gray-dark);
-        color: white;
+.table {
+    // remove box-shadow 
+    &> :not(caption) > * > * {
+        box-shadow: none;
     }
-}
-
-tbody {
-    background-color: #fff;
-    color: var(--bs-gray-dark);
-}
+    thead {
+        th {
+            background-color: var(--bs-gray-dark);
+            color: white;
+        }
+    }
+    
+    tbody {
+        background-color: #fff;
+        color: var(--bs-gray-dark);
+        // break word if too long
+        td {
+            word-break: break-all;
+        }
+    }
+  }
 
 .far {
     color: var(--bs-gray-dark);

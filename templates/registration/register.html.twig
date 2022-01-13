@@ -7,11 +7,11 @@
     <div class="row flex-column align-items-center">
         <h1 class='col text-center my-3'>Enregistrer un(e) nouvel(le) utilisateur(trice)</i></h1>
         <div class="col-sm-8">
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Nom', 'formField': registrationForm.firstName}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Prénom', 'formField': registrationForm.lastName}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Rôle', 'formField': registrationForm.roles}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Email', 'formField': registrationForm.email}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Mot de Passe', 'formField': registrationForm.plainPassword}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': registrationForm.firstName}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': registrationForm.lastName}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': registrationForm.roles}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': registrationForm.email}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': registrationForm.plainPassword}) }}
             {{ form_row(registrationForm.agreeTerms) }}
             <button class="btn bg-info mt-3 w-100">Enregistrer</button>
         </div>

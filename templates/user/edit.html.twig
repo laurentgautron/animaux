@@ -5,16 +5,16 @@
     <div class="row flex-column align-items-center">
         <h1 class='col text-center my-3'>Modifier <i>{{ user.firstName }}&nbsp;{{ user.lastName }}</i></h1>
         <div class="col-sm-8">
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Nom', 'formField': form.firstName}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': form.firstName}) }}
             {# include replace the next code for each field 
             <div class="row flex-column flex-sm-row bg-info align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
-            {{ form_label(form.firstName, 'Nom:', {'label_attr': {'class': 'col-sm-2 col-3'}}) }}
+            {{ form_label(form.firstName, {'label_attr': {'class': 'col-sm-2 col-3'}}) }}
             {{ form_widget(form.firstName, {'attr': {'class': 'col'}}) }}
             </div> 
             #}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Prénom', 'formField': form.lastName}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Rôle', 'formField': form.roles}) }}
-            {{ include('layouts/_includes/form_fields.html.twig', {'labelName': 'Email', 'formField': form.email}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': form.lastName}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': form.roles}) }}
+            {{ include('layouts/_includes/form_fields.html.twig', {'formField': form.email}) }}
             <button class="btn bg-info mt-3 w-100">Enregistrer</button>
         </div>
     </div>

@@ -18,10 +18,11 @@ class UserController extends AbstractController
     #[Route('/user/research', name: 'app_user_research')]
     public function index(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $user = new User();
         $data = $userRepository->findAll();
         $is_find = true;
 
-        $form = $this->createForm(RegistrationFormType::class);
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->remove('plainPassword');
         $form->remove('agreeTerms');
         $form->remove('roles');
@@ -44,10 +45,6 @@ class UserController extends AbstractController
             3
         );
 
-        //dd($form->getData()->getLastName());
-
-        //dd($is_find);
-
         return $this->render('user/index.html.twig', [
             'userForm' => $form->createView(),
             'users' => $userList,
@@ -57,7 +54,7 @@ class UserController extends AbstractController
     }
 
     #[Route('admin/user/edit/{id}', name: 'app_user_edit')]
-    public function edit(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $em)
+    public function edit(Request $request, User $user, EntityManagerInterface $em)
     {
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->remove('agreeTerms');

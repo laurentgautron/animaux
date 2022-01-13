@@ -4,6 +4,7 @@ header {
         border-radius: 50%;
         object-fit: contain;
     }
+    // remove link and image for little phone in header
     .bear-link {
         @include little-phone {
             display: none;

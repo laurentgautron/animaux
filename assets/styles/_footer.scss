@@ -1,0 +1,13 @@
+footer {
+    background-color: var(--bs-blue);
+    a {
+        color: #1b5566;
+        text-decoration: none;
+    }
+    .row {
+        @include little-phone {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+}

@@ -4,6 +4,11 @@ header {
         border-radius: 50%;
         object-fit: contain;
     }
+    .bear-link {
+        @include little-phone {
+            display: none;
+        }
+    }
     .btn {
         color: var(--bs-white);
         background-color: (--bs-info);

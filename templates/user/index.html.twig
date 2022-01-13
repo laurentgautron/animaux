@@ -5,14 +5,14 @@
 
 {% block body %}
 {{ form_start(userForm) }}
-<div class="row justify-content-start align-items-end mb-sm-5">
-	<div class="col-12 col-sm-6 col-md-4">
-		{{ form_row(userForm.lastName) }}
+<div class="row justify-content-start align-items-end mb-sm-5 mt-3">
+	<div class="col-12 col-sm-6 col-md-5 my-2">
+		{{ form_widget(userForm.lastName) }}
 	</div>
-	<div class="col-12 mb-3 col-sm-3 col-md-2 col-lg-1 col-xl-1 me-sm-3">
+	<div class="col-12 col-sm-3 col-md-2 col-lg-1 col-xl-1 me-sm-3 my-2">
 		<button type="submit" class="btn userResearch">Rechercher</button>
 	</div>
-	<div class="col-12 mb-3 col-md-4 col-lg-4 col-xl-3 ms-md-2 ms-0">
+	<div class="col-12 col-md-4 col-lg-4 col-xl-3 ms-md-2 ms-0 my-2">
 		<a href="{{ path('app_register') }}" class="btn addUserButton">
 			<i class="fas fa-plus me-2"></i>Ajouter un utilisateur</a>
 	</div>

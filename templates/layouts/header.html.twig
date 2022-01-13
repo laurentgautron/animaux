@@ -5,6 +5,7 @@
             <h1 class="col text-center"><span class="text-uppercase">adm</span> </h1>
             <div class="col col-sm-3 d-flex flex-column flex-xl-row justify-content-end">
                 {% if app.user %}
+                    <a class="btn btn-info btn-sm m-1" href="{{ path('app_user_read', {id: app.user.id}) }}">Profil</a>
                     <a class="btn btn-info btn-sm m-1" href="{{ path('app_logout') }}" >Deconnexion</a>
                     {% if is_granted("ROLE_ADMIN") %}
                         <a class="btn btn-info btn-sm m-1" href="{{ path('app_user_research') }}" >Utilisateurs</a>

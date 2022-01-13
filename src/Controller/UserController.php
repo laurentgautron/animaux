@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+#[Route('/admin')]
 class UserController extends AbstractController
 {
     #[Route('/user/research', name: 'app_user_research')]
@@ -53,7 +55,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('admin/user/edit/{id}', name: 'app_user_edit')]
+    #[Route('/user/edit/{id}', name: 'app_user_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $em)
     {
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -75,13 +77,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('profile/user/read/{id}', name: 'app_user_read')]
+    #[Route('/profile/user/read/{id}', name: 'app_user_read')]
     public function read(User $user)
     {
         return $this->render('user/read.html.twig', compact('user'));
     }
 
-    #[Route('admin/user/delete/{id}', name: 'app_user_delete')]
+    #[Route('/user/delete/{id}', name: 'app_user_delete')]
     public function del(User $user, EntityManagerInterface $em)
     {
         $em->remove($user);

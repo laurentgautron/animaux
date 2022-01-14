@@ -8,28 +8,28 @@ use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-#[Route('/admin')]
 class UserController extends AbstractController
 {
-    #[Route('/user/research', name: 'app_user_research')]
+    #[Route('admin/user/research', name: 'app_user_research')]
     public function index(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $user = new User();
         $data = $userRepository->findAll();
         $is_find = true;
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->remove('plainPassword');
-        $form->remove('agreeTerms');
-        $form->remove('roles');
-        $form->remove('email');
-        $form->remove('firstName');
+        $form = $this->createForm(RegistrationFormType::class, $user, ['research' => true]);
+        // $form->remove('plainPassword');
+        // $form->remove('agreeTerms');
+        // $form->remove('roles');
+        // $form->remove('email');
+        // $form->remove('firstName');
 
         $form->handleRequest($request);
 
@@ -55,10 +55,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/edit/{id}', name: 'app_user_edit')]
+    #[Route('admin/user/edit/{id}', name: 'app_user_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $em)
     {
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user, ['research' => false]);
         $form->remove('agreeTerms');
         $form->remove('plainPassword');
 
@@ -77,13 +77,14 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/user/read/{id}', name: 'app_user_read')]
+    #[Route('/profile/user/{id}', name: 'app_user_read')]
     public function read(User $user)
     {
+        $this->denyAccessUnlessGranted('view', $user);
         return $this->render('user/read.html.twig', compact('user'));
     }
 
-    #[Route('/user/delete/{id}', name: 'app_user_delete')]
+    #[Route('admin/user/delete/{id}', name: 'app_user_delete')]
     public function del(User $user, EntityManagerInterface $em)
     {
         $em->remove($user);

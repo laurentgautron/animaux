@@ -1,9 +1,13 @@
 body {
+    height: 100vh;
     background-color: var(--bs-gray-dark);
     .btn {
         border-radius: 5px;
         &.register, &.research {
             background-color: var(--bs-blue);
         }
+    }
+    .reactApp, .errorPage {
+        height: 100vh;
     }
 }

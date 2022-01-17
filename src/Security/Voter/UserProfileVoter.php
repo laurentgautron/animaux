@@ -12,7 +12,7 @@ class UserProfileVoter extends Voter
 
     const USER_VIEW = 'view';
     const USER_EDIT = 'edit';
-    const USER_CHANGE = 'change';
+    const USER_CHANGE = 'newPass';
 
     protected function supports(string $attribute, $subject): bool
     {

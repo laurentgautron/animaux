@@ -101,7 +101,7 @@ class UserController extends AbstractController
         User $user
         )
     {
-        //$this->denyAccessUnlessGranted('newPass', $user);
+        $this->denyAccessUnlessGranted('newPass', $user);
         $changePassword = new ChangePassword();
         $form = $this->createForm(ResetPasswordType::class, $changePassword);
 

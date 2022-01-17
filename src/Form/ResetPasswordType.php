@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Form\model\ChangePassword;
+use App\Form\Model\ChangePassword;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
@@ -11,11 +11,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
-class RsetPasswordType extends AbstractType {
+class ResetPasswordType extends AbstractType {
 
     public function buildForm( FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('oldpassword', PasswordType::class)
+            ->add('oldPassword', PasswordType::class, [
+                'label' => 'Mot de passe actuel'
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -25,8 +27,8 @@ class RsetPasswordType extends AbstractType {
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'required' => true,
-                'first_options' => ['label' => 'Entrez un mot de passe'],
-                'second_options' => ['label' => 'Entrez une seconde fois le mot de passe'],
+                'first_options' => ['label' => 'Entrez un nouveau mot de passe'],
+                'second_options' => ['label' => 'Entrez une seconde fois le nouveau mot de passe'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -45,7 +47,7 @@ class RsetPasswordType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => ChangePassword::class,
         ]);
     }
 }

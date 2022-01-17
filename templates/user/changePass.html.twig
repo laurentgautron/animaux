@@ -3,8 +3,8 @@
 {% block body %}
     {{ form_start(form) }}
         {{ form_row(form.oldPassword) }}
-        {{ form_row(form.palinPassword.first) }}
+        {{ form_row(form.plainPassword.first) }}
         {{ form_row(form.plainPassword.second) }}
-        <button type="submit">Enregistrer le nouveau mot de passe</button>
+        <button type="submit" class="btn change">Enregistrer le nouveau mot de passe</button>
     {{ form_end(form) }}
 {% endblock %}

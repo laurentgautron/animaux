@@ -20,6 +20,7 @@
     <div class="col-9 col-sm-8 mt-3 ps-3 cta">
         <a href="{{ path('app_user_edit', {id: user.id}) }}" class="btn m-1">Modifier</a>
         <a href="{{ path('app_user_delete', {id: user.id}) }}" class="btn">Supprimer</a>
+        <a href="{{ path('app_user_new_password', {id: user.id}) }}" class="btn">Nouveau mot de passe</a>
     </div>
 </div>
 {% endblock %}

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\ResetPasswordType;
-use APP\Form\model\ChangePassword;
+use App\Form\Model\ChangePassword;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -108,11 +108,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid()) {
-            $newPwd = $form->get('password')['first'] ->getData();
+            $newPwd = $form->get('plainPassword')['first'] ->getData();
             $newEncodePwd = $userPasswordHasherInterface->hashPassword($user, $newPwd);
             $user->setPassword($newEncodePwd);
             $em->persist($user);
             $em->flush();
+
+            return $this->redirectToRoute('app_user_read', ['id' => $user->getId()]);
         }
 
         return $this->render('user/changePass.html.twig', [

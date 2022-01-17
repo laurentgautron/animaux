@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ResetPasswordType;
+use APP\Form\model\ChangePassword;
 use App\Form\RegistrationFormType;
-use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -92,4 +92,32 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_research');
     }
+
+    #[Route('/user/new-password/{id}', name: 'app_user_new_password')]
+    public function changPassword(
+        Request $request, 
+        EntityManagerInterface $em, 
+        UserPasswordHasherInterface $userPasswordHasherInterface,
+        User $user
+        )
+    {
+        //$this->denyAccessUnlessGranted('newPass', $user);
+        $changePassword = new ChangePassword();
+        $form = $this->createForm(ResetPasswordType::class, $changePassword);
+
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid()) {
+            $newPwd = $form->get('password')['first'] ->getData();
+            $newEncodePwd = $userPasswordHasherInterface->hashPassword($user, $newPwd);
+            $user->setPassword($newEncodePwd);
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->render('user/changePass.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

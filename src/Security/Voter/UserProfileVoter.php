@@ -12,12 +12,13 @@ class UserProfileVoter extends Voter
 
     const USER_VIEW = 'view';
     const USER_EDIT = 'edit';
+    const USER_CHANGE = 'change';
 
     protected function supports(string $attribute, $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::USER_VIEW, self::USER_EDIT])
+        return in_array($attribute, [self::USER_VIEW, self::USER_EDIT, self::USER_CHANGE])
             && $subject instanceof \App\Entity\User;
     }
 
@@ -40,6 +41,9 @@ class UserProfileVoter extends Voter
             case self::USER_VIEW:
                 // logic to determine if the user can VIEW
                 return $this->canView($currentUser, $user);
+
+            case self::USER_CHANGE:
+                return $this->canChange($currentUser, $user);
                 
             case self::USER_EDIT:
                 // logic to determine if the user can EDIT
@@ -54,6 +58,13 @@ class UserProfileVoter extends Voter
         } else {
             return false;
         }
+    }
+
+    private function canChange(User $currentUser, User $user)
+    {
+        
+        return $currentUser->getId() === $user->getId();
+       
     }
 
     private function canEdit(User $currentUser, User $user):bool

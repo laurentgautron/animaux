@@ -119,6 +119,7 @@ class UserController extends AbstractController
 
         return $this->render('user/changePass.html.twig', [
             'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 

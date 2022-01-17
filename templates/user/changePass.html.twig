@@ -2,9 +2,20 @@
 
 {% block body %}
     {{ form_start(form) }}
-        {{ form_row(form.oldPassword) }}
-        {{ form_row(form.plainPassword.first) }}
-        {{ form_row(form.plainPassword.second) }}
-        <button type="submit" class="btn change">Enregistrer le nouveau mot de passe</button>
+    <h1 class="mt-5">Changer le mot de Passe: {{ user.firstName }} {{ user.lastName }}</h1>
+        <div class="my-5 row flex-column align-items-center">
+            <div class="col-sm-7">
+            {{ form_row(form.oldPassword) }}
+            </div>
+            <div class="col-sm-7">
+            {{ form_row(form.plainPassword.first) }}
+            </div>
+            <div class="col-sm-7">
+            {{ form_row(form.plainPassword.second) }}
+            </div>
+            <div class="col-sm-7">
+            <button type="submit" class="btn change">Enregistrer le nouveau mot de passe</button>
+            </div>
+        </div>
     {{ form_end(form) }}
 {% endblock %}

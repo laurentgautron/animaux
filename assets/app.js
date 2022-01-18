@@ -15,6 +15,7 @@ import './styles/app.scss';
 import './bootstrap';
 import React from 'react'
 import ReactDOM from 'react-dom'
+import HelloApp from './ReactApp/HelloApp'
 
 console.log('bonjour')
-
+ReactDOM.render(<HelloApp />, document.getElementById('reactApp'))

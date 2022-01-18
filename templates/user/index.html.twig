@@ -47,7 +47,10 @@
 			</tr>
 		{% endfor %}        
 	</tbody>
-</table>{{ knp_pagination_render(users) }}
+</table>
+<div class="pagination">
+	{{ knp_pagination_render(users) }}
+</div>
 
 {% else %}
     <p>Aucun utilisateur trouvé !</p>

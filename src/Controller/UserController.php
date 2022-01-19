@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Form\ResetPasswordType;
 use App\Form\Model\ChangePassword;
 use App\Form\RegistrationFormType;
+use App\Repository\AnimalRepository;
+use App\Repository\ContinentRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;

@@ -49,11 +49,6 @@ class AppFixtures extends Fixture
         // }
 
         
-            $animal = $this->animalRepository->find(1);
-            $continent = $this->continentRepository->find(rand(1, 7));
-            $animal-> addContinent($continent);
-            $manager->persist($animal);
-
         $manager->flush();
     }
 }

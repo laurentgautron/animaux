@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Animal;
 use Faker\Factory;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
@@ -33,6 +34,15 @@ class AppFixtures extends Fixture
             $user->setPassword($this->hasher->hashPassword($user, 'secret'));
             $manager->persist($user);
         }
+
+        // for ($j = 0; $j < 40; $j++) {
+        //     $animal = new Animal();
+        //     $animal->setName('vide');
+        //     $description = implode(". ", $generator->paragraphs(3));
+        //     $animal->setDescription($description);
+        //     $manager->persist($animal);
+        // }
+
         $manager->flush();
     }
 }

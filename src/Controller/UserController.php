@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Faker\Factory;
 use App\Entity\User;
 use App\Form\ResetPasswordType;
 use App\Form\Model\ChangePassword;

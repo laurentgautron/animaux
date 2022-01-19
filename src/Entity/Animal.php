@@ -30,6 +30,9 @@ class Animal
     #[ORM\ManyToOne(targetEntity: Diet::class, inversedBy: 'animals')]
     private $diet;
 
+    #[ORM\Column(type: 'text')]
+    private $description;
+
     public function __construct()
     {
         $this->continents = new ArrayCollection();
@@ -127,6 +130,18 @@ class Animal
     public function setDiet(?Diet $diet): self
     {
         $this->diet = $diet;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

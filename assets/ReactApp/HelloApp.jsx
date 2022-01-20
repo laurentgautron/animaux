@@ -1,50 +1,44 @@
 import React from "react";
+import CardList from "./CardList.jsx"
+import FormResearch from "./FormResearch.jsx";
+import AnimalCard from "./AnimalCard.jsx";
 
-
-class HelloApp extends React.Component {
-
+class HelloApp extends React.Component 
+{  
     constructor(props) {
         super(props)
         this.state = {
-            animals: []
+            onlyOne: false,
+            animalId: null,
+            detail: false
         }
     }
 
-    componentDidMount() {
-        console.log('ça marche')
-        fetch('api/animals/')
-        .then( response => 
-            { if (response.ok) { return response.json() } 
+    handleOneAnimal = (value, animalId) => {
+        this.setState({
+            onlyOne: value,
+            animalId: animalId
         })
-        .then( resp => {
-            let animalList = resp["hydra:member"]
-            this.setState({
-                animals: animalList
-            })
-            console.log(this.state.animals)
+    }
+
+    handleDetail = (value) => {
+        this.setState({
+            detail: value
         })
     }
 
     render() {
-        return (
-            <>
-            <div className="form-group my-5">
-                    <form className="animalResearch d-fle flex-wrap">
-                        <input type="text" name="animalName" className="mx-3 p-1" placeholder="Ex: Lion"/>
-                        <button type="submit" className="btn btn-info">Rechercher</button>
-                    </form>
+        return <div>
+                {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
+                {!this.state.onlyOne && !this.state.detail && <div>
+                    <div className="form-group my-5">
+                        <FormResearch wantDetail={this.handleDetail}/>
+                    </div>
+                    <CardList wantOneAnimal={this.handleOneAnimal}/>
+                </div>}
+                {!this.state.onlyOne && this.state.detail && <div>En détail</div>}
             </div>
-            <div className="row animal_container container ms-auto mt-5">
-                    { this.state.animals.map( element => {
-                        return <div key={element.id} 
-                                    className="col-sm-3 animal m-4 px-3 d-flex justify-content-center align-items-center">
-                                    <h2 className="text-center">{ element.name }</h2>
-                                </div>
-                        })
-                    }
-            </div>
-            </>
-        )
+        
     }
 }
 

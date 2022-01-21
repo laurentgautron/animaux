@@ -5,26 +5,24 @@ class FormResearch extends React.Component
     constructor(props) {
         super(props)
         this.state = {
-            animalValue: null
+            animalSearchValue: null
         }
     }
 
     handleSubmit = ev => {
         ev.preventDefault()
-        console.log(this.state.animalValue)
-        fetch('/api/animals?name=' + this.state.animalValue)
-        .then(response => {if (response.ok) {return response.json()}} )
-        .then(resp => console.log(resp))
-        console.log("je cherche")
+        console.log(this.state.animalSearchValue)
+        this.props.wantName(this.state.animalSearchValue)
     }
 
-    handleClick = () => {
-        this.props.wantDetail(true)
-    }
+    // use wnaDetail to recover variable in HelloApp
+    // handleClick = () => {
+    //     this.props.wantDetail(true)
+    // }
 
     handleChange = ev => {
         this.setState({
-            animalValue: ev.target.value
+            animalSearchValue: ev.target.value
         })
     }
 
@@ -37,7 +35,7 @@ class FormResearch extends React.Component
                    placeholder="Ex: Lion"
                    onChange={this.handleChange}/>
             <button type="submit" className="btn research mt-2">Rechercher</button>
-            <a onClick={this.handleClick} className="mx-2 mt-2" role="button">Recherche détaillée</a>
+            <button onClick={ () => this.props.wantDetail(true)} className="mx-2 mt-2" role="button">Recherche détaillée</button>
         </form>
     }
 }

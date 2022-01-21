@@ -5,13 +5,12 @@ class AnimalCard extends React.Component
     constructor(props) {
         super(props)
         this.state = {
-            animalId: this.props.animalId,
             animalName: null
         }
     }
 
     componentDidMount() {
-        fetch(this.state.animalId, {
+        fetch(this.props.animalId, {
             method: "GET",
         })
         .then( response => {if (response.ok) { return response.json() }} )

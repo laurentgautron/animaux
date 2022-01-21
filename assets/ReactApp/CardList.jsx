@@ -18,14 +18,13 @@ class CardList extends React.Component
 
     // faire une fonction qui reprend le fetch
 
-    componentDidMount() {
-        console.log('le nom passé: ', this.state.animalName)
+    finAnimalList = name => {
         let url = ""
-        console.log('il y a des animaux: ', !this.state.animalName === null)
-        if (this.state.animalName === null) {
+        console.log('le nom cherché: ', name)
+        if (name === undefined) {
             url = 'api/animals'
         } else {
-            url = '/api/animals?&name=' + this.state.animalName + '&page=' + this.state.animalsPage
+            url = '/api/animals?&name=' + name + '&page=' + this.state.animalsPage
         }
         fetch(url)
         .then( response => { return response.json() } 
@@ -38,18 +37,13 @@ class CardList extends React.Component
         })
     }
 
+    componentDidMount() {
+        this.finAnimalList()
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.animalName !== this.props.animalName) {
-            let url = '/api/animals?&name=' + this.props.animalName + '&page=' + this.state.animalsPage
-            fetch(url)
-            .then( response => { return response.json() } 
-            )
-            .then( resp => {
-                this.setState({
-                    animals: resp["hydra:member"],
-                    animalsNumber: resp["hydra:totalItems"]
-                })
-            })
+            this.finAnimalList(this.props.animalName)
         }
     }
 

@@ -27,16 +27,19 @@ class FormResearch extends React.Component
     }
 
     render() {
-        return <form className="animalResearch d-flex justify-content-center justify-content-sm-start align-items-center flex-wrap"
-                     onSubmit={this.handleSubmit}>
-            <input type="text" 
-                   name="animalName" 
-                   className="mx-3 p-1 mt-2" 
-                   placeholder="Ex: Lion"
-                   onChange={this.handleChange}/>
-            <button type="submit" className="btn research mt-2">Rechercher</button>
-            <button onClick={ () => this.props.wantDetail(true)} className="mx-2 mt-2" role="button">Recherche détaillée</button>
-        </form>
+        return <div>
+            <span>ici c'est: {this.state.animalSearchValue}</span>
+            <form className="animalResearch d-flex justify-content-center justify-content-sm-start align-items-center flex-wrap"
+                        onSubmit={this.handleSubmit}>
+                <input type="text" 
+                    name="animalName" 
+                    className="mx-3 p-1 mt-2" 
+                    placeholder="Ex: Lion"
+                    onChange={this.handleChange}/>
+                <button type="submit" className="btn research mt-2">Rechercher</button>
+                <button onClick={ () => this.props.wantDetail(true)} className="mx-2 mt-2" role="button">Recherche détaillée</button>
+            </form>
+        </div>
     }
 }
 

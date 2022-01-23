@@ -28,7 +28,6 @@ class FormResearch extends React.Component
 
     render() {
         return <div>
-            <span>ici c'est: {this.state.animalSearchValue}</span>
             <form className="animalResearch d-flex justify-content-center justify-content-sm-start align-items-center flex-wrap"
                         onSubmit={this.handleSubmit}>
                 <input type="text" 

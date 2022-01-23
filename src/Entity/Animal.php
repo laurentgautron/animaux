@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\AnimalRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AnimalRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[ApiResource(attributes: ["pagination_items_per_page" => 9])]
+#[ApiFilter(SearchFilter::class, properties: ["name" => 'partial'])]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
+
 class Animal
 {
     #[ORM\Id]
@@ -16,6 +23,7 @@ class Animal
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'animals')]

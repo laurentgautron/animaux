@@ -1,4 +1,8 @@
 body {
+    a {
+        text-decoration: none;
+        font-style: italic;
+    }
     height: 100vh;
     background-color: var(--bs-gray-dark);
     .btn {
@@ -9,7 +13,4 @@ body {
             background-color: var(--bs-blue);
         }
     }
-    // .reactApp, .errorPage {
-    //     height: 100vh;
-    // }
 }

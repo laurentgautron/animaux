@@ -21,6 +21,7 @@ class FormResearch extends React.Component
     // }
 
     handleChange = ev => {
+        // change aniamlName in HelloApp
         this.setState({
             animalSearchValue: ev.target.value
         })

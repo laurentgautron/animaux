@@ -43,13 +43,14 @@ class CardList extends React.Component
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('je fait un update')
+        // if research with form form FormResearch animalName change
         if ( (prevProps.animalName !== this.props.animalName)) {
             this.setState({
                 animalName: this.props.animalName
             })
             this.finAnimalList(this.props.animalName)
         }
+        // if number page change: from pagination Component
         if (prevState.actualAnimalsPage !== this.state.actualAnimalsPage) {
             this.finAnimalList()
         }

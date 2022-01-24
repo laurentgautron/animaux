@@ -2,7 +2,6 @@ import React from "react";
 import CardList from "./CardList.jsx"
 import FormResearch from "./FormResearch.jsx";
 import AnimalCard from "./AnimalCard.jsx";
-import Pagination from "./Pagination.jsx";
 
 class HelloApp extends React.Component 
 {  
@@ -30,15 +29,14 @@ class HelloApp extends React.Component
         })
     }
 
+    // change animalName with value from FormResearch component
     handleAnimalName = (value) => {
-        console.log('la value de la recherche: ', value)
         this.setState({
             animalName: value
         })
     }
 
     render() {
-        console.log('un nom: ', this.state.animalName)
         return <div>
                 {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.detail && <div>

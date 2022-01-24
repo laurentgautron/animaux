@@ -15,6 +15,7 @@ export default function Pagination(props) {
     let first =getNumber(props.view["hydra:first"])
 
     useEffect ( () => {
+        // change animalPage in CardList component
         props.onPage(page)
     }, [page])
 

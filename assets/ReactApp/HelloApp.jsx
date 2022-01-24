@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-=======
 import React from "react";
 import CardList from "./CardList.jsx"
 import FormResearch from "./FormResearch.jsx";
@@ -56,4 +53,3 @@ class HelloApp extends React.Component
 }
 
 export default HelloApp
->>>>>>> api

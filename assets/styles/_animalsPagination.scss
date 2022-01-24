@@ -1,0 +1,17 @@
+.animalsPagination {
+    background-color: var(--bs-secondary);
+    li {
+        &:hover {
+            cursor: pointer;
+        }
+        padding: 1em;
+        &.actualPage {
+            background-color: var(--bs-primary);
+            color: var(--bs-body-color);
+        }
+        &.disabled {
+            cursor: default;
+            color: rgba(255, 255, 255, 0.4);
+        }
+    }
+}

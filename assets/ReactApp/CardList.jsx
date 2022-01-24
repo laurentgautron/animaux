@@ -18,8 +18,6 @@ class CardList extends React.Component
     //     this.props.wantOneAnimal(true, idValue)
     // }
 
-    // faire une fonction qui reprend le fetch
-
     finAnimalList = (name = this.state.animalName) => {
         let url = ""
         console.log('le nom cherché: ', name)
@@ -45,9 +43,10 @@ class CardList extends React.Component
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('je fait un update')
         if ( (prevProps.animalName !== this.props.animalName)) {
             this.setState({
-                animalName: this.props.name
+                animalName: this.props.animalName
             })
             this.finAnimalList(this.props.animalName)
         }
@@ -65,6 +64,7 @@ class CardList extends React.Component
     }
 
     render() {
+        console.log('je fait un rendu')
         console.log('les animaux', this.state.animals)
         console.log('le nom: ', this.state.animalName)
         console.log('la page sur cardlist: ', this.state.actualAnimalsPage)
@@ -80,7 +80,7 @@ class CardList extends React.Component
                         })
                     }
             </div>
-            <Pagination view={this.state.view} onPage={this.handlePage} activePage={this.state.actualAnimalsPage}/>
+            <Pagination view={this.state.view} onPage={this.handlePage}/>
         </div>
     }
 }

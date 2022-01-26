@@ -3,12 +3,17 @@ import HelloApp from './HelloApp'
 
 export default function ResearchDetails () {
 
+    const trad = {name: "nom", diets: "régime", continents: "continents", species: "espèce"}
+
     const [form, setForm] = useState({
         name: '',
         diets: '',
         species: '',
         continents: ''
     })
+
+    const [url, setUrl] = useState()
+
     const [isSubmited, setIsSubmited] = useState(false)
     
     //get iri and option name for each field
@@ -24,18 +29,23 @@ export default function ResearchDetails () {
         return arrayDatas
     }
     
-    // const Field = ({table, type}) => {
-    //     let inputField = ""
-    //     switch (type) {
-    //         case text:
-    //             inputField = <input type="text" id="nom" placeholder="Ex: Lion" onChange={handleChange} value={form.name} name="name"/>
-    //     }
-    //     return <div className="form-group">
-    //         <label htmlFor="nom">Nom</label>
-    //         {inputField}
-            
-    //     </div>
-    // }
+    // get label and field for each table
+    const Field = ({table, type}) => {
+        let inputField = ""
+        switch (type) {
+            case "text":
+                inputField = <input type="text" id="nom" placeholder="Ex: Lion" onChange={handleChange} value={form.name} name="name"/>
+                break
+            case "select":
+                inputField = <Select table={table}/>
+                break
+        }
+
+        return <div className="form-group">
+            <label htmlFor="nom">{trad[table]}</label>
+            {inputField}
+        </div>
+    }
 
     const Select = ({table}) => {
         const [error, setError] = useState(null)
@@ -46,10 +56,6 @@ export default function ResearchDetails () {
             .then( response => response.json())
             .then( 
                 result => {
-                    // if (table === "diets") {
-                    //     table = table.slice(0, -1)
-                    // }
-                    console.log('les résultat: ', result["hydra:member"])
                     setOptions(extractDatas(result["hydra:member"]))
                 },
                 error => setError(error)
@@ -60,14 +66,20 @@ export default function ResearchDetails () {
         return (
             <select onChange={handleChange} value={form[table]} name={table}>
                 <option value=""></option>
-                {options.map( op => <option key={op[0]} value={op[0]}>{op[1]}</option> )} 
+                {options.map( op => <option key={op[0]} value={op[1]}>{op[1]}</option> )} 
             </select>
         )
     }
 
     const handleSubmit = (ev) => {
         ev.preventDefault()
-        console.log('je soumet', form)
+        console.log("la liste dans reserach: ", form)
+        let url = "api/animal"
+        for ( const key in form) {
+            url = url + "?" + key + "=" + form[key]
+        }
+        console.log('url fournie: ', url)
+        setUrl(url)
         setIsSubmited(true)
     }
 
@@ -82,27 +94,15 @@ export default function ResearchDetails () {
     if (!isSubmited) {
         return (
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="nom">Nom</label>
-                    <input type="text" id="nom" placeholder="Ex: Lion" onChange={handleChange} value={form.name} name="name"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="diets">Régime</label>
-                    <Select table="diets"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="species">espèces</label>
-                    <Select table="species"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="continents">continent</label>
-                    <Select table="continents"/>
-                </div>
+                <Field type="text"/>
+                <Field type="select" table="diets"/>
+                <Field type="select" table="species"/>
+                <Field type="select" table="continents"/>
                 <button type="submit" className="btn btn-primary">rechercher</button>
             </form>
         )
     } else {
-        return <HelloApp />
+        return <HelloApp url={url}/>
     }
 
 

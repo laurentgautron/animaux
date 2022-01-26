@@ -11,8 +11,9 @@ class FormResearch extends React.Component
 
     handleSubmit = ev => {
         ev.preventDefault()
-        console.log(this.state.animalSearchValue)
-        this.props.wantName(this.state.animalSearchValue)
+        const url = "api/animals?name=" + this.state.animalSearchValue
+        console.log('url pour le nom: ', url)
+        this.props.wantName(url)
     }
 
     // use wnaDetail to recover variable in HelloApp

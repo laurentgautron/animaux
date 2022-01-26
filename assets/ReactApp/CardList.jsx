@@ -6,9 +6,9 @@ class CardList extends React.Component
     constructor(props) {
         super(props)
         this.state  = {
-            animalName: "",
+            animalList: [],
             actualAnimalsPage: 1,
-            animals: [],
+            url: "api/animals?",
             animalsNumber: 0,
             view: {},
         }
@@ -18,19 +18,15 @@ class CardList extends React.Component
     //     this.props.wantOneAnimal(true, idValue)
     // }
 
-    finAnimalList = (name = this.state.animalName) => {
-        let url = ""
-        if (name === "") {
-            url = 'api/animals'
-        } else {
-            url = '/api/animals?&name=' + name + '&page=' + this.state.actualAnimalsPage
-        }
-        fetch(url)
+    finAnimalList = (url) => {
+        let urlAnimals = url + "&page=" + this.state.actualAnimalsPage
+        console.log('url appelée  dans cardlist: ', urlAnimals)
+        fetch(urlAnimals)
         .then( response => { return response.json() } 
         )
         .then( resp => {
             this.setState({
-                animals: resp["hydra:member"],
+                animalList: resp["hydra:member"],
                 animalsNumber: resp["hydra:totalItems"],
                 view: resp["hydra:view"]
             })
@@ -38,21 +34,26 @@ class CardList extends React.Component
     }
 
     componentDidMount() {
-        this.finAnimalList()
+        this.finAnimalList(this.state.url)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // if research with form form FormResearch animalName change
-        if ( (prevProps.animalName !== this.props.animalName)) {
+        console.log('on update dans le cardlist')
+        console.log('avant: ', prevProps.url)
+        console.log('apres: ', this.props.url)
+        if (prevProps.url !== this.props.url) {
             this.setState({
-                animalName: this.props.animalName
+                actualAnimalsPage: 1,
+                url: this.props.url
             })
-            this.finAnimalList(this.props.animalName)
+            this.finAnimalList(this.props.url)
+        }
+        if (prevState.actualAnimalsPage !== this.state.actualAnimalsPage) {
+            console.log('la page est changée')
+            this.finAnimalList(this.state.url)
         }
         // if number page change: from pagination Component
-        if (prevState.actualAnimalsPage !== this.state.actualAnimalsPage) {
-            this.finAnimalList()
-        }
+        
     }
 
 
@@ -64,13 +65,10 @@ class CardList extends React.Component
     }
 
     render() {
-        console.log('je fait un rendu')
-        console.log('les animaux', this.state.animals)
-        console.log('le nom: ', this.state.animalName)
-        console.log('la page sur cardlist: ', this.state.actualAnimalsPage)
+        console.log('la liste des animauxde cardlist: ', this.state.animalList)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
-                    {this.state.animals.map( element => {
+                    {this.state.animalList.map( element => {
                         return  <div key={element.id} 
                                     role="button"
                                     className="animalCard col-sm-3 m-4 px-3 d-flex justify-content-center align-items-center"
@@ -80,7 +78,7 @@ class CardList extends React.Component
                         })
                     }
             </div>
-            <Pagination view={this.state.view} onPage={this.handlePage}/>
+            <Pagination view={this.state.view} onPage={this.handlePage} page={this.state.actualAnimalsPage}/>
         </div>
     }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import CardList from "./CardList.jsx"
 import FormResearch from "./FormResearch.jsx";
 import AnimalCard from "./AnimalCard.jsx";
+import ResearchDetail from "./ResearchDetail.jsx";
 
 class HelloApp extends React.Component 
 {  
@@ -45,6 +46,7 @@ class HelloApp extends React.Component
                     </div>
                     <CardList wantOneAnimal={this.handleOneAnimal} animalName={this.state.animalName}/>
                 </div>}
+                {this.state.detail && <ResearchDetail />}
             </div>
         
     }

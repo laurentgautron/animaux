@@ -20,8 +20,7 @@ class CardList extends React.Component
 
     finAnimalList = (name = this.state.animalName) => {
         let url = ""
-        console.log('le nom cherché: ', name)
-        if (name === undefined) {
+        if (name === "") {
             url = 'api/animals'
         } else {
             url = '/api/animals?&name=' + name + '&page=' + this.state.actualAnimalsPage

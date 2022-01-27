@@ -20,7 +20,10 @@ class AnimalCard extends React.Component
     }
 
     render() {
-        return <h1>{this.state.animalName}</h1>
+        return<>
+            <h1>{this.state.animalName}</h1>
+            <a href="/login">connexion</a>
+        </> 
     }
 }
 

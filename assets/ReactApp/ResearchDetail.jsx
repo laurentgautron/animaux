@@ -48,6 +48,7 @@ export default function ResearchDetails () {
     }
 
     const Select = ({table}) => {
+        
         const [error, setError] = useState(null)
         const [options, setOptions] = useState([])
         

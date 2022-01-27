@@ -9,20 +9,15 @@ class FormResearch extends React.Component
         }
     }
 
+    // change url in HelloApp with wantName
     handleSubmit = ev => {
         ev.preventDefault()
         const url = "api/animals?name=" + this.state.animalSearchValue
-        console.log('url pour le nom: ', url)
         this.props.wantName(url)
     }
 
-    // use wnaDetail to recover variable in HelloApp
-    // handleClick = () => {
-    //     this.props.wantDetail(true)
-    // }
-
     handleChange = ev => {
-        // change aniamlName in HelloApp
+        // change aniamlName
         this.setState({
             animalSearchValue: ev.target.value
         })

@@ -32,7 +32,6 @@ class HelloApp extends React.Component
 
     // change animalName with value from FormResearch component
     handleUrl = (value) => {
-        console.log('on change url dans helloapp')
         this.setState({
             url: value
         })
@@ -40,7 +39,6 @@ class HelloApp extends React.Component
 
 
     render() {
-        console.log('url de helloapp: ', this.state.url)
         return <div>
                 {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.detail && <div>

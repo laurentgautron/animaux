@@ -8,6 +8,7 @@
         &.actualPage {
             background-color: var(--bs-primary);
             color: var(--bs-body-color);
+            cursor: default;
         }
         &.disabled {
             cursor: default;

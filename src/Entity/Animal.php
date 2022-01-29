@@ -29,7 +29,7 @@ class Animal
     #[ORM\Column(type: 'string', length: 100)]
     #[Assert\NotBlank]
     #[Groups(['read:collection'])]
-    private $name;
+    private $AnimalName;
 
     #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'animals')]
     #[Groups(['read:collection'])]
@@ -61,14 +61,14 @@ class Animal
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getAnimalName(): ?string
     {
-        return $this->name;
+        return $this->Animalname;
     }
 
-    public function setName(string $name): self
+    public function setAnimalName(string $animalName): self
     {
-        $this->name = $name;
+        $this->animalName = $animalName;
 
         return $this;
     }

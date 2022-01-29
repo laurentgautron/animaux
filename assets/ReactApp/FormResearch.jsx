@@ -1,4 +1,6 @@
 import React from "react";
+import AnimalForm from "./AnimalForm";
+import {formFields} from './datas'
 
 class FormResearch extends React.Component
 {
@@ -24,8 +26,10 @@ class FormResearch extends React.Component
     }
 
     render() {
+        console.log('les fields: ', formFields)
         return <div>
-            <form className="animalResearch d-flex justify-content-center justify-content-sm-start align-items-center flex-wrap"
+            <AnimalForm fields={formFields} />
+            {/* <form className="animalResearch d-flex justify-content-center justify-content-sm-start align-items-center flex-wrap"
                         onSubmit={this.handleSubmit}>
                 <input type="text" 
                     name="animalName" 
@@ -34,7 +38,7 @@ class FormResearch extends React.Component
                     onChange={this.handleChange}/>
                 <button type="submit" className="btn research mt-2">Rechercher</button>
                 <button onClick={ () => this.props.wantDetail(true)} className="mx-2 mt-2" role="button">Recherche détaillée</button>
-            </form>
+            </form> */}
         </div>
     }
 }

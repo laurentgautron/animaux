@@ -39,14 +39,14 @@ class HelloApp extends React.Component
     render() {
         console.log('des données', this.props.datas)
         return <div>
-                {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
+                {/* {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.detail && <div>
-                    <div className="form-group my-5">
+                    <div className="form-group my-5"> */}
                         <FormResearch wantDetail={this.handleDetail} wantName={this.handleUrl}/>
-                    </div>
-                    <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/>
-                </div>}
-                {this.state.detail && <ResearchDetail />}
+                    {/* </div> */}
+                    {/* <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/> */}
+                {/* </div>}
+                {this.state.detail && <ResearchDetail />} */}
             </div>
         
     }

@@ -3,7 +3,6 @@ import HelloApp from './HelloApp'
 
 export default function ResearchDetails () {
 
-    const trad = {name: "nom", diets: "régime", continents: "continents", species: "espèce"}
 
     const [form, setForm] = useState({
         name: '',
@@ -29,24 +28,6 @@ export default function ResearchDetails () {
         return arrayDatas
     }
     
-    // get label and field for each table
-    const Field = ({table, type}) => {
-        let inputField = ""
-        switch (type) {
-            case "text":
-                inputField = <input type="text" id="nom" placeholder="Ex: Lion" onChange={handleChange} value={form.name} name="name"/>
-                break
-            case "select":
-                inputField = <Select table={table}/>
-                break
-        }
-
-        return <div className="form-group">
-            <label htmlFor="nom">{trad[table]}</label>
-            {inputField}
-        </div>
-    }
-
     const Select = ({table}) => {
         
         const [error, setError] = useState(null)
@@ -64,10 +45,10 @@ export default function ResearchDetails () {
         }, [])
 
 
-        return (
+        return (   
             <select onChange={handleChange} value={form[table]} name={table}>
                 <option value=""></option>
-                {options.map( op => <option key={op[0]} value={op[1]}>{op[1]}</option> )} 
+                {options.map( op => <option key={op[0]} value={op[0]}>{op[1]}</option> )}
             </select>
         )
     }
@@ -77,12 +58,15 @@ export default function ResearchDetails () {
         console.log("la liste dans reserach: ", form)
         let url = "api/animal"
         for ( const key in form) {
-            url = url + "?" + key + "=" + form[key]
+            if (form[key]) {
+                url = url + "?" + key + "=" + form[key]
+            }
         }
-        console.log('url fournie: ', url)
         setUrl(url)
         setIsSubmited(true)
     }
+
+    console.log('url dans research: ', url)
 
     const handleChange = (ev) => {
         const {value, name} = ev.target
@@ -95,16 +79,26 @@ export default function ResearchDetails () {
     if (!isSubmited) {
         return (
             <form onSubmit={handleSubmit}>
-                <Field type="text"/>
-                <Field type="select" table="diets"/>
-                <Field type="select" table="species"/>
-                <Field type="select" table="continents"/>
+                <div className="form-group">
+                    <label htmlFor="nom">nom</label>
+                    <input type="text" id="nom" placeholder="Ex: Lion" onChange={handleChange} value={form.name} name="name"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="nom">régime</label>
+                    <Select table="diets"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="nom">espèce</label>
+                    <Select table="species"/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="nom">continents</label>
+                    <Select table="continents"/>
+                </div>
                 <button type="submit" className="btn btn-primary">rechercher</button>
             </form>
         )
     } else {
-        return <HelloApp url={url}/>
+        return <HelloApp datas="des données"/>
     }
-
-
 }

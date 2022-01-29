@@ -17,4 +17,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import HelloApp from './ReactApp/HelloApp'
 
-ReactDOM.render(<HelloApp url=""/>, document.getElementById("root"))
+if (document.getElementById("root")) {
+    ReactDOM.render(<HelloApp />, document.getElementById("root"))
+}
+

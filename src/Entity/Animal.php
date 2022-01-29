@@ -2,17 +2,21 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AnimalRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
-#[ApiResource(attributes: ["pagination_items_per_page" => 9])]
-#[ApiFilter(SearchFilter::class, properties: ["name" => 'partial'])]
+#[ApiResource(
+    attributes: ["pagination_items_per_page" => 9],
+    normalizationContext: ['groups' => ['read:collection']]
+)]
+#[ApiFilter(SearchFilter::class, properties: ["name" => 'partial', 'species' => "exact"])]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 
 class Animal
@@ -24,21 +28,26 @@ class Animal
 
     #[ORM\Column(type: 'string', length: 100)]
     #[Assert\NotBlank]
+    #[Groups(['read:collection'])]
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'animals')]
+    #[Groups(['read:collection'])]
     private $continents;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: WorldPopulation::class)]
     private $worldPopulation;
 
     #[ORM\ManyToOne(targetEntity: Species::class, inversedBy: 'animals')]
+    #[Groups(['read:collection'])]
     private $species;
 
     #[ORM\ManyToOne(targetEntity: Diet::class, inversedBy: 'animals')]
+    #[Groups(['read:collection'])]
     private $diet;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(['read:collection'])]
     private $description;
 
     public function __construct()

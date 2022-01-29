@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react"
 
 export default function Pagination(props) {
 
-    console.log('rendu pagination: ', props.view)
     const getNumber = (string) => {
         if (string) {
             let tab = string.split("=")

@@ -12,7 +12,6 @@ class HelloApp extends React.Component
             onlyOne: false,
             animalId: null,
             detail: false,
-            url: null,
         }
     }
 
@@ -37,8 +36,8 @@ class HelloApp extends React.Component
         })
     }
 
-
     render() {
+        console.log('des données', this.props.datas)
         return <div>
                 {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.detail && <div>
@@ -54,3 +53,4 @@ class HelloApp extends React.Component
 }
 
 export default HelloApp
+

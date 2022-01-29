@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\SpeciesRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SpeciesRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource()]
+// #[ApiFilter(SearchFilter::class, properties: ['speciesName' => 'exact'])]
 #[ORM\Entity(repositoryClass: SpeciesRepository::class)]
 class Species
 {
@@ -18,6 +22,7 @@ class Species
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Groups(['read:collection'])]
     private $speciesName;
 
     #[ORM\OneToMany(mappedBy: 'species', targetEntity: Animal::class)]

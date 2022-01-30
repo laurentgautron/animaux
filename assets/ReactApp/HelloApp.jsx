@@ -11,7 +11,8 @@ class HelloApp extends React.Component
             onlyOne: false,
             animalId: null,
             detail: false,
-            justName: true
+            justName: true,
+            url: null
         }
     }
 
@@ -36,13 +37,19 @@ class HelloApp extends React.Component
         })
     }
 
+    handleResult = (url) => {
+        console.log('je handleResult dans helloapp: ', url)
+        this.setState({
+            url: url
+        })
+    }
+
     render() {
-        console.log('le onlyone: ', this.state.onlyOne)
-        console.log('animal id: ', this.state.animalId)
+        console.log('url dans helloapp: ', this.state.url)
         return <div>
                 {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
-                <FormResearch wantName={this.handleIfJustName}/>
-                {this.state.justName && <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/>}
+                {!this.state.onlyOne && <FormResearch wantName={this.handleIfJustName} onResult={this.handleResult}/>}
+                {!this.state.onlyOne && this.state.justName && <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/>}
             </div>
         
     }

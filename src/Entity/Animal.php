@@ -16,7 +16,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     attributes: ["pagination_items_per_page" => 9],
     normalizationContext: ['groups' => ['read:collection']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ["name" => 'partial', 'species' => "exact"])]
+#[ApiFilter(SearchFilter::class, properties: ["animalName" => 'start', 'species' => "exact"])]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 
 class Animal

@@ -10,10 +10,10 @@ const oneField = [
 ]
 
 const stateForm = {
-    animalName: null,
-    diet: null,
-    species: null,
-    continent: null
+    animalName: '',
+    diet: '',
+    species: '',
+    continent: ''
 }
 
 export {fullFields, stateForm, oneField}

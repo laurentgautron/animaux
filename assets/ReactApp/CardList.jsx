@@ -36,6 +36,7 @@ class CardList extends React.Component
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('dans le update de carlist la url: ', this.props.url)
         if (prevProps.url !== this.props.url) {
             this.setState( (state) => ({
                 actualAnimalsPage: 1,
@@ -58,7 +59,6 @@ class CardList extends React.Component
     }
 
     render() {
-        console.log('les noms: ', this.state.animalList)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {

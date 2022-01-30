@@ -3,11 +3,9 @@ import { stateForm } from "./datas";
 
 export default function AnimalForm(props) {
 
-    const [state, setState] = useState(stateForm)
+    const [form, setForm] = useState(stateForm)
 
     const Field = ({param}) => {
-
-        console.log('le field: ', param)
 
         let inputField = ""
 
@@ -44,7 +42,7 @@ export default function AnimalForm(props) {
             console.log('les options: ', options)
     
             return (   
-                <select value={state[param.entityField]} name={param.entityField}>
+                <select value={form[param.entityField]} name={param.entityField}>
                     <option value=""></option>
                     {options.map( op => <option key={op[0]} value={op[0]}>{op[1]}</option> )}
                 </select>
@@ -54,7 +52,7 @@ export default function AnimalForm(props) {
         switch (param.type) {
             case 'text':
                 console.log('un texte')
-                inputField =  <input type="text" id={param.entityField} value={state[param.entityField]} name={param.entityField}/>
+                inputField =  <input type="text" id={param.entityField} value={form[param.entityField]} name={param.entityField}/>
                 break
             case 'select':
                 inputField = <Select table={param.table}/>
@@ -71,9 +69,9 @@ export default function AnimalForm(props) {
 
     console.log('le animalFomr: ', props)
     return (
-        <form>
+        <form className="animalResearch d-flex flex-column justify-content-center justify-content-sm-start align-items-start flex-wrap">
             {props.fields.map( f => <Field param={f} key={f.entityField}/>)}
-            <button type="submit">rechercher</button>
+            <button type="submit" className="btn btn-primary">rechercher</button>
         </form>
     )
 }

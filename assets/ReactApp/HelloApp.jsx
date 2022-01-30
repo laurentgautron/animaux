@@ -12,6 +12,7 @@ class HelloApp extends React.Component
             onlyOne: false,
             animalId: null,
             detail: false,
+            justName: true
         }
     }
 
@@ -30,23 +31,19 @@ class HelloApp extends React.Component
     }
 
     // change animalName with value from FormResearch component
-    handleUrl = (value) => {
+    handleIfJustName = (bool) => {
         this.setState({
-            url: value
+            justName: bool,
         })
     }
 
     render() {
+        console.log('le justname: ', this.state.justName)
         console.log('des données', this.props.datas)
         return <div>
-                {/* {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
-                {!this.state.onlyOne && !this.state.detail && <div>
-                    <div className="form-group my-5"> */}
-                        <FormResearch wantDetail={this.handleDetail} wantName={this.handleUrl}/>
-                    {/* </div> */}
-                    {/* <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/> */}
-                {/* </div>}
-                {this.state.detail && <ResearchDetail />} */}
+                <FormResearch wantName={this.handleIfJustName}/>
+                {this.state.justName && <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/>}
+                {this.state.onlyOne && <AnimalCard animalName={this.state.animalId}/>}
             </div>
         
     }

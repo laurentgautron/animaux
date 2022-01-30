@@ -22,6 +22,7 @@ class CardList extends React.Component
         .then( response => { return response.json() } 
         )
         .then( resp => {
+            console.log('la reponse de cardlist: ', resp)
             this.setState({
                 animalList: resp["hydra:member"],
                 animalsNumber: resp["hydra:totalItems"],
@@ -57,6 +58,7 @@ class CardList extends React.Component
     }
 
     render() {
+        console.log('les noms: ', this.state.animalList)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {
@@ -64,7 +66,7 @@ class CardList extends React.Component
                                 role="button"
                                 className="animalCard col-sm-3 m-4 px-3 d-flex justify-content-center align-items-center"
                                 onClick={ () => this.props.wantOneAnimal(true, element["@id"]) }>
-                                <h2 className="text-center">{ element.name }</h2>
+                                <h2 className="text-center">{ element["animalName"] }</h2>
                             </div>
                     })
                 }

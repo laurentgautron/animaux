@@ -1,13 +1,14 @@
 import React from "react";
 import AnimalForm from "./AnimalForm";
-import {formFields} from './datas'
+import {fullFields, oneField} from './datas'
 
 class FormResearch extends React.Component
 {
     constructor(props) {
         super(props)
         this.state = {
-            animalSearchValue: null
+            animalSearchValue: null,
+            fullForm: false
         }
     }
 
@@ -25,10 +26,28 @@ class FormResearch extends React.Component
         })
     }
 
+    buttonToogle = () => {
+        if (this.state.fullForm) {
+            return <button onClick={this.toggle}>simple recherche</button>
+        } else {
+            return <button onClick={this.toggle}>recherche détaillée</button>
+        }
+    }
+
+    toggle = () => {
+        this.props.wantName(this.state.fullForm)
+        this.setState({
+            fullForm: !this.state.fullForm
+        })
+    }
+
     render() {
-        console.log('les fields: ', formFields)
         return <div>
-            <AnimalForm fields={formFields} />
+           {this.state.fullForm &&  <AnimalForm fields={fullFields} />}
+           {!this.state.fullForm &&  <AnimalForm fields={oneField} />}
+           {this.buttonToogle()}
+           
+            
             {/* <form className="animalResearch d-flex justify-content-center justify-content-sm-start align-items-center flex-wrap"
                         onSubmit={this.handleSubmit}>
                 <input type="text" 

@@ -41,9 +41,13 @@ class FormResearch extends React.Component
         })
     }
 
+    handleResearch = (url) => {
+        
+    }
+
     render() {
         return <div>
-           {this.state.fullForm &&  <AnimalForm fields={fullFields} />}
+           {this.state.fullForm &&  <AnimalForm fields={fullFields} onResearch={this.handleResearch}/>}
            {!this.state.fullForm &&  <AnimalForm fields={oneField} />}
            {this.buttonToogle()}
            

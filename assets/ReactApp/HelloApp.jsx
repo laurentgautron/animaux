@@ -2,7 +2,6 @@ import React from "react";
 import CardList from "./CardList.jsx"
 import FormResearch from "./FormResearch.jsx";
 import AnimalCard from "./AnimalCard.jsx";
-import ResearchDetail from "./ResearchDetail.jsx";
 
 class HelloApp extends React.Component 
 {  
@@ -38,9 +37,10 @@ class HelloApp extends React.Component
     }
 
     render() {
-        console.log('le justname: ', this.state.justName)
-        console.log('des données', this.props.datas)
+        console.log('le onlyone: ', this.state.onlyOne)
+        console.log('animal id: ', this.state.animalId)
         return <div>
+                {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
                 <FormResearch wantName={this.handleIfJustName}/>
                 {this.state.justName && <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/>}
             </div>

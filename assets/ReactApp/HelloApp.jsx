@@ -43,7 +43,6 @@ class HelloApp extends React.Component
         return <div>
                 <FormResearch wantName={this.handleIfJustName}/>
                 {this.state.justName && <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url}/>}
-                {this.state.onlyOne && <AnimalCard animalName={this.state.animalId}/>}
             </div>
         
     }

@@ -10,13 +10,11 @@ class AnimalCard extends React.Component
     }
 
     componentDidMount() {
-        console.log('dans animalcard le animal id: ', this.props.animalId)
         fetch(this.props.animalId, {
             method: "GET",
         })
         .then( response => {if (response.ok) { return response.json() }} )
         .then( resp => {
-            console.log('la resp de animal card: ', resp.animalName)
             this.setState({
                 animalName: resp.animalName
             })

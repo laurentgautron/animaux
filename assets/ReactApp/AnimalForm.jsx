@@ -37,7 +37,7 @@ export default function AnimalForm(props) {
                     },
                     error => setError(error)
                     )
-            }, [])
+            }, [form])
     
             return (   
                 <select value={form[param.entityField]} onChange={onChange} name={param.entityField}>
@@ -79,13 +79,11 @@ export default function AnimalForm(props) {
         let url = "api/animals?"
         console.log('le form de state: ', form)
         for ( const key in form) {
-            if (form[key] !== '' && form[key] !== "text") {
+            if (form[key] !== '') {
                 console.log('la clé: ', key)
                 console.log('lr form et key: ', form[key])
-                url = url + "&" + key + "=" + form[key]
+                url = url + key + "=" + form[key] + "&"
             // bug with onChange for input text
-            } else if (form[key] === "text") {
-                url = url + "&" + key + document.getElementsByClassName("animalName")[0].value
             }
         }
         console.log('url soumise de animalForm: ', url)

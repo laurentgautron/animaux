@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 
 export default function Pagination(props) {
 
+    console.log('dans la pagination: ', props.view)
     const getNumber = (string) => {
         if (string) {
             let tab = string.split("=")
@@ -14,22 +15,22 @@ export default function Pagination(props) {
     let first = getNumber(props.view["hydra:first"])
 
     const makeUrl = (page) => {
-        console.log('la view: ', props.view)
-        let urlTab = props.view["@id"].split("=")
-        urlTab[urlTab.length - 1] = page
-        return urlTab.join("=")
+        if (props.view["hydra:last"])  {
+            let urlTab = props.view["@id"].split("=")
+            urlTab[urlTab.length - 1] = page
+            console.log('la tronche de la page: ', urlTab.join("="))
+            return urlTab.join("=")
+        }
     }
     
     useEffect ( () => {
-        // change animalPage in CardList component
-        // if (page !== 1) {
-            console.log('dans le useeffect de pagination je retourne: ', makeUrl(page))
+        if (props.view["hydra:last"]) {
             props.onPage(makeUrl(page))
-        // }
+        }
     }, [page])
     
     return ( <div className="d-flex ms-4">
-        {Object.keys(props.view).length !== 0 && props.view["hydra:last"] &&
+        {props.view["hydra:last"] &&
             <nav>
                 <ul className="animalsPagination  d-flex flex-column flex-sm-row text-center list-unstyled ms-4">
                 {(first !== undefined && first !== page) && <li onClick={ () => setPage(page - 1)}>Précédent</li>}

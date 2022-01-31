@@ -36,7 +36,7 @@ class FormResearch extends React.Component
 
     // return url in HelloApp
     handleResearchUrl = (url) => {
-        console.log('le url que je passe dans formResearch: ', url ) 
+        console.log('je transmet url ', url, 'vers helloapp')
         this.props.onResult(url)
     }
 

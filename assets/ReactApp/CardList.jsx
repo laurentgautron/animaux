@@ -7,7 +7,7 @@ class CardList extends React.Component
         super(props)
         this.state  = {
             animalList: [],
-            url: 'api/animals?',
+            url: '/api/animals?',
             animalsNumber: 0,
             view: {},
             key: 1,
@@ -15,14 +15,12 @@ class CardList extends React.Component
     }
 
     findAnimalList = (url) => {
-        console.log('dans le fetch de cardlist: ', url)
-        let urlAnimals = url
-        console.log('ce que je fetch dans cardlist: ', urlAnimals)
-        fetch(urlAnimals)
+        console.log('je cherche la liste')
+        fetch(url)
         .then( response => { return response.json() } 
         )
         .then( resp => {
-            console.log('la reponse de cardlist: ', resp)
+            console.log('response: ', resp["hydra:member"])
             this.setState({
                 animalList: resp["hydra:member"],
                 animalsNumber: resp["hydra:totalItems"],
@@ -32,36 +30,34 @@ class CardList extends React.Component
     }
 
     componentDidMount() {
+        console.log('je monte dans cartdlist')
         this.findAnimalList(this.state.url)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('avant dans le cardlist: ', prevState.url)
-        console.log('apres dans cardlist: ', this.state.url)
         if (prevState.url !== this.state.url) {
-            console.log('on change animal list')
-            
+            console.log('le state a changé')
             this.findAnimalList(this.state.url)
         } else if (prevProps.url !== this.props.url) {
-            this.setState({
-                url: this.props.url
-            })
+            console.log('url props change : ', this.props.url)
             this.findAnimalList(this.props.url)
-        }
+            this.setState( state => ({
+                key: state.key + 1,
+                animalList: []
+            }))
+        } 
     }
 
 
     handlePage = (activePage) => {
-        console.log('actualise avec: ', activePage)
-        if (this.state.url + "page=1" !== activePage)
+        console.log('le mets la nouvelle url: ', activePage)
         this.setState({
             url: activePage
         })
     }
 
     render() {
-        console.log('dans le cardlist url: ', this.state.url)
-        console.log('la view de cardlist: ', this.state.view)
+        console.log('rendu cardlist')
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {

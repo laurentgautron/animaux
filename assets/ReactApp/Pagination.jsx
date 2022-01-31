@@ -12,14 +12,24 @@ export default function Pagination(props) {
     const [page, setPage] = useState(1)
     let last = getNumber(props.view["hydra:last"])
     let first = getNumber(props.view["hydra:first"])
+
+    const makeUrl = (page) => {
+        console.log('la view: ', props.view)
+        let urlTab = props.view["@id"].split("=")
+        urlTab[urlTab.length - 1] = page
+        return urlTab.join("=")
+    }
     
     useEffect ( () => {
         // change animalPage in CardList component
-        props.onPage(page)
+        // if (page !== 1) {
+            console.log('dans le useeffect de pagination je retourne: ', makeUrl(page))
+            props.onPage(makeUrl(page))
+        // }
     }, [page])
     
     return ( <div className="d-flex ms-4">
-        {Object.keys(props.view).length !== 0 &&
+        {Object.keys(props.view).length !== 0 && props.view["hydra:last"] &&
             <nav>
                 <ul className="animalsPagination  d-flex flex-column flex-sm-row text-center list-unstyled ms-4">
                 {(first !== undefined && first !== page) && <li onClick={ () => setPage(page - 1)}>Précédent</li>}

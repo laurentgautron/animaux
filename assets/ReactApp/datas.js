@@ -1,8 +1,8 @@
 const fullFields = [
     {'labelName': 'nom', 'type': 'text', 'entityField': 'animalName', 'table': 'animals'},
-    {'labelName': 'régime', 'type': 'select', 'entityField': 'dietName', 'table': 'diets'},
-    {'labelName': 'espèce', 'type': 'select', 'entityField': 'speciesName', 'table': 'species'},
-    {'labelName': 'continent', 'type': 'select', 'entityField': 'continentName', 'table': 'continents'}
+    {'labelName': 'régime', 'type': 'select', 'entityField': 'diet', 'table': 'diets'},
+    {'labelName': 'espèce', 'type': 'select', 'entityField': 'species', 'table': 'species'},
+    {'labelName': 'continent', 'type': 'select', 'entityField': 'continents', 'table': 'continents'}
 ]
 
 const oneField = [
@@ -13,7 +13,7 @@ const stateForm = {
     animalName: '',
     diet: '',
     species: '',
-    continent: ''
+    continents: ''
 }
 
 export {fullFields, stateForm, oneField}

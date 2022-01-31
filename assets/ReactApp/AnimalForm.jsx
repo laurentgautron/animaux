@@ -21,7 +21,8 @@ export default function AnimalForm(props) {
                     // nem key in data
                     const name = data["@type"].toLowerCase() + "Name"
                     // iri
-                    const id = data["@id"]
+                    let optionNumber = data["@id"].split("/")
+                    const id = optionNumber[optionNumber.length-1]
                     arrayDatas.push([id, data[name]])
                 }
                 return arrayDatas
@@ -48,7 +49,6 @@ export default function AnimalForm(props) {
     
         switch (param.type) {
             case 'text':
-                console.log('la classe: ', param.entityField)
                 inputField =  <input className={param.entityField} type="text" id={param.entityField} onChange={onChange} value={form[param.entityField]} name={param.entityField}/>;
                 break;
             case 'select':
@@ -76,16 +76,20 @@ export default function AnimalForm(props) {
 
     const handleSubmit = (ev) => {
         ev.preventDefault()
-        let url = "api/animals"
+        let url = "api/animals?"
+        console.log('le form de state: ', form)
         for ( const key in form) {
             if (form[key] !== '' && form[key] !== "text") {
-                url = url + "?" + key + "=" + form[key]
+                console.log('la clé: ', key)
+                console.log('lr form et key: ', form[key])
+                url = url + "&" + key + "=" + form[key]
             // bug with onChange for input text
             } else if (form[key] === "text") {
-                url = url + "?" + key + document.getElementsByClassName("animalName")[0].value
+                url = url + "&" + key + document.getElementsByClassName("animalName")[0].value
             }
         }
         console.log('url soumise de animalForm: ', url)
+        // pass url to formResearch
         props.getResearchUrl(url)
     }
 

@@ -7,17 +7,17 @@ class CardList extends React.Component
         super(props)
         this.state  = {
             animalList: [],
-            actualAnimalsPage: 1,
-            url: "api/animals?",
+            url: 'api/animals?',
             animalsNumber: 0,
             view: {},
             key: 1,
         }
     }
 
-    findAnimalList = (url, page = this.state.actualAnimalsPage) => {
+    findAnimalList = (url) => {
         console.log('dans le fetch de cardlist: ', url)
-        let urlAnimals = url + "&page=" + page
+        let urlAnimals = url
+        console.log('ce que je fetch dans cardlist: ', urlAnimals)
         fetch(urlAnimals)
         .then( response => { return response.json() } 
         )
@@ -36,29 +36,32 @@ class CardList extends React.Component
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('dans le update de carlist la url: ', this.props.url)
-        if (prevProps.url !== this.props.url) {
-            this.setState( (state) => ({
-                actualAnimalsPage: 1,
-                url: this.props.url,
-                key: state.key + 1
-            }))
-            this.findAnimalList(this.props.url, 1)
-        } else if (prevState.actualAnimalsPage !== this.state.actualAnimalsPage) {
+        console.log('avant dans le cardlist: ', prevState.url)
+        console.log('apres dans cardlist: ', this.state.url)
+        if (prevState.url !== this.state.url) {
+            console.log('on change animal list')
+            
             this.findAnimalList(this.state.url)
+        } else if (prevProps.url !== this.props.url) {
+            this.setState({
+                url: this.props.url
+            })
+            this.findAnimalList(this.props.url)
         }
-        // if number page change: from pagination Component
-        
     }
 
 
     handlePage = (activePage) => {
+        console.log('actualise avec: ', activePage)
+        if (this.state.url + "page=1" !== activePage)
         this.setState({
-            actualAnimalsPage: activePage
+            url: activePage
         })
     }
 
     render() {
+        console.log('dans le cardlist url: ', this.state.url)
+        console.log('la view de cardlist: ', this.state.view)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {
@@ -71,7 +74,7 @@ class CardList extends React.Component
                     })
                 }
             </div>
-            <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/>
+            {this.state.animalList.length !== 0 && <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/>}
         </div>
     }
 }

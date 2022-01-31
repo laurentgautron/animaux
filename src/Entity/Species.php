@@ -11,8 +11,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
-#[ApiResource()]
-// #[ApiFilter(SearchFilter::class, properties: ['speciesName' => 'exact'])]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read:collection']]
+)]
+
 #[ORM\Entity(repositoryClass: SpeciesRepository::class)]
 class Species
 {

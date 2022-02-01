@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {initForm, tables} from './datas'
+import {initFormResearch, tables} from './datas'
 
 export function Form (props) {
 
@@ -7,7 +7,7 @@ export function Form (props) {
 
     const [options, setOptions] = useState({})
     const [error, setError] = useState()
-    const [form, setForm] = useState({...initForm})
+    const [form, setForm] = useState({...initFormResearch})
 
     const extractDatas = (datas) => {
         let arrayDatas = []

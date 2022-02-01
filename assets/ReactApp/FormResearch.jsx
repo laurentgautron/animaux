@@ -1,6 +1,5 @@
 import React from "react";
-import AnimalForm from "./AnimalForm";
-import {fullFields, oneField} from './datas'
+import { Form } from "./Fomr";
 
 class FormResearch extends React.Component
 {
@@ -42,9 +41,9 @@ class FormResearch extends React.Component
 
     render() {
         return <div>
-           {this.state.fullForm &&  <AnimalForm fields={fullFields} getResearchUrl={this.handleResearchUrl}/>}
-           {!this.state.fullForm &&  <AnimalForm fields={oneField} getResearchUrl={this.handleResearchUrl}/>}
-           {this.buttonToogle()}
+            {this.state.fullForm && <Form type="fullResearch" getResearchUrl={this.handleResearchUrl}/>}
+            {!this.state.fullForm && <Form type="simpleResearch" getResearchUrl={this.handleResearchUrl}/>}
+            {this.buttonToogle()}
         </div>
     }
 }

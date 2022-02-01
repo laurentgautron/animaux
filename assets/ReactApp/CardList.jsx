@@ -71,6 +71,7 @@ class CardList extends React.Component
                 }
             </div>
             {this.state.animalList.length !== 0 && <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/>}
+            {this.state.animalList.length === 0 && <div>pas de résultat</div>}
         </div>
     }
 }

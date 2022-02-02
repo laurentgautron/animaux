@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {tables, inputFields} from './datas'
+import {inputFields} from './datas'
 
 export function Form (props) {
 
@@ -7,7 +7,7 @@ export function Form (props) {
     const initForm = {}
     for (const item in inputFields) {
         for (const field of inputFields[item]) {
-            initForm[field.finalEntity]  = ''
+            initForm[field.primaryEntity]  = ''
         }
     }
     
@@ -15,6 +15,8 @@ export function Form (props) {
     const [options, setOptions] = useState({})
     const [text, setText] = useState()
     const [error, setError] = useState()
+
+    console.log('la form: ', form)
 
     const extractDatas = (datas) => {
         let arrayDatas = []
@@ -36,7 +38,7 @@ export function Form (props) {
                         {item["context"].includes(props.type) &&
                         <label htmlFor={item["table"]} key={item["table"]}>
                         {item["table"]}
-                        <select name={item["finalEntity"]} id={item["finalEntity"]} key={item["finalEntity"]} value={form[item["finalEntity"]]} onChange={handleChange}>
+                        <select name={item["primaryEntity"]} key={item["primaryEntity"]} value={form[item["primaryEntity"]]} onChange={handleChange}>
                             <option value=""></option>
                             {options[item["table"]] && options[item["table"]].map( op => <option value={op[0]} key={op[0]}>{op[1]}</option>)}
                         </select>
@@ -72,15 +74,15 @@ export function Form (props) {
     const handleSubmit = (ev) => {
         ev.preventDefault()
         let url = "api/animals?"
-        console.log('le form de state: ', form)
         for ( const key in form) {
             if (form[key] !== '') {
-                console.log('la clé: ', key)
-                console.log('lr form et key: ', form[key])
-                url = url + key + "=" + form[key] + "&"
+                if ( key !== 'diets') {
+                    url = url + key + "=" + form[key] + "&"
+                } else {
+                    url = url + 'diet=' + form[key]
+                }
             }
         }
-        console.log('url soumise de animalForm: ', url)
         // pass url to formResearch
         props.getResearchUrl(url)
     }
@@ -88,8 +90,15 @@ export function Form (props) {
     return ( <form onSubmit={handleSubmit}>
         {inputFields["text"].map( item => {
             return <div key={item['finalEntity']}>
-                {item["context"].includes(props.type) && <label htmlFor={item["finalEntity"]}>
-                <input type="text" name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
+                {item["context"].includes(props.type) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
+                <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
+            </label>}
+        </div>
+        })}
+        {inputFields["textarea"].map( item => {
+            return <div key={item['finalEntity']}>
+                {item["context"].includes(props.type) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
+                <textarea name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </label>}
         </div>
         })}

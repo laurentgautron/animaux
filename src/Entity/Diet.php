@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\DietRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DietRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read:collection']]
+)]
 #[ORM\Entity(repositoryClass: DietRepository::class)]
 class Diet
 {
@@ -18,6 +21,7 @@ class Diet
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Groups(['read:collection'])]
     private $dietName;
 
     #[ORM\OneToMany(mappedBy: 'diet', targetEntity: Animal::class)]

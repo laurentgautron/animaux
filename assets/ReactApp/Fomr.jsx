@@ -1,13 +1,20 @@
 import React, {useState, useEffect} from "react";
-import {initForm, tables} from './datas'
+import {tables, inputFields} from './datas'
 
 export function Form (props) {
 
-    // const tables = ["diets", "species", "continents"]
-
-    const [options, setOptions] = useState({})
-    const [error, setError] = useState()
+    // construct form
+    const initForm = {}
+    for (const item in inputFields) {
+        for (const field of inputFields[item]) {
+            initForm[field.finalEntity]  = ''
+        }
+    }
+    
     const [form, setForm] = useState({...initForm})
+    const [options, setOptions] = useState({})
+    const [text, setText] = useState()
+    const [error, setError] = useState()
 
     const extractDatas = (datas) => {
         let arrayDatas = []
@@ -24,27 +31,30 @@ export function Form (props) {
 
     const Select = () => {
         return ( <div>
-            {tables.map( table => {
-                return <label htmlFor={table} key={table}>
-                    {table}
-                    <select name={table} id={table} key={table} value={form[table]} onChange={handleChange}>
-                        <option value=""></option>
-                        {options[table] && options[table].map( op => <option value={op[0]} key={op[0]}>{op[1]}</option>)}
-                    </select>
-                </label>
+            {inputFields["select"].map( item => {
+                return <div key={item["finalEntity"]}>
+                        {item["context"].includes(props.type) &&
+                        <label htmlFor={item["table"]} key={item["table"]}>
+                        {item["table"]}
+                        <select name={item["finalEntity"]} id={item["finalEntity"]} key={item["finalEntity"]} value={form[item["finalEntity"]]} onChange={handleChange}>
+                            <option value=""></option>
+                            {options[item["table"]] && options[item["table"]].map( op => <option value={op[0]} key={op[0]}>{op[1]}</option>)}
+                        </select>
+                    </label>}
+                </div>
             })}
         </div>
         )  
     }
 
     useEffect ( () => {
-        for (const table of tables) {
-            fetch('api/' + table)
+        for (const select of inputFields["select"]) {
+            fetch('api/' + select["table"])
             .then( response => response.json())
             .then( 
                 result => {
                     console.log('je change object options')
-                    setOptions( state => ({...state, [table]: extractDatas(result["hydra:member"])}))
+                    setOptions( state => ({...state, [select.primaryEntity]: extractDatas(result["hydra:member"])}))
                 },
                 error => setError(error)
                 )
@@ -75,15 +85,15 @@ export function Form (props) {
         props.getResearchUrl(url)
     }
 
-
     return ( <form onSubmit={handleSubmit}>
-        <label htmlFor="animalName">
-            Nom:
-            <input type="text" name="animalName" onChange={handleChange} value={form.animalName}/>
-        </label>
-        {props.type === "fullResearch" && <Select />}
-        {props.type === "fullResearch" && <div>bonjour forme pleine</div>}
-        {props.type === "simpleResearch" && <div>bonjour forme simple </div>}
+        {inputFields["text"].map( item => {
+            return <div key={item['finalEntity']}>
+                {item["context"].includes(props.type) && <label htmlFor={item["finalEntity"]}>
+                <input type="text" name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
+            </label>}
+        </div>
+        })}
+        <Select />
         <button type="submit">rechercher</button>
     </form>
     )

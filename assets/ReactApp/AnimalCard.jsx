@@ -1,11 +1,12 @@
 import React from "react";
-import {editForm} from './datas'
+import {inputFields} from './datas'
+import init from './utils'
 
 class AnimalCard extends React.Component
-{
+{ 
     constructor(props) {
         super(props)
-        this.state = {...editForm}
+        this.state = {... init(inputFields, "finalEntity")}
     }
 
     componentDidMount() {

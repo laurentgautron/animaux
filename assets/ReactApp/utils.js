@@ -1,18 +1,9 @@
-export default function finAnimalList  (name = this.state.animalName) {
-    let url = ""
-    if (name === "") {
-        url = 'api/animals'
-    } else {
-        url = '/api/animals?&name=' + name + '&page=' + this.state.actualAnimalsPage
+export default function init(inputFields, entity) {
+    let initForm = {}
+    for (const item in inputFields) {
+        for (const field of inputFields[item]) {
+            initForm[field[entity]]  = ''
+        }
     }
-    fetch(url)
-    .then( response => { return response.json() } 
-    )
-    .then( resp => {
-        this.setState({
-            animalList: resp["hydra:member"],
-            animalsNumber: resp["hydra:totalItems"],
-            view: resp["hydra:view"]
-        })
-    })
+    return initForm
 }

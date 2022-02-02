@@ -1,22 +1,14 @@
 import React, {useState, useEffect} from "react";
 import {inputFields} from './datas'
+import init from './utils'
 
 export function Form (props) {
-
-    // construct form
-    const initForm = {}
-    for (const item in inputFields) {
-        for (const field of inputFields[item]) {
-            initForm[field.primaryEntity]  = ''
-        }
-    }
     
-    const [form, setForm] = useState({...initForm})
+    const [form, setForm] = useState({...init(inputFields, "primaryEntity")})
     const [options, setOptions] = useState({})
     const [text, setText] = useState()
     const [error, setError] = useState()
 
-    console.log('la form: ', form)
 
     const extractDatas = (datas) => {
         let arrayDatas = []
@@ -55,7 +47,6 @@ export function Form (props) {
             .then( response => response.json())
             .then( 
                 result => {
-                    console.log('je change object options')
                     setOptions( state => ({...state, [select.primaryEntity]: extractDatas(result["hydra:member"])}))
                 },
                 error => setError(error)
@@ -83,6 +74,7 @@ export function Form (props) {
                 }
             }
         }
+        url = url.slice(0, -1)
         // pass url to formResearch
         props.getResearchUrl(url)
     }

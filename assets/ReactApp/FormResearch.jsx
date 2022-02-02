@@ -1,5 +1,5 @@
 import React from "react";
-import { Form } from "./Fomr";
+import { Form } from "./Form";
 
 class FormResearch extends React.Component
 {
@@ -27,14 +27,16 @@ class FormResearch extends React.Component
     }
 
     toggle = () => {
-        this.props.wantName(this.state.fullForm)
+        console.log('je toogle: ')
+        console.log('je renvois au wantName: ', this.state.fullForm)
+        // this.props.wantName(this.state.fullForm)
         this.setState({
             fullForm: !this.state.fullForm
         })
     }
 
     // return url in HelloApp
-    handleResearchUrl = (url) => {
+    handleResearchUrl = (url, bool) => {
         console.log('je transmet url ', url, 'vers helloapp')
         this.props.onResult(url)
     }

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react"
 
 export default function Pagination(props) {
 
-    console.log('dans la pagination: ', props.view)
     const getNumber = (string) => {
         if (string) {
             let tab = string.split("=")
@@ -18,7 +17,7 @@ export default function Pagination(props) {
         if (props.view["hydra:last"])  {
             let urlTab = props.view["@id"].split("=")
             urlTab[urlTab.length - 1] = page
-            console.log('la tronche de la page: ', urlTab.join("="))
+            console.log('de ala pagination la page url : ', urlTab.join("="))
             return urlTab.join("=")
         }
     }

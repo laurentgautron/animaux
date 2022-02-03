@@ -43,6 +43,17 @@ class HelloApp extends React.Component
         })
     }
 
+    componentDidMount() {
+        console.log('dans le helloapp le id des props: ', this.props.id)
+        if (this.props.id) {
+            console.log('je renseigne animalID')
+            this.setState({
+                animalId: '/api/animals/' + this.props.id,
+                onlyOne: true
+            })
+        }
+    }
+
 
     render() {
         return <div>

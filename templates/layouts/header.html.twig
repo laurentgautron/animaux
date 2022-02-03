@@ -12,7 +12,7 @@
                             <a class="btn btn-info btn-sm" href="{{ path('app_user_research') }}" >Utilisateurs</a>
                         {% endif %}
                         {% else %}
-                        <a class="btn btn-info btn-sm" href="{{ path('app_login') }}" >Connexion</a>
+                        <a class="btn btn-info btn-sm" href="{{ path('app_login', {id: 0}) }}" >Connexion</a>
                     {% endif %}
                 </div>
             </div>

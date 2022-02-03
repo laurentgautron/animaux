@@ -99,7 +99,7 @@ class AnimalCard extends React.Component
                 <div>régime: {this.state.diet[0]}</div>
                 {this.state.continents && <div>continents: {this.state["continents"].map( c => <span key={c[0]}>{c[1]}</span>)}</div>}
                 <button type="button" className="btn btn-primary"onClick={this.onClick}>modifier</button>
-                <Modale visible={this.state.visible} hide={this.hide} />
+                <Modale visible={this.state.visible} hide={this.hide} animalId={this.props.animalId}/>
             </div>}
             {this.state.wantModify && <Form context="edition" datas={this.state} animalId={this.props.animalId}/>}
         </div> 

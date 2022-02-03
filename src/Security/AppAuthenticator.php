@@ -48,14 +48,19 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+        $arrayPath = explode('/', $request->getPathInfo());
+        $id = $arrayPath[array_key_last($arrayPath)];
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        return new RedirectResponse($this->urlGenerator->generate('app_home', ['id' => $id]));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        $arrayPath = explode('/', $request->getPathInfo());
+        $id = $arrayPath[array_key_last($arrayPath)];
+
+        return $this->urlGenerator->generate(self::LOGIN_ROUTE, ['id' => $id]);
     }
 }

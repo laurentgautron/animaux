@@ -18,6 +18,14 @@ import ReactDOM from 'react-dom'
 import HelloApp from './ReactApp/HelloApp'
 
 if (document.getElementById("root")) {
-    ReactDOM.render(<HelloApp />, document.getElementById("root"))
+    const id = parseInt(document.getElementById('root').dataset.id, 10)
+    if (id === 0) {
+        console.log('je suis sans id', id)
+        ReactDOM.render(<HelloApp />, document.getElementById("root"))
+        
+    } else {
+        console.log('je suis avec id: ', id)
+        ReactDOM.render(<HelloApp  id={id}/>, document.getElementById("root"))
+    }
 }
 

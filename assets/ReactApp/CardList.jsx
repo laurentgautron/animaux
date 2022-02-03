@@ -17,7 +17,10 @@ class CardList extends React.Component
     findAnimalList = (url) => {
         console.log('je fait un find list avec : ', url)
         fetch(url)
-        .then( response => { return response.json() } 
+        .then( response => { 
+            console.log('la response: ', response)
+            return response.json() 
+        } 
         )
         .then( resp => {
             this.setState({

@@ -38,7 +38,6 @@ class HelloApp extends React.Component
     }
 
     handleResult = (url, ) => {
-        console.log('je change url dans le helloapp: ', url)
         this.setState({
             url: url,
         })
@@ -46,8 +45,6 @@ class HelloApp extends React.Component
 
 
     render() {
-        console.log('le justName de cardlist: ', this.state.justName)
-        console.log('envoie url a cardlist: ', this.state.url)
         return <div>
                 {this.state.onlyOne && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && <FormResearch wantName={this.handleIfJustName} onResult={this.handleResult}/>}

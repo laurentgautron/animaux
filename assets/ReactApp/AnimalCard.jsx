@@ -1,26 +1,19 @@
 import React from "react";
 import {inputFields} from './datas'
-import init from './utils'
+import {init} from './utils'
+import Modale from './Modale'
+import { Form } from "./Form";
 
 class AnimalCard extends React.Component
 { 
     constructor(props) {
         super(props)
-        this.state = {... init(inputFields, "finalEntity")}
-    }
-
-    findCorrespondance = (keyList) => {
-        console.log('objet recupere: ', keyList)
-        for (const key in this.state) {
-            console.log('la clé de state: ', key)
-            for (const keyResp in keyList) {
-                console.log('la clé de keyList: ', keyResp)
-                console.log('correspondance: ', key === keyResp)
-                if (key === keyResp) {
-                    return key
-                }
-            }
+        this.state = {
+            ...init(inputFields, "primaryEntity"), 
+            visible: false,
+            wantModify: false
         }
+        this.finalKey = ["animalName", 'description', 'dietName', 'speciesName', 'continentName']
     }
 
     componentDidMount() {
@@ -33,16 +26,18 @@ class AnimalCard extends React.Component
             // prendre la clé et le resultat de clé et faire une boucle sur le setState
             // on aura trois cas;: un string , un tableau, un objet
             for (const key in resp) {
-                let keyForSave = ''
                 if (key[0] !== "@") {
                     if (Array.isArray(resp[key])) {
                         let tab = []
                         for (const item of resp[key]) {
-                            keyForSave = this.findCorrespondance(item)
-                            tab.push(item[keyForSave])
+                            for (const itemKey in item) {
+                                if (this.finalKey.includes(itemKey)) {
+                                    tab.push([item[itemKey], resp[key]["@id"]])
+                                }
+                            }
                         }
                         this.setState(state => ({
-                            ...state,  [keyForSave]: tab
+                            ...state,  [key]: tab
                         }))
                     } else if (typeof(resp[key]) === "string") {
                         this.setState(state => ({
@@ -50,10 +45,14 @@ class AnimalCard extends React.Component
                         }))
                     // else it's an object
                     } else {
-                        keyForSave = this.findCorrespondance(resp[key])
-                        this.setState(state => ({
-                            ...state,  [keyForSave]: resp[key][keyForSave]
-                        }))
+                       for (const objectKey in resp[key]) {
+                           const id =  resp[key]["@id"]
+                           if (this.finalKey.includes(objectKey)) { 
+                                this.setState(state => ({
+                                    ...state,  [key]: [resp[key][objectKey], id]
+                                }))
+                           }
+                       }
                     }
                 }
             }
@@ -61,15 +60,48 @@ class AnimalCard extends React.Component
         )
     }
 
+    show = () => {
+        this.setState({
+            visible: true
+        })
+    }
+
+    hide = () => {
+        this.setState({
+            visible: false
+        })
+    }
+
+    onClick = () => {
+        fetch('/checkUserConnexion')
+        .then( response => response.json())
+        .then( resp =>{
+            if (resp) {
+                console.log('tu peux')
+                this.setState({
+                    wantModify: true,
+                })
+            } else {
+                console.log('tu peux pas')
+                this.show()
+            }
+        })
+    }
+
+
     render() {
-        console.log('le state: ', this.state)
-        return<div>
-            <h1>{this.state.animalName}</h1>
-            <p>{this.state.description}</p>
-            <div>espèce: {this.state.speciesName}</div>
-            <div>régime: {this.state.dietName}</div>
-            {this.state.continentName && <div>continents: {this.state["continentName"].map( c => <span>{c}</span>)}</div>}
-            <a href="/login">connexion</a>
+        console.log('id animal dans cardlist: ', this.props.animalId)
+        return <div>
+            {!this.state.wantModify && <div>
+                <h1>{this.state.animalName}</h1>
+                <p>{this.state.description}</p>
+                <div>espèce: {this.state.species[0]}</div>
+                <div>régime: {this.state.diet[0]}</div>
+                {this.state.continents && <div>continents: {this.state["continents"].map( c => <span key={c[0]}>{c[1]}</span>)}</div>}
+                <button type="button" className="btn btn-primary"onClick={this.onClick}>modifier</button>
+                <Modale visible={this.state.visible} hide={this.hide} />
+            </div>}
+            {this.state.wantModify && <Form context="edition" datas={this.state} animalId={this.props.animalId}/>}
         </div> 
     }
 }

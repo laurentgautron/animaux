@@ -9,6 +9,7 @@ use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use PHPUnit\Framework\Constraint\IsTrue;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -121,6 +122,16 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
         ]);
+    }
+
+    #[Route('/checkUserConnexion', name: "checkUser")]
+    public function checkUser()
+    {
+        if ($this->getUser()) {
+            return $this->json(true);
+        } else {
+            return $this->json(false);
+        }
     }
 
 }

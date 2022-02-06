@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['read:collection']]
+    // normalizationContext: ['groups' => ['read:collection']]
 )]
 #[ORM\Entity(repositoryClass: DietRepository::class)]
 class Diet

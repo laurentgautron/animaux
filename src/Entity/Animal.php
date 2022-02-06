@@ -14,7 +14,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource(
     attributes: ["pagination_items_per_page" => 9],
-    normalizationContext: ['groups' => ['read:collection']]
+    normalizationContext: ['groups' => ['read:collection']],
+    denormalizationContext: ['groups' => ['write:collection']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ["animalName" => 'partial', 'species' => "exact", 'continents' => 'exact', 'diet' => 'exact'])]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
@@ -28,26 +29,26 @@ class Animal
 
     #[ORM\Column(type: 'string', length: 100)]
     #[Assert\NotBlank]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $animalName;
 
     #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'animals')]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $continents;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: WorldPopulation::class)]
     private $worldPopulation;
 
     #[ORM\ManyToOne(targetEntity: Species::class, inversedBy: 'animals')]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $species;
 
     #[ORM\ManyToOne(targetEntity: Diet::class, inversedBy: 'animals')]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $diet;
 
     #[ORM\Column(type: 'text')]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $description;
 
     public function __construct()

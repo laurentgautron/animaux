@@ -1,6 +1,9 @@
 import React from "react";
 import Pagination from "./Pagination";
 
+// const controller = new AbortController()
+// const signal = controller.signal
+
 class CardList extends React.Component
 {
     constructor(props) {
@@ -12,28 +15,44 @@ class CardList extends React.Component
             view: {},
             key: 1,
         }
+        this.controller = new AbortController()
     }
 
-    findAnimalList = (url) => {
-        fetch(url)
-        .then( response => { 
-            return response.json() 
-        } 
-        )
-        .then( resp => {
-            this.setState({
-                animalList: resp["hydra:member"],
-                animalsNumber: resp["hydra:totalItems"],
-                view: resp["hydra:view"],
-            })
+
+    findAnimalList = async (url) => {
+        const response = await fetch(url, {signal: this.controller.signal})
+        const rep = await response.json()
+        this.setState({
+            animalList: rep["hydra:member"],
+            animalsNumber: rep["hydra:totalItems"],
+            view: rep["hydra:view"]
         })
     }
+        // fetch(url)
+        // .then( response => { 
+        //     return response.json() 
+        // } 
+        // )
+        // .then( resp => {
+        //     console.log('je teste isMounted: ', this.state.isMounted)
+        //     if (this.state.isMounted) {
+        //         this.setState({
+        //             animalList: resp["hydra:member"],
+        //             animalsNumber: resp["hydra:totalItems"],
+        //             view: resp["hydra:view"],
+        //         })
+        //     } else {
+        //         console.log('composant démonté')
+        //     }
+        // })
 
     componentDidMount() {
+        console.log(' je monte dans card')
         this.findAnimalList(this.state.url)
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('je update dans card')
         if (prevState.url !== this.state.url) {
             this.findAnimalList(this.state.url)
         } else if (prevProps.url !== this.props.url) {
@@ -45,6 +64,11 @@ class CardList extends React.Component
         } 
     }
 
+    componentWillUnmount() {
+        console.log('je demonte dans card')
+        this.controller.abort()
+    }
+
 
     handlePage = (activePage) => {
         this.setState({
@@ -53,6 +77,7 @@ class CardList extends React.Component
     }
 
     render() {
+        console.log('dans le cardlist:', this.state)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {

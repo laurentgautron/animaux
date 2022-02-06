@@ -1,19 +1,36 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import {inputFields} from './datas'
-import {initFunction} from './utils'
+import {initFunction, makeUrl, datasForRequest} from './utils'
+import AnimalCard from "./AnimalCard";
+import HelloApp from "./HelloApp";
 
 export function Form (props) {
-
+    
     const {submitText, initForm} = initFunction(props)
-
+    
+    const controller = useRef( new AbortController())
+    
+    const useToggle = (initialValue) => {
+        const [value, setValue] = useState(initialValue)
+        const toggle = useCallback( () => {
+            setValue( v => !v)
+        }, [])
+        return [value, toggle]
+    }
+    
+    const [simpleResearch, toggleResearch] = props.context === 'edition' || props.context === 'creation' ? useToggle(false) : useToggle(true)
     
     const [form, setForm] = useState({
         ...initForm,
-        text: submitText
-        })
+    })
     const [options, setOptions] = useState({})
-    const [text, setText] = useState()
+    const text = submitText
+    const [animalChange, setAnimalChange] = useState(false)
+    const [animalCreation, setAnimalCreation] = useState(false)
+    const [back, setBack] = useState(false)
     const [error, setError] = useState()
+    
+    console.log(' dans la form: ', back)
 
 
     const extractDatasSelect = (datas) => {
@@ -25,16 +42,6 @@ export function Form (props) {
             arrayDatas.push([data["@id"], data[name]])
         }
         return arrayDatas
-    }
-
-    const datasForPatch = (objectForm) => {
-        console.log('objet à modifier pour le patch: ', objectForm)
-        delete objectForm['visible']
-        delete objectForm['wantModify']
-        delete objectForm['text']
-        delete objectForm["continents"]
-        console.log('la form pour le patch: ', objectForm)
-        return objectForm
     }
 
     const Select = () => {
@@ -59,9 +66,9 @@ export function Form (props) {
         )  
     }
 
-    useEffect ( () => {
-        for (const select of inputFields["select"]) {
-            fetch('api/' + select["table"])
+    for (const select of inputFields["select"]) {
+        useEffect ( () => {
+            fetch('api/' + select["table"], {signal: controller.current.signal})
             .then( response => response.json())
             .then( 
                 result => {
@@ -69,12 +76,13 @@ export function Form (props) {
                 },
                 error => setError(error)
                 )
-        }
-    }, [])
+        }, [])
+    }
+
+    useEffect ( () => () => controller.current.abort(), [])
 
     const handleChange = (ev) => {
         if (ev.target.multiple) {
-            console.log('je suis en multiple')
             const {name, selectedOptions} = ev.target
             setForm ( state => ({
                 ...state, [name]: Array.from(selectedOptions, option => option.value)
@@ -88,50 +96,48 @@ export function Form (props) {
         }
     }
 
+    const buttonToogle = !simpleResearch ? 
+                        <button onClick={toggleResearch}>simple recherche</button> : 
+                        <button onClick={toggleResearch}>recherche détaillée</button>
+    
+
+    const backToList = () => {
+        setBack(b => !b)
+    }
+
     const handleSubmit = (ev) => {
         ev.preventDefault()
-        if (props.context === "fullResearch" || props.context === "simpleResearch") {
-            let url = "api/animals?"
-            for ( const key in form) {
-                console.log('les form: ', form[key])
-                if (form[key] !== '' && key !== "text") {
-                    if ( key === 'diets') {
-                        url = url + 'diet=' + form[key]
-                    } else if (Array.isArray(form[key])) {
-                        console.log('un array !!: ', form[key])
-                        for (const item of form[key]) {
-                            url = url + key + '[]='+ item + "&"
-                        }
-                    } else {
-                        url = url + key + "=" + form[key] + "&"
-                    }
-                }
-            }
-            url = url.slice(0, -1)
-            console.log('url genere: ', url)
-            // pass url to formResearch
-            props.getResearchUrl(url)
+        if (props.context === "fullResearch") {
+            //make an url and pass url in HelloApp
+            props.onResult(makeUrl(form))
+        } else if (props.context === 'creation') {
+            fetch('/api/animals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/ld+json'
+                },
+                body: JSON.stringify(datasForRequest(form))
+            })
+            .then( response => {if (response.ok) {
+                setAnimalCreation(a => !a)
+            }})
         } else {
-            console.log('on modifie')
-            console.log('id de animal: ', props.animalId)
-            const animalId = props.animalId.split('/')
-            const id = animalId[animalId.length - 1]
-            fetch('api/animals/' + id, {
+            // const animalId = props.animalId.split('/')
+            // const id = animalId[animalId.length - 1]
+            fetch(props.animalId, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/merge-patch+json'
                 },
-                body: JSON.stringify(datasForPatch(form))
+                body: JSON.stringify(datasForRequest(form))
             })
             .then(response => response.json())
-            .then(resp => console.log('la reponse: ', resp))
+            .then(resp => setAnimalChange(a=> !a))
         }
     }
 
-    console.log('la form de form: ', form)
-    console.log('les options: ', options)
-
-    return ( <form onSubmit={handleSubmit}>
+    return (<div>
+        {!animalChange && !animalCreation && <form onSubmit={handleSubmit}>
         {inputFields["text"].map( item => {
             return <div key={item['finalEntity']}>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
@@ -139,15 +145,19 @@ export function Form (props) {
             </label>}
         </div>
         })}
-        {inputFields["textarea"].map( item => {
+        {!simpleResearch && inputFields["textarea"].map( item => {
             return <div key={item['finalEntity']}>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
                 <textarea name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
             </label>}
         </div>
         })}
-        <Select />
-        <button type="submit">{form.text}</button>
-    </form>
-    )
+        {!simpleResearch && <Select />}
+        {props.context === 'fullResearch' && buttonToogle}
+        <button type="submit">{text}</button>
+    </form>}
+    {animalChange && <AnimalCard animalId={props.animalId} />}
+    {animalCreation && <HelloApp />}
+    </div>)
+     
 }

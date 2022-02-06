@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['read:collection']]
+    // normalizationContext: ['groups' => ['read:collection']]
 )]
 
 #[ORM\Entity(repositoryClass: SpeciesRepository::class)]

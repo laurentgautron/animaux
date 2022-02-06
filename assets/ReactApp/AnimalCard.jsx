@@ -11,7 +11,8 @@ class AnimalCard extends React.Component
         this.state = {
             ...init(inputFields, "primaryEntity"), 
             visible: false,
-            wantModify: false
+            wantModify: false,
+            wantDestruction: false
         }
         this.finalKey = ["animalName", 'description', 'dietName', 'speciesName', 'continentName']
     }
@@ -32,7 +33,7 @@ class AnimalCard extends React.Component
                         for (const item of resp[key]) {
                             for (const itemKey in item) {
                                 if (this.finalKey.includes(itemKey)) {
-                                    tab.push([item[itemKey], resp[key]["@id"]])
+                                    tab.push([item[itemKey], item["@id"]])
                                 }
                             }
                         }
@@ -62,7 +63,7 @@ class AnimalCard extends React.Component
 
     show = () => {
         this.setState({
-            visible: true
+            visible: true,
         })
     }
 
@@ -72,17 +73,24 @@ class AnimalCard extends React.Component
         })
     }
 
-    onClick = () => {
+    onClick = (ev) => {
+        console.log('le target: ', ev.target)
         fetch('/checkUserConnexion')
         .then( response => response.json())
         .then( resp =>{
             if (resp) {
-                console.log('tu peux')
-                this.setState({
-                    wantModify: true,
-                })
+                if (ev.target.textContent === 'modifier') {
+                    this.setState({
+                        wantModify: true,
+                    })
+                }  else {
+                    console.log('on detruit')
+                    this.setState({
+                        visible: true,
+                        wantDestruction: true
+                    })
+                }
             } else {
-                console.log('tu peux pas')
                 this.show()
             }
         })
@@ -90,16 +98,18 @@ class AnimalCard extends React.Component
 
 
     render() {
-        console.log('id animal dans cardlist: ', this.props.animalId)
+        console.log('je suis dans animal card')
         return <div>
             {!this.state.wantModify && <div>
                 <h1>{this.state.animalName}</h1>
-                <p>{this.state.description}</p>
+                <p>Description:{this.state.description}</p>
                 <div>espèce: {this.state.species[0]}</div>
                 <div>régime: {this.state.diet[0]}</div>
-                {this.state.continents && <div>continents: {this.state["continents"].map( c => <span key={c[0]}>{c[1]}</span>)}</div>}
-                <button type="button" className="btn btn-primary"onClick={this.onClick}>modifier</button>
-                <Modale visible={this.state.visible} hide={this.hide} animalId={this.props.animalId}/>
+                {this.state.continents && <div>continents: {this.state["continents"].map( c => <span key={c[1]}>{c[0]}</span>)}</div>}
+                <button type="button" className="btn btn-primary" onClick={this.onClick}>modifier</button>
+                <button type="button" className="'btn btn-primary" onClick={(this.onClick)}>supprimer</button>
+                {!this.state.wantDestruction && <Modale visible={this.state.visible} hide={this.hide} animalId={this.props.animalId} context="change"/>}
+                {this.state.wantDestruction && <Modale visible={this.state.visible} hide={this.hide} animalId={this.props.animalId} context="destruction"/>}
             </div>}
             {this.state.wantModify && <Form context="edition" datas={this.state} animalId={this.props.animalId}/>}
         </div> 

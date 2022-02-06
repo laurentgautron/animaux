@@ -50,6 +50,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         }
         $arrayPath = explode('/', $request->getPathInfo());
         $id = $arrayPath[array_key_last($arrayPath)];
+        // $id = $request->query->get('id');
 
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_home', ['id' => $id]));
@@ -60,6 +61,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     {
         $arrayPath = explode('/', $request->getPathInfo());
         $id = $arrayPath[array_key_last($arrayPath)];
+        // $id = $request->query->get('id');
 
         return $this->urlGenerator->generate(self::LOGIN_ROUTE, ['id' => $id]);
     }

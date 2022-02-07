@@ -46,7 +46,7 @@ function initFunction (props) {
                 for (const selectItem of inputFields[item]) {
                     if (selectItem["multiple"]) {
                         initForm[selectItem.primaryEntity] = []
-                    }
+                    } 
                 }
 
             }
@@ -89,12 +89,26 @@ const createNewAnimal = async (form) => {
     }
 }
 
-const datasForRequest = (objectForm) => {
+const datasForRequest = (objectForm, context) => {
     delete objectForm['visible']
     delete objectForm['wantModify']
+    if (context ==="creation") {
+       // remplir les champs select avec null et contients avec tableau vide si la form est vide
+    }
     return objectForm
 }
 
+const validation = (resp, formError, setShowList) => {
+    if ( resp.violations) {
+        console.log(resp.violations)
+        return false
+    }
+    return true
+}
 
-
-export {makeUrl, initFunction, init, createNewAnimal, datasForRequest}
+export {makeUrl, 
+        initFunction,
+        init, 
+        createNewAnimal, 
+        datasForRequest,
+        validation}

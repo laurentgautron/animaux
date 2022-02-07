@@ -1,15 +1,11 @@
 import React from 'react'
 
 
-const Modale = ({hide, visible, animalId, context}) => {
+const Modale = ({hide, visible, animalId, context, del}) => {
 
-    const del = () => {
-        fetch(animalId, {
-            method: 'DELETE'
-        })
-        .then(response => {if (response.ok) {
-            console.log('objet detruit')
-        }})
+    const handleClick = () => {
+        hide()
+        del()
     }
 
     const idTab = animalId.split('/')
@@ -22,7 +18,7 @@ const Modale = ({hide, visible, animalId, context}) => {
         </div>}
         {context === "destruction" && <div>
             <h1>Vous voulez détruire cette fiche ?</h1>
-            <button onClick={del}>oui</button>
+            <button onClick={handleClick}>oui</button>
         </div>}
         <div onClick={hide}>x</div>
     </div>)

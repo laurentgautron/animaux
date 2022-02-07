@@ -1,8 +1,7 @@
 import React from "react";
 import Pagination from "./Pagination";
 
-// const controller = new AbortController()
-// const signal = controller.signal
+
 
 class CardList extends React.Component
 {
@@ -31,28 +30,21 @@ class CardList extends React.Component
         // fetch(url)
         // .then( response => { 
         //     return response.json() 
-        // } 
-        // )
+        // })
         // .then( resp => {
-        //     console.log('je teste isMounted: ', this.state.isMounted)
         //     if (this.state.isMounted) {
         //         this.setState({
         //             animalList: resp["hydra:member"],
         //             animalsNumber: resp["hydra:totalItems"],
         //             view: resp["hydra:view"],
         //         })
-        //     } else {
-        //         console.log('composant démonté')
-        //     }
         // })
 
     componentDidMount() {
-        console.log(' je monte dans card')
         this.findAnimalList(this.state.url)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('je update dans card')
         if (prevState.url !== this.state.url) {
             this.findAnimalList(this.state.url)
         } else if (prevProps.url !== this.props.url) {
@@ -65,7 +57,6 @@ class CardList extends React.Component
     }
 
     componentWillUnmount() {
-        console.log('je demonte dans card')
         this.controller.abort()
     }
 
@@ -77,7 +68,6 @@ class CardList extends React.Component
     }
 
     render() {
-        console.log('dans le cardlist:', this.state)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {

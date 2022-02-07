@@ -1,14 +1,12 @@
-import React, {useState, useEffect, useRef, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import {inputFields} from './datas'
-import {initFunction, makeUrl, datasForRequest} from './utils'
+import {initFunction, makeUrl, datasForRequest, validation} from './utils'
 import AnimalCard from "./AnimalCard";
 import HelloApp from "./HelloApp";
 
 export function Form (props) {
     
     const {submitText, initForm} = initFunction(props)
-    
-    const controller = useRef( new AbortController())
     
     const useToggle = (initialValue) => {
         const [value, setValue] = useState(initialValue)
@@ -23,15 +21,14 @@ export function Form (props) {
     const [form, setForm] = useState({
         ...initForm,
     })
+    const [formError, setFormError] = useState({
+        ...initForm,
+    })
     const [options, setOptions] = useState({})
     const text = submitText
     const [animalChange, setAnimalChange] = useState(false)
-    const [animalCreation, setAnimalCreation] = useState(false)
-    const [back, setBack] = useState(false)
+    const [showList, setShowList] = useState(false)
     const [error, setError] = useState()
-    
-    console.log(' dans la form: ', back)
-
 
     const extractDatasSelect = (datas) => {
         let arrayDatas = []
@@ -68,7 +65,7 @@ export function Form (props) {
 
     for (const select of inputFields["select"]) {
         useEffect ( () => {
-            fetch('api/' + select["table"], {signal: controller.current.signal})
+            fetch('api/' + select["table"])
             .then( response => response.json())
             .then( 
                 result => {
@@ -79,8 +76,6 @@ export function Form (props) {
         }, [])
     }
 
-    useEffect ( () => () => controller.current.abort(), [])
-
     const handleChange = (ev) => {
         if (ev.target.multiple) {
             const {name, selectedOptions} = ev.target
@@ -89,7 +84,7 @@ export function Form (props) {
             }))
         } else {
             const { name, value }  = ev.target
-    
+            console.log('la value rentrée: ', value)
             setForm( state => ({
                 ...state, [name]: value
             }))
@@ -99,11 +94,6 @@ export function Form (props) {
     const buttonToogle = !simpleResearch ? 
                         <button onClick={toggleResearch}>simple recherche</button> : 
                         <button onClick={toggleResearch}>recherche détaillée</button>
-    
-
-    const backToList = () => {
-        setBack(b => !b)
-    }
 
     const handleSubmit = (ev) => {
         ev.preventDefault()
@@ -111,16 +101,31 @@ export function Form (props) {
             //make an url and pass url in HelloApp
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
-            fetch('/api/animals', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/ld+json'
-                },
-                body: JSON.stringify(datasForRequest(form))
-            })
-            .then( response => {if (response.ok) {
-                setAnimalCreation(a => !a)
-            }})
+            try {
+                fetch('/api/animals', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/ld+json'
+                    },
+                    body: JSON.stringify(datasForRequest(form, 'creation'))
+                })
+                .then (response => {
+                    console.log('response status: ', response.status)
+                    if (response.status === 422) {
+                        return  response.json()
+                    } else {
+                        console.log('des erreurs: ', response.status, response.statusText)
+                        return response.json()
+                    }
+                })
+                .then(resp => {
+                    if (validation(resp, formError)) {
+                        setShowList(l => !l)
+                    }
+                })
+            } catch(error) {
+                console.log('il y a une erreur: ', error)
+            }
         } else {
             // const animalId = props.animalId.split('/')
             // const id = animalId[animalId.length - 1]
@@ -129,15 +134,20 @@ export function Form (props) {
                 headers: {
                     'Content-Type': 'application/merge-patch+json'
                 },
-                body: JSON.stringify(datasForRequest(form))
+                body: JSON.stringify(datasForRequest(form, 'modification'))
             })
             .then(response => response.json())
-            .then(resp => setAnimalChange(a=> !a))
+            .then(resp => {
+                if (resp.violations) {
+                    console.log(resp.violations)
+                }
+                setShowList(a=> !a)
+            })
         }
     }
 
     return (<div>
-        {!animalChange && !animalCreation && <form onSubmit={handleSubmit}>
+        {!animalChange && !showList && <form onSubmit={handleSubmit}>
         {inputFields["text"].map( item => {
             return <div key={item['finalEntity']}>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
@@ -157,7 +167,7 @@ export function Form (props) {
         <button type="submit">{text}</button>
     </form>}
     {animalChange && <AnimalCard animalId={props.animalId} />}
-    {animalCreation && <HelloApp />}
+    {showList && <HelloApp />}
     </div>)
      
 }

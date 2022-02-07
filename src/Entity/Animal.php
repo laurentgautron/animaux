@@ -33,6 +33,7 @@ class Animal
     private $animalName;
 
     #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'animals')]
+    #[Assert\NotBlank]
     #[Groups(['read:collection', 'write:collection'])]
     private $continents;
 
@@ -40,14 +41,17 @@ class Animal
     private $worldPopulation;
 
     #[ORM\ManyToOne(targetEntity: Species::class, inversedBy: 'animals')]
+    #[Assert\NotBlank]
     #[Groups(['read:collection', 'write:collection'])]
     private $species;
 
     #[ORM\ManyToOne(targetEntity: Diet::class, inversedBy: 'animals')]
+    #[Assert\NotBlank]
     #[Groups(['read:collection', 'write:collection'])]
     private $diet;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     #[Groups(['read:collection', 'write:collection'])]
     private $description;
 

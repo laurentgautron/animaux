@@ -45,7 +45,6 @@ class HelloApp extends React.Component
     
     componentDidMount() {
         if (this.props.id) {
-            console;log('il y a un nouvel id')
             this.setState({
                 animalId: '/api/animals/' + this.props.id,
                 onlyOne: true
@@ -54,7 +53,6 @@ class HelloApp extends React.Component
     }
 
     render() {
-        console.log(' je suis dans le heollopp: ', this.state)
         return <div>
                 {this.state.onlyOne && !this.state.addAnimal && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.addAnimal && <div>

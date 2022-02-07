@@ -9,9 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource(
-    // normalizationContext: ['groups' => ['read:collection']]
-)]
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: DietRepository::class)]
 class Diet
 {

@@ -3,6 +3,7 @@ import {inputFields} from './datas'
 import {init} from './utils'
 import Modale from './Modale'
 import { Form } from "./Form";
+import HelloApp from "./HelloApp";
 
 class AnimalCard extends React.Component
 { 
@@ -12,7 +13,8 @@ class AnimalCard extends React.Component
             ...init(inputFields, "primaryEntity"), 
             visible: false,
             wantModify: false,
-            wantDestruction: false
+            wantDestruction: false, 
+            destructionSuccess: false
         }
         this.finalKey = ["animalName", 'description', 'dietName', 'speciesName', 'continentName']
     }
@@ -74,7 +76,6 @@ class AnimalCard extends React.Component
     }
 
     onClick = (ev) => {
-        console.log('le target: ', ev.target)
         fetch('/checkUserConnexion')
         .then( response => response.json())
         .then( resp =>{
@@ -96,11 +97,22 @@ class AnimalCard extends React.Component
         })
     }
 
+    del = () => {
+        fetch(this.props.animalId, {
+            method: "DELETE"
+        }).then( response => {
+            if (response.ok) {
+                this.setState({
+                    destructionSuccess: true
+                })
+            }
+        })
+    }
+
 
     render() {
-        console.log('je suis dans animal card')
         return <div>
-            {!this.state.wantModify && <div>
+            {!this.state.wantModify && !this.state.destructionSuccess && <div>
                 <h1>{this.state.animalName}</h1>
                 <p>Description:{this.state.description}</p>
                 <div>espèce: {this.state.species[0]}</div>
@@ -109,9 +121,16 @@ class AnimalCard extends React.Component
                 <button type="button" className="btn btn-primary" onClick={this.onClick}>modifier</button>
                 <button type="button" className="'btn btn-primary" onClick={(this.onClick)}>supprimer</button>
                 {!this.state.wantDestruction && <Modale visible={this.state.visible} hide={this.hide} animalId={this.props.animalId} context="change"/>}
-                {this.state.wantDestruction && <Modale visible={this.state.visible} hide={this.hide} animalId={this.props.animalId} context="destruction"/>}
+                {this.state.wantDestruction && <Modale 
+                                                visible={this.state.visible} 
+                                                hide={this.hide} 
+                                                animalId={this.props.animalId}
+                                                context="destruction"
+                                                del={this.del}/>
+                                               }
             </div>}
             {this.state.wantModify && <Form context="edition" datas={this.state} animalId={this.props.animalId}/>}
+            {this.state.destructionSuccess && <HelloApp />}
         </div> 
     }
 }

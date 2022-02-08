@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useCallback, useRef} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {inputFields} from './datas'
-import {initFunction, makeUrl, datasForRequest, validation} from './utils'
-import AnimalCard from "./AnimalCard";
+import {initFunction, makeUrl, datasForRequest, validation, init} from './utils'
 import HelloApp from "./HelloApp";
 
 export function Form (props) {
@@ -18,15 +17,10 @@ export function Form (props) {
     
     const [simpleResearch, toggleResearch] = props.context === 'edition' || props.context === 'creation' ? useToggle(false) : useToggle(true)
     
-    const [form, setForm] = useState({
-        ...initForm,
-    })
-    const [formError, setFormError] = useState({
-        ...initForm,
-    })
+    const [form, setForm] = useState(initForm)
+    const [Errors, setErrors] = useState(init(inputFields, 'primaryEntity'))
     const [options, setOptions] = useState({})
     const text = submitText
-    const [animalChange, setAnimalChange] = useState(false)
     const [showList, setShowList] = useState(false)
     const [error, setError] = useState()
 
@@ -45,6 +39,7 @@ export function Form (props) {
         return ( <div>
             {inputFields["select"].map( item => {
                 return <div key={item["finalEntity"]}>
+                        <span>{Errors[item.primaryEntity]}</span>
                         {item["context"].includes(props.context) &&
                         <label htmlFor={item["table"]} key={item["table"]}>
                         {item["table"]}
@@ -84,7 +79,6 @@ export function Form (props) {
             }))
         } else {
             const { name, value }  = ev.target
-            console.log('la value rentrée: ', value)
             setForm( state => ({
                 ...state, [name]: value
             }))
@@ -102,6 +96,9 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
+                console.log('la forme pour initiale: ', form)
+                console.log('la forme preparée: ', datasForRequest(form, 'creation'))
+                console.log('la forme apres preparation: ', form)
                 fetch('/api/animals', {
                     method: 'POST',
                     headers: {
@@ -111,6 +108,7 @@ export function Form (props) {
                 })
                 .then (response => {
                     console.log('response status: ', response.status)
+                    console.log('la form apres la reponse: ', form)
                     if (response.status === 422) {
                         return  response.json()
                     } else {
@@ -119,7 +117,11 @@ export function Form (props) {
                     }
                 })
                 .then(resp => {
-                    if (validation(resp, formError)) {
+                    console.log('la resp: ', resp)
+                    if (resp.violations) {
+                        console.log('il y a des violations')
+                        setErrors(validation(resp))
+                    } else {
                         setShowList(l => !l)
                     }
                 })
@@ -127,14 +129,13 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
-            // const animalId = props.animalId.split('/')
-            // const id = animalId[animalId.length - 1]
+            console.log('la form pour le patch: ', form)
             fetch(props.animalId, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/merge-patch+json'
                 },
-                body: JSON.stringify(datasForRequest(form, 'modification'))
+                body: JSON.stringify(datasForRequest(form, 'edition'))
             })
             .then(response => response.json())
             .then(resp => {
@@ -146,10 +147,16 @@ export function Form (props) {
         }
     }
 
+    console.log('le formError: ', Errors)
+    console.log('lea form: ', form)
+    console.log('le context de formulaire: ', props.context)
+    console.log('le initform: ', initForm)
+
     return (<div>
-        {!animalChange && !showList && <form onSubmit={handleSubmit}>
+        {!showList && <form onSubmit={handleSubmit}>
         {inputFields["text"].map( item => {
             return <div key={item['finalEntity']}>
+                <span>{Errors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
                 <input type="text" name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
             </label>}
@@ -157,6 +164,7 @@ export function Form (props) {
         })}
         {!simpleResearch && inputFields["textarea"].map( item => {
             return <div key={item['finalEntity']}>
+                <span>{Errors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
                 <textarea name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
             </label>}
@@ -166,7 +174,6 @@ export function Form (props) {
         {props.context === 'fullResearch' && buttonToogle}
         <button type="submit">{text}</button>
     </form>}
-    {animalChange && <AnimalCard animalId={props.animalId} />}
     {showList && <HelloApp />}
     </div>)
      

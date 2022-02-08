@@ -33,7 +33,7 @@ class Animal
     private $animalName;
 
     #[ORM\ManyToMany(targetEntity: Continent::class, inversedBy: 'animals')]
-    #[Assert\NotBlank]
+    #[Assert\Count(min: 1, minMessage: "vous devez renseigner au moins un continent !")]
     #[Groups(['read:collection', 'write:collection'])]
     private $continents;
 

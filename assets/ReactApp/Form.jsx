@@ -1,11 +1,15 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {inputFields} from './datas'
-import {initFunction, makeUrl, datasForRequest, validation, init} from './utils'
+import {Animal, WorldPopulation} from './datas'
+import {initFunction, makeUrl, datasForRequest, validation, init, contextFields} from './utils'
 import HelloApp from "./HelloApp";
 
 export function Form (props) {
     
-    const {submitText, initForm} = initFunction(props)
+ 
+
+    const fields = contextFields(props.field)
+
+    const submitText = (props.context === 'edition' || props.context === 'creation') ? "enregistrer" : "rechercher"
     
     const useToggle = (initialValue) => {
         const [value, setValue] = useState(initialValue)
@@ -17,8 +21,8 @@ export function Form (props) {
     
     const [simpleResearch, toggleResearch] = props.context === 'edition' || props.context === 'creation' ? useToggle(false) : useToggle(true)
     
-    const [form, setForm] = useState(initForm)
-    const [Errors, setErrors] = useState(init(inputFields, 'primaryEntity'))
+    const [form, setForm] = useState(initFunction(props))
+    const [formErrors, setFormErrors] = useState(init(Animal, 'primaryEntity'))
     const [options, setOptions] = useState({})
     const text = submitText
     const [showList, setShowList] = useState(false)
@@ -37,12 +41,13 @@ export function Form (props) {
 
     const Select = () => {
         return ( <div>
-            {inputFields["select"].map( item => {
-                return <div key={item["finalEntity"]}>
-                        <span>{Errors[item.primaryEntity]}</span>
+            {fields["select"].map( item => {
+                return <div key={item["primaryEntity"]}>
+                        <span>{formErrors[item.primaryEntity]}</span>
                         {item["context"].includes(props.context) &&
                         <label htmlFor={item["table"]} key={item["table"]}>
                         {item["table"]}
+                        la valeur: {form[item.primaryEntity]}
                         <select name={item["primaryEntity"]}
                                 key={item["primaryEntity"]} 
                                 value={form[item.primaryEntity]} 
@@ -58,7 +63,7 @@ export function Form (props) {
         )  
     }
 
-    for (const select of inputFields["select"]) {
+    for (const select of fields["select"]) {
         useEffect ( () => {
             fetch('api/' + select["table"])
             .then( response => response.json())
@@ -96,9 +101,6 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
-                console.log('la forme pour initiale: ', form)
-                console.log('la forme preparée: ', datasForRequest(form, 'creation'))
-                console.log('la forme apres preparation: ', form)
                 fetch('/api/animals', {
                     method: 'POST',
                     headers: {
@@ -107,8 +109,6 @@ export function Form (props) {
                     body: JSON.stringify(datasForRequest(form, 'creation'))
                 })
                 .then (response => {
-                    console.log('response status: ', response.status)
-                    console.log('la form apres la reponse: ', form)
                     if (response.status === 422) {
                         return  response.json()
                     } else {
@@ -117,10 +117,8 @@ export function Form (props) {
                     }
                 })
                 .then(resp => {
-                    console.log('la resp: ', resp)
                     if (resp.violations) {
-                        console.log('il y a des violations')
-                        setErrors(validation(resp))
+                        setFormErrors(validation(fields, resp))
                     } else {
                         setShowList(l => !l)
                     }
@@ -129,7 +127,6 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
-            console.log('la form pour le patch: ', form)
             fetch(props.animalId, {
                 method: "PATCH",
                 headers: {
@@ -147,26 +144,24 @@ export function Form (props) {
         }
     }
 
-    console.log('le formError: ', Errors)
-    console.log('lea form: ', form)
-    console.log('le context de formulaire: ', props.context)
-    console.log('le initform: ', initForm)
+    console.log('la form: ', form)
+    console.log('le field: ', fields)
 
     return (<div>
         {!showList && <form onSubmit={handleSubmit}>
-        {inputFields["text"].map( item => {
-            return <div key={item['finalEntity']}>
-                <span>{Errors[item.primaryEntity]}</span>
+        {fields["text"].map( item => {
+            return <div key={item['primaryEntity']}>
+                <span>{formErrors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
-                <input type="text" name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
+                <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </label>}
         </div>
         })}
-        {!simpleResearch && inputFields["textarea"].map( item => {
-            return <div key={item['finalEntity']}>
-                <span>{Errors[item.primaryEntity]}</span>
+        {!simpleResearch && fields["textarea"].map( item => {
+            return <div key={item['primaryEntity']}>
+                <span>{formErrors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
-                <textarea name={item["finalEntity"]} value={form[item.finalEntity]} onChange={handleChange}/>
+                <textarea name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </label>}
         </div>
         })}

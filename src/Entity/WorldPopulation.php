@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\WorldPopulationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\WorldPopulationRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: WorldPopulationRepository::class)]
 class WorldPopulation
 {
@@ -14,9 +17,11 @@ class WorldPopulation
     private $id;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(['read:collection'])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 4)]
+    #[Groups(['read:collection'])]
     private $year;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'worldPopulation')]

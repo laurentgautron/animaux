@@ -57,10 +57,10 @@ class HelloApp extends React.Component
                 {this.state.onlyOne && !this.state.addAnimal && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.addAnimal && <div>
                     <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
-                    <Form context="fullResearch" onResult={this.handleResult}/>
+                    <Form context="fullResearch" onResult={this.handleResult} field="animalsFields"/>
                     <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url} />
                 </div>}
-                {this.state.addAnimal && <Form context="creation" />}
+                {this.state.addAnimal && <Form context="creation" field="animalsFields"/>}
             </div> 
     }
 }

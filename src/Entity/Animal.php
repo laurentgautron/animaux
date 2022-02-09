@@ -38,6 +38,7 @@ class Animal
     private $continents;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: WorldPopulation::class)]
+    #[Groups(['read:collection'])]
     private $worldPopulation;
 
     #[ORM\ManyToOne(targetEntity: Species::class, inversedBy: 'animals')]

@@ -2,6 +2,7 @@ import React from "react";
 import CardList from "./CardList.jsx"
 import {Form} from "./Form.jsx";
 import AnimalCard from "./AnimalCard.jsx";
+import {prepareId} from './utils'
 
 class HelloApp extends React.Component 
 {  
@@ -45,8 +46,9 @@ class HelloApp extends React.Component
     
     componentDidMount() {
         if (this.props.id) {
+            let animalId = prepareId(this.props.id)
             this.setState({
-                animalId: '/api/animals/' + this.props.id,
+                animalId: animalId,
                 onlyOne: true
             })
         }
@@ -57,10 +59,10 @@ class HelloApp extends React.Component
                 {this.state.onlyOne && !this.state.addAnimal && <AnimalCard  animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.addAnimal && <div>
                     <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
-                    <Form context="fullResearch" onResult={this.handleResult} field="animalsFields"/>
+                    <Form context="fullResearch" onResult={this.handleResult} field="animal"/>
                     <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url} />
                 </div>}
-                {this.state.addAnimal && <Form context="creation" field="animalsFields"/>}
+                {this.state.addAnimal && <Form context="creation" field="animal"/>}
             </div> 
     }
 }

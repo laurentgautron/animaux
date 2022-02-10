@@ -7,7 +7,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\WorldPopulationRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource()]
+#[ApiResource(
+    itemOperations: [
+        'patch' => ['denormalization_context' => ['groups' => ['edit:collection']]],
+        'delete',
+        'get'
+    ]
+    // denormalizationContext: ['groups' => ['write:collection']],
+    // normalizationContext: ['groups' => ['read:collection']],
+)]
 #[ORM\Entity(repositoryClass: WorldPopulationRepository::class)]
 class WorldPopulation
 {
@@ -17,14 +25,15 @@ class WorldPopulation
     private $id;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection', 'edit:collection'])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 4)]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $year;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'worldPopulation')]
+    #[Groups(['write:collection'])]
     private $animal;
 
     public function getId(): ?int

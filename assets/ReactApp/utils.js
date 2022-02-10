@@ -1,10 +1,12 @@
-import { Animal, WorldPopulation } from "./datas"
+import { animal, worldPopulation, needIdTable } from "./datas"
 
 function init(inputFields) {
     let initForm = {}
     for (const item in inputFields) {
         for (const field of inputFields[item]) {
-            if (field['multiple']) {
+            if (item === "number") {
+                initForm[field["primaryEntity"]] = 0
+            }else if (field['multiple']) {
                 initForm[field['primaryEntity']]  = []
             } else {
                 initForm[field['primaryEntity']]  = ''
@@ -15,9 +17,10 @@ function init(inputFields) {
 }
 
 function initFunction (props) {
-    
+    console.log('je fait une initFunction')
     let initForm = {}
     if (props.datas) {
+        console.log('il y a des datas')
         for (const key in props.datas) {
             if (Array.isArray(props.datas[key])) {
                 if (Array.isArray(props.datas[key][0])) {
@@ -36,11 +39,11 @@ function initFunction (props) {
         }
     } else {
         switch(props.field) {
-            case 'animalsFields':
-                initForm = init(Animal, "primaryEntity")
+            case 'animal':
+                initForm = init(animal, "primaryEntity")
                 break
-            case 'populationsFields':
-                initForm = init(WorldPopulation, "primaryEntity")
+            case 'worldPopulation':
+                initForm = init(worldPopulation, "primaryEntity")
                 break
         }
     }
@@ -48,10 +51,10 @@ function initFunction (props) {
 }
 
 const contextFields = (field) => {
-    if (field === 'animalsFields') {
-        return Animal
+    if (field === 'animal') {
+        return animal
     } else {
-        return WorldPopulation
+        return worldPopulation
     }
 }
 
@@ -73,22 +76,9 @@ function makeUrl(form) {
     return url.slice(0, -1)
 }
 
-const createNewAnimal = async (form) => {
-    const response = await fetch('/api/animals', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/ld+json'
-        },
-        body: JSON.stringify(datasForRequest(form))
-    })
-    if (response.ok) {
-        return true
-    } else {
-        return false
-    }
-}
-
-const datasForRequest = (objectForm, context) => {
+const datasForRequest = (objectForm, context, field, props) => {
+    console.log('je fait un data request : ', props)
+    console.log
     delete objectForm['visible']
     delete objectForm['wantModify']
     delete objectForm['wantDestruction']
@@ -97,21 +87,26 @@ const datasForRequest = (objectForm, context) => {
     if (context ==="creation") {
        for (const key in objectForm) {
            if (objectForm[key] === "") {
-               const {type, multiple} = getInfos(key)
+               const {type, multiple} = getInfos(key, field)
                 if (type === 'select' && !multiple) {
                    objectForm[key] = null
                }
            }
        }
+       if (needIdTable.includes(props.field)) {
+           console.log(' je mets un id: ', props.id)
+           objectForm['animal'] = props.id
+       }
     }
+    console.log('le retour de datarequest: ', objectForm)
     return objectForm
 }
 
-const getInfos = (key) => {
+const getInfos = (key, tableFields) => {
     let multiple = false
     let type = ''
-    for (const keyInput in animalsFields) {
-        for (const item of animalsFields[keyInput]) {
+    for (const keyInput in tableFields) {
+        for (const item of tableFields[keyInput]) {
             if (item['primaryEntity'] === key) {
                 type = keyInput
                 multiple = item['multiple'] !== undefined
@@ -121,19 +116,33 @@ const getInfos = (key) => {
     return {type: type, multiple: multiple}
 }
 
-const validation = (resp) => {
-    let theform = init(animalsFields, "primaryEntity")
+const validation = (field, resp) => {
+    let theform = init(field, "primaryEntity")
     for (const item of resp.violations) {
         theform[item['propertyPath']] = item['message']
     }
-    console.log('les errors avant le return: ', theform)
     return theform
+}
+
+const prepareTable = (table) => {
+    if (table[table.length-1] !== 's') {
+        return table + 's'
+    }
+    return table
+}
+
+const prepareId = (id) => {
+    if (id.split('/').length === 1) {
+        return 'api.animals/' + id
+    }
+    return id
 }
 
 export {makeUrl, 
         initFunction,
         init, 
-        createNewAnimal, 
         datasForRequest,
         validation,
-        contextFields,}
+        contextFields,
+        prepareTable,
+        prepareId}

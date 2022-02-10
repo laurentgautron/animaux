@@ -1,11 +1,16 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {Animal, WorldPopulation} from './datas'
-import {initFunction, makeUrl, datasForRequest, validation, init, contextFields} from './utils'
-import HelloApp from "./HelloApp";
+import {initFunction, 
+        makeUrl, 
+        datasForRequest, 
+        validation, 
+        init, 
+        contextFields,} from './utils'
+import { tableApi } from "./datas";
+import HelloApp from './HelloApp'
 
 export function Form (props) {
-    
- 
+
+    console.log('les props: ', props)
 
     const fields = contextFields(props.field)
 
@@ -20,9 +25,9 @@ export function Form (props) {
     }
     
     const [simpleResearch, toggleResearch] = props.context === 'edition' || props.context === 'creation' ? useToggle(false) : useToggle(true)
-    
+
     const [form, setForm] = useState(initFunction(props))
-    const [formErrors, setFormErrors] = useState(init(Animal, 'primaryEntity'))
+    const [formErrors, setFormErrors] = useState(init(fields, 'primaryEntity'))
     const [options, setOptions] = useState({})
     const text = submitText
     const [showList, setShowList] = useState(false)
@@ -41,7 +46,7 @@ export function Form (props) {
 
     const Select = () => {
         return ( <div>
-            {fields["select"].map( item => {
+            {fields['select'] && fields["select"].map( item => {
                 return <div key={item["primaryEntity"]}>
                         <span>{formErrors[item.primaryEntity]}</span>
                         {item["context"].includes(props.context) &&
@@ -62,18 +67,19 @@ export function Form (props) {
         </div>
         )  
     }
-
-    for (const select of fields["select"]) {
-        useEffect ( () => {
-            fetch('api/' + select["table"])
-            .then( response => response.json())
-            .then( 
-                result => {
-                    setOptions( state => ({...state, [select["primaryEntity"]]: extractDatasSelect(result["hydra:member"])}))
-                },
-                error => setError(error)
-                )
-        }, [])
+    if (fields['select']) {
+        for (const select of fields["select"]) {
+            useEffect ( () => {
+                fetch('api/' + select["table"])
+                .then( response => response.json())
+                .then( 
+                    result => {
+                        setOptions( state => ({...state, [select["primaryEntity"]]: extractDatasSelect(result["hydra:member"])}))
+                    },
+                    error => setError(error)
+                    )
+            }, [])
+        }
     }
 
     const handleChange = (ev) => {
@@ -83,9 +89,10 @@ export function Form (props) {
                 ...state, [name]: Array.from(selectedOptions, option => option.value)
             }))
         } else {
-            const { name, value }  = ev.target
+            const { name, value, type }  = ev.target
+            const newValue = type === "number" ? parseInt(value, 10) : value
             setForm( state => ({
-                ...state, [name]: value
+                ...state, [name]: newValue
             }))
         }
     }
@@ -101,12 +108,15 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
-                fetch('/api/animals', {
+                console.log('le form pour un post: ', form)
+                console.log('url pour le post: ', tableApi[props.field])
+                const url = 'api/' + tableApi[props.field]
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/ld+json'
                     },
-                    body: JSON.stringify(datasForRequest(form, 'creation'))
+                    body: JSON.stringify(datasForRequest(form, 'creation', fields, props))
                 })
                 .then (response => {
                     if (response.status === 422) {
@@ -117,6 +127,7 @@ export function Form (props) {
                     }
                 })
                 .then(resp => {
+                    console.log('la response apres body: ', resp)
                     if (resp.violations) {
                         setFormErrors(validation(fields, resp))
                     } else {
@@ -127,12 +138,14 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
-            fetch(props.animalId, {
+            console.log('je fais un patch')
+            console.log('les props pour le patch: ', props)
+            fetch(props.id, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/merge-patch+json'
                 },
-                body: JSON.stringify(datasForRequest(form, 'edition'))
+                body: JSON.stringify(datasForRequest(form, 'edition', fields, props))
             })
             .then(response => response.json())
             .then(resp => {
@@ -144,12 +157,23 @@ export function Form (props) {
         }
     }
 
+    console.log('les props: ', props)
     console.log('la form: ', form)
-    console.log('le field: ', fields)
-
     return (<div>
+        {props.field === 'animal' && props.context === 'edition' && !showList && 
+        <h1>modifier l'animal: {form.animalName}</h1>}
+        {props.field === 'worldPopulation' && props.context === 'edition' && !showList && 
+        <h1>modifier la population de l'animal: {props.animalName}</h1>}
         {!showList && <form onSubmit={handleSubmit}>
-        {fields["text"].map( item => {
+        {fields["number"] && fields["number"].map( item => {
+            return <div key={item['primaryEntity']}>
+                <span>{formErrors[item.primaryEntity]}</span>
+                {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
+                <input type="number" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
+            </label>}
+        </div>
+        })}
+        {fields['text'] && fields["text"].map( item => {
             return <div key={item['primaryEntity']}>
                 <span>{formErrors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
@@ -157,7 +181,7 @@ export function Form (props) {
             </label>}
         </div>
         })}
-        {!simpleResearch && fields["textarea"].map( item => {
+        {!simpleResearch && fields['textarea'] && fields["textarea"].map( item => {
             return <div key={item['primaryEntity']}>
                 <span>{formErrors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
@@ -169,7 +193,8 @@ export function Form (props) {
         {props.context === 'fullResearch' && buttonToogle}
         <button type="submit">{text}</button>
     </form>}
-    {showList && <HelloApp />}
+    {showList && props.field ==='worldPopulation' && <HelloApp  id={props.animalId}/>}
+    {showList && props.field ==='animal' && <HelloApp  id={props.id}/>}
     </div>)
      
 }

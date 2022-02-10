@@ -1,4 +1,10 @@
-const Animal = {
+const tableList = ['animal', 'worldPopulation']
+
+const tableApi = {animal: 'animals', worldPopulation: 'world_populations'}
+
+const needIdTable = ['worldPopulation']
+
+const animal = {
     text: [{table: 'animals', primaryEntity: "animalName", context: ['fullResearch', 'creation', 'edition']}],
     textarea: [{table: 'animals', primaryEntity: "description", context: ['creation', 'edition']}],
     select: [
@@ -9,12 +15,14 @@ const Animal = {
     array: [{table: 'worldPopulation', primaryEntity: 'worldPopulation'}]
 }
 
-const WorldPopulation = {
+const worldPopulation = {
+    number: [
+        {table: 'worldPopulation', primaryEntity: "population", context: ['creation', 'edition']},
+    ],
     text: [
-        {table: 'worldPopulation', primaryEntity: "year", finalEntity: "year", context: ['creation', 'edition']},
-        {table: 'worldPopulation', primaryEntity: "population", finalEntity: "population", context: ['creation', 'edition']},
+        {table: 'worldPopulation', primaryEntity: "year", finalEntity: "year", context: ['creation']},
     ],
 
 }
 
-export {Animal, WorldPopulation}
+export {animal, worldPopulation, tableList, tableApi, needIdTable}

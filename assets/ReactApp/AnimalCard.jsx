@@ -1,5 +1,5 @@
 import React from "react";
-import {Animal} from './datas'
+import {animal, tableList} from './datas'
 import {init} from './utils'
 import Modale from './Modale'
 import { Form } from "./Form";
@@ -11,7 +11,7 @@ class AnimalCard extends React.Component
     constructor(props) {
         super(props)
         this.state = {
-            ...init(Animal), 
+            ...init(animal), 
             visible: false,
             wantModify: false,
             wantDestruction: false, 
@@ -21,34 +21,39 @@ class AnimalCard extends React.Component
     }
 
     componentDidMount() {
+        console.log('je mon avec: ', this.props.animalId)
         fetch(this.props.animalId, {
             method: "GET",
         })
         .then( response => {if (response.ok) { return response.json() }} )
         .then( resp => {
-            console.log('la reponse du get: ', resp)
-            // pour tous les champs qui ne commencent pas par @
-            // on aura trois cas: un tableau, un objet, ou une valeur( string, numbr, ...)
+            // all fields don't begin with '@' are values that i need
+            // three case: a value (string), an array, or an object
             for (const key in resp) {
                 if (key[0] !== "@") {
-                    if (Array.isArray(resp[key])) {
-                        console.log('un tableau: ', resp[key])
+                    // treat array if key is ain tableList: datas for an other component
+                    if (Array.isArray(resp[key]) && tableList.includes(key)) {
+                        this.setState(state => ({
+                            ...state, [key]: resp[key]
+                        }))
+                    // treat array
+                    } else if (Array.isArray(resp[key])) {
                         let tab = []
                         for (const item of resp[key]) {
-                            for (const itemKey in item) {
-                                // compter le item sans @
-                                // si plus de 1
-                                    // faire une bouble sur les item sans @
-                                    // prendre le id et faire un objet du reste avec les champs
-                                // sinon faire :
-                                if (itemKey[0]!== '@') {
-                                    tab.push([item[itemKey], item["@id"]])
+                            if (item['@id'] in tableList) {
+                                // nerien faire
+                            } else {
+                                for (const itemKey in item) {
+                                    if (itemKey[0]!== '@') {
+                                        tab.push([item[itemKey], item["@id"]])
+                                    }
                                 }
                             }
                         }
                         this.setState(state => ({
                             ...state,  [key]: tab
                         }))
+                    // treat a value
                     } else if (typeof(resp[key]) === "string") {
                         this.setState(state => ({
                             ...state,  [key]: resp[key]
@@ -66,8 +71,7 @@ class AnimalCard extends React.Component
                     }
                 }
             }
-        }
-        )
+        })
     }
 
     show = () => {
@@ -92,7 +96,6 @@ class AnimalCard extends React.Component
                         wantModify: true,
                     })
                 }  else {
-                    console.log('on detruit')
                     this.setState({
                         visible: true,
                         wantDestruction: true
@@ -118,8 +121,6 @@ class AnimalCard extends React.Component
 
 
     render() {
-        console.log('la population: ', this.state.worldPopulation)
-        console.log('le state de la card: ', this.state)
         return <div>
             {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div>
                 <h1>{this.state.animalName}</h1>
@@ -139,8 +140,11 @@ class AnimalCard extends React.Component
                                                 del={this.del}/>
                                                }
             </div>}
-            {this.state.wantModify && <Form context="edition" datas={this.state} animalId={this.props.animalId} field="animalsFields"/>}
-            {this.state.showPopulation && <Population population={this.state.worldPopulation} field="animalsFields"/>}
+            {this.state.wantModify && <Form context="edition" datas={this.state} id={this.props.animalId} field="animal"/>}
+            {this.state.showPopulation && <Population population={this.state.worldPopulation} 
+                                                      field="animal" 
+                                                      animalName={this.state.animalName}
+                                                      id={this.props.animalId}/>}
             {this.state.destructionSuccess && <HelloApp />}
         </div> 
     }

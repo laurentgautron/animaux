@@ -27,18 +27,6 @@ class CardList extends React.Component
             view: rep["hydra:view"]
         })
     }
-        // fetch(url)
-        // .then( response => { 
-        //     return response.json() 
-        // })
-        // .then( resp => {
-        //     if (this.state.isMounted) {
-        //         this.setState({
-        //             animalList: resp["hydra:member"],
-        //             animalsNumber: resp["hydra:totalItems"],
-        //             view: resp["hydra:view"],
-        //         })
-        // })
 
     componentDidMount() {
         this.findAnimalList(this.state.url)

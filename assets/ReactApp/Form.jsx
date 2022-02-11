@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import {initFunction, 
         makeUrl, 
         datasForRequest, 
@@ -13,6 +13,7 @@ export function Form (props) {
     console.log('les props: ', props)
 
     const fields = contextFields(props.field)
+    console.log('les fields dans form: ', fields)
 
     const submitText = (props.context === 'edition' || props.context === 'creation') ? "enregistrer" : "rechercher"
     
@@ -67,20 +68,25 @@ export function Form (props) {
         </div>
         )  
     }
+
+    const controller = useRef(new AbortController())
     if (fields['select']) {
         for (const select of fields["select"]) {
             useEffect ( () => {
-                fetch('api/' + select["table"])
+                fetch('api/' + select["table"], {signal: controller.current.signal})
                 .then( response => response.json())
                 .then( 
                     result => {
                         setOptions( state => ({...state, [select["primaryEntity"]]: extractDatasSelect(result["hydra:member"])}))
                     },
                     error => setError(error)
-                    )
+                )
             }, [])
         }
     }
+
+    useEffect( () => () => controller.current.abort(), [])
+
 
     const handleChange = (ev) => {
         if (ev.target.multiple) {
@@ -108,8 +114,6 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
-                console.log('le form pour un post: ', form)
-                console.log('url pour le post: ', tableApi[props.field])
                 const url = 'api/' + tableApi[props.field]
                 fetch(url, {
                     method: 'POST',
@@ -127,7 +131,6 @@ export function Form (props) {
                     }
                 })
                 .then(resp => {
-                    console.log('la response apres body: ', resp)
                     if (resp.violations) {
                         setFormErrors(validation(fields, resp))
                     } else {
@@ -138,8 +141,6 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
-            console.log('je fais un patch')
-            console.log('les props pour le patch: ', props)
             fetch(props.id, {
                 method: "PATCH",
                 headers: {
@@ -157,8 +158,6 @@ export function Form (props) {
         }
     }
 
-    console.log('les props: ', props)
-    console.log('la form: ', form)
     return (<div>
         {props.field === 'animal' && props.context === 'edition' && !showList && 
         <h1>modifier l'animal: {form.animalName}</h1>}
@@ -189,7 +188,7 @@ export function Form (props) {
             </label>}
         </div>
         })}
-        {!simpleResearch && <Select />}
+        {!simpleResearch && <Select fields={fields} formErrors={formErrors} context={props.context} form={form}/>}
         {props.context === 'fullResearch' && buttonToogle}
         <button type="submit">{text}</button>
     </form>}

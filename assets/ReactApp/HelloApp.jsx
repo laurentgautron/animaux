@@ -45,8 +45,10 @@ class HelloApp extends React.Component
     }
     
     componentDidMount() {
+        console.log('je fais un hellopp avec id: ', this.props.id)
         if (this.props.id) {
             let animalId = prepareId(this.props.id)
+            console.log('le animalid genere: ', animalId)
             this.setState({
                 animalId: animalId,
                 onlyOne: true

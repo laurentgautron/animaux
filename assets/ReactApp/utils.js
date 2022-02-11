@@ -77,29 +77,27 @@ function makeUrl(form) {
 }
 
 const datasForRequest = (objectForm, context, field, props) => {
-    console.log('je fait un data request : ', props)
-    console.log
-    delete objectForm['visible']
-    delete objectForm['wantModify']
-    delete objectForm['wantDestruction']
-    delete objectForm['destructionSuccess']
-    delete objectForm['showPopulation']
+    let form = {...objectForm}
+    delete form['visible']
+    delete form['wantModify']
+    delete form['wantDestruction']
+    delete form['destructionSuccess']
+    delete form['showPopulation']
     if (context ==="creation") {
-       for (const key in objectForm) {
-           if (objectForm[key] === "") {
+       for (const key in form) {
+           if (form[key] === "") {
                const {type, multiple} = getInfos(key, field)
                 if (type === 'select' && !multiple) {
-                   objectForm[key] = null
+                   form[key] = null
                }
            }
        }
        if (needIdTable.includes(props.field)) {
            console.log(' je mets un id: ', props.id)
-           objectForm['animal'] = props.id
+           form['animal'] = props.id
        }
     }
-    console.log('le retour de datarequest: ', objectForm)
-    return objectForm
+    return form
 }
 
 const getInfos = (key, tableFields) => {
@@ -132,8 +130,8 @@ const prepareTable = (table) => {
 }
 
 const prepareId = (id) => {
-    if (id.split('/').length === 1) {
-        return 'api.animals/' + id
+    if (typeof(id) === "number") {
+        return 'api/animals/' + id
     }
     return id
 }

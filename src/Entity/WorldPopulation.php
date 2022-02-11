@@ -2,20 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\WorldPopulationRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    itemOperations: [
-        'patch' => ['denormalization_context' => ['groups' => ['edit:collection']]],
-        'delete',
-        'get'
-    ]
+    attributes: ['pagination_items_per_page' => 9],
     // denormalizationContext: ['groups' => ['write:collection']],
-    // normalizationContext: ['groups' => ['read:collection']],
+    normalizationContext: ['groups' => ['pworldPopulation:read:collection']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['animal' => 'exact'])]
 #[ORM\Entity(repositoryClass: WorldPopulationRepository::class)]
 class WorldPopulation
 {
@@ -25,15 +24,15 @@ class WorldPopulation
     private $id;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['read:collection', 'write:collection', 'edit:collection'])]
+    #[Groups(['pworldPopulation:read:collection'])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 4)]
-    #[Groups(['read:collection', 'write:collection'])]
+    #[Groups(['pworldPopulation:read:collection'])]
     private $year;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'worldPopulation')]
-    #[Groups(['write:collection'])]
+    #[Groups(['pworldPopulation:read:collection'])]
     private $animal;
 
     public function getId(): ?int

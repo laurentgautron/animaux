@@ -17,7 +17,6 @@ function init(inputFields) {
 }
 
 function initFunction (props) {
-    console.log('je fait une initFunction')
     let initForm = {}
     if (props.datas) {
         console.log('il y a des datas')

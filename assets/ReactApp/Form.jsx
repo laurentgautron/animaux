@@ -10,10 +10,8 @@ import HelloApp from './HelloApp'
 
 export function Form (props) {
 
-    console.log('les props: ', props)
 
     const fields = contextFields(props.field)
-    console.log('les fields dans form: ', fields)
 
     const submitText = (props.context === 'edition' || props.context === 'creation') ? "enregistrer" : "rechercher"
     

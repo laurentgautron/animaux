@@ -21,7 +21,6 @@ class AnimalCard extends React.Component
     }
 
     componentDidMount() {
-        console.log('je mon avec: ', this.props.animalId)
         fetch(this.props.animalId, {
             method: "GET",
         })
@@ -141,10 +140,7 @@ class AnimalCard extends React.Component
                                                }
             </div>}
             {this.state.wantModify && <Form context="edition" datas={this.state} id={this.props.animalId} field="animal"/>}
-            {this.state.showPopulation && <Population population={this.state.worldPopulation} 
-                                                      field="animal" 
-                                                      animalName={this.state.animalName}
-                                                      id={this.props.animalId}/>}
+            {this.state.showPopulation && <Population id={this.props.animalId}/>}
             {this.state.destructionSuccess && <HelloApp />}
         </div> 
     }

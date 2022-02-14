@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-// import {init} from './utils'
-
+import { Form } from "./Form";
+import { init } from "./utils";
+import { worldPopulation } from "./datas";
 
 export function Population (props) {
 
     const [animalCard, setAnimalCard] = useState(false)
     const [addYear, setAddYear] = useState(false)
     const [populationList, setPopulationList] = useState([])
+    const [edit, setEdit] = useState(false)
+    const [datas, setDatas] = useState(init(worldPopulation))
+    const [idPopulation, setIdPopulation] = useState()
 
     useEffect( () => {
         fetch('api/world_populations/?animal=' + props.id, {
@@ -22,10 +26,36 @@ export function Population (props) {
         } )
     }, [])
 
-    console.log('animalcard: ', animalCard)
-    console.log('addYear: ', addYear)
+    const onEdit = (pop) => {
+        fetch(pop["@id"], {
+            metohd: "GET",
+            headers: {
+                'Content-Type': 'application/ld+json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+        })
+        .then(resp => {
+            console.log('la response de edit: ', resp)
+            for ( const key in resp) {
+                if (datas[key] !== undefined) {
+                    setDatas(state => ({
+                        ...state, [key]: resp[key]
+                    }))
+                }
+            }
+            setEdit(true)
+            setIdPopulation(pop["@id"])
+        })
+    }
+
+    console.log('les datas de popyulation: ', datas)
+
     return (<div> 
-        {!animalCard && !addYear &&
+        {!animalCard && !addYear && !edit &&
             <div>
                 <h1>liste des populations pour l'animal: {props.animalName}</h1>
                 <button onClick={() => setAnimalCard(true)}>descrition</button>
@@ -43,12 +73,13 @@ export function Population (props) {
                     {populationList.map( p => <tr key={p["@id"]}>
                             <td>{p.year}</td>
                             <td>{p.population}</td>
-                            <td><FontAwesomeIcon icon={faTrashCan} /></td>
-                            <td><FontAwesomeIcon icon={faPencil} /></td>
+                            <td><button><FontAwesomeIcon icon={faTrashCan} /></button></td>
+                            <td><button onClick={() => onEdit(p)}><FontAwesomeIcon icon={faPencil} /></button></td>
                         </tr>)}
                     </tbody>
                 </table>
             </div>}
+            {edit && <Form context="edition" datas={datas} id={idPopulation} field="worldPopulation"/>}
         </div>)
 }
 //     const [animalCard, setAnimalCard] = useState(false)

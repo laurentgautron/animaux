@@ -19,7 +19,7 @@ function init(inputFields) {
 function initFunction (props) {
     let initForm = {}
     if (props.datas) {
-        console.log('il y a des datas')
+        console.log('il y a des datas: ', props.datas)
         for (const key in props.datas) {
             if (Array.isArray(props.datas[key])) {
                 if (Array.isArray(props.datas[key][0])) {

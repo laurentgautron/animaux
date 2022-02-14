@@ -1,34 +1,55 @@
 import React, {useEffect, useState} from "react";
-import {init} from './utils'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+// import {init} from './utils'
 
 
 export function Population (props) {
 
-    const [form, setForm] = useState(init('worldPopulation'))
+    const [animalCard, setAnimalCard] = useState(false)
+    const [addYear, setAddYear] = useState(false)
+    const [populationList, setPopulationList] = useState([])
 
-    console.log('id de animal: ', typeof(props.id))
-
-    const findlist = async () => {
-        const response = await fetch('api/world_populations/?animal=' + props.id, {
+    useEffect( () => {
+        fetch('api/world_populations/?animal=' + props.id, {
             method: "GET",
             headers: {'Content-Type' : 'application/ld+json'}
         })
-        const repJson = await response.json()
-        const liste = repJson['hydra:member']
-        return  liste
-    }
-
-    useEffect( () => {
-        console.log('la liste: ', findlist())
-        // fetch('api/world_populations/?animal=' + props.id, {
-        //     method: "GET",
-        //     headers: {'Content-Type' : 'application/ld+json'}
-        // })
-        // .then(response => response.json())
-        // .then(rep => console.log('réponse de population: ', rep))
+        .then(response => response.json())
+        .then(resp => {
+            console.log('la réponse: ', resp["hydra:member"])
+            setPopulationList(resp["hydra:member"])
+        } )
     }, [])
 
-    return <h1>Bonjour population</h1>
+    console.log('animalcard: ', animalCard)
+    console.log('addYear: ', addYear)
+    return (<div> 
+        {!animalCard && !addYear &&
+            <div>
+                <h1>liste des populations pour l'animal: {props.animalName}</h1>
+                <button onClick={() => setAnimalCard(true)}>descrition</button>
+                <button onClick={() => setAddYear(true)}>ajouter une population</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>année</th>
+                            <th>population</th>
+                            <th>suppression</th>
+                            <th>modification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {populationList.map( p => <tr key={p["@id"]}>
+                            <td>{p.year}</td>
+                            <td>{p.population}</td>
+                            <td><FontAwesomeIcon icon={faTrashCan} /></td>
+                            <td><FontAwesomeIcon icon={faPencil} /></td>
+                        </tr>)}
+                    </tbody>
+                </table>
+            </div>}
+        </div>)
 }
 //     const [animalCard, setAnimalCard] = useState(false)
 //     const [addYear, setAddYear] = useState(false)

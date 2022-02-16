@@ -2,7 +2,6 @@ import React from "react";
 import Pagination from "./Pagination";
 
 
-
 class CardList extends React.Component
 {
     constructor(props) {
@@ -19,6 +18,7 @@ class CardList extends React.Component
 
 
     findAnimalList = async (url) => {
+        console.log('je fais find: ', this.controller.signal)
         const response = await fetch(url, {signal: this.controller.signal})
         const rep = await response.json()
         this.setState({
@@ -29,6 +29,7 @@ class CardList extends React.Component
     }
 
     componentDidMount() {
+        console.log('je monte un signal: ', this.controller.signal)
         this.findAnimalList(this.state.url)
     }
 
@@ -45,7 +46,9 @@ class CardList extends React.Component
     }
 
     componentWillUnmount() {
-        this.controller.abort()
+        console.log('abort')
+        // this.controller.abort()
+        console.log('apres abort: ', this.controller.signal)
     }
 
 
@@ -68,8 +71,10 @@ class CardList extends React.Component
                     })
                 }
             </div>
-            {this.state.animalList.length !== 0 && <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/>}
-            {this.state.animalList.length === 0 && <div>pas de résultat</div>}
+            {this.state.animalList.length !== 0 ? 
+                <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/> :
+                <div>pas de résultat</div>
+            }
         </div>
     }
 }

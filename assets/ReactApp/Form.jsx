@@ -51,7 +51,6 @@ export function Form (props) {
                         {item["context"].includes(props.context) &&
                         <label htmlFor={item["table"]} key={item["table"]}>
                         {item["table"]}
-                        la valeur: {form[item.primaryEntity]}
                         <select name={item["primaryEntity"]}
                                 key={item["primaryEntity"]} 
                                 value={form[item.primaryEntity]} 
@@ -69,22 +68,20 @@ export function Form (props) {
 
     const controller = useRef(new AbortController())
     if (fields['select']) {
-        for (const select of fields["select"]) {
-            useEffect ( () => {
-                fetch('api/' + select["table"], {signal: controller.current.signal})
-                .then( response => response.json())
-                .then( 
-                    result => {
-                        setOptions( state => ({...state, [select["primaryEntity"]]: extractDatasSelect(result["hydra:member"])}))
-                    },
-                    error => setError(error)
-                )
-            }, [])
-        }
+        useEffect ( async () => {
+            let datas = {}
+            for (const select of fields["select"]) {
+                const response = await fetch(
+                    'api/' + select["table"], {signal: controller.current.signal}
+                    ).then(rep => rep.json())
+                datas[select["primaryEntity"]] =  extractDatasSelect(response["hydra:member"])
+                console.log('les datas: ', datas)
+            }
+            setOptions(datas)
+        }, [])
     }
 
-    useEffect( () => () => controller.current.abort(), [])
-
+    useEffect(() => () => controller.current.abort(), [])
 
     const handleChange = (ev) => {
         if (ev.target.multiple) {
@@ -150,11 +147,14 @@ export function Form (props) {
             .then(resp => {
                 if (resp.violations) {
                     console.log(resp.violations)
+                } else {
+                    setShowList(l=> !l)
                 }
-                setShowList(a=> !a)
             })
         }
     }
+
+    console.log('le abort de form: ', controller.current.abort())
 
     return (<div>
         {props.field === 'animal' && props.context === 'edition' && !showList && 
@@ -186,7 +186,7 @@ export function Form (props) {
             </label>}
         </div>
         })}
-        {!simpleResearch && <Select fields={fields} formErrors={formErrors} context={props.context} form={form}/>}
+        {!simpleResearch && <Select />}
         {props.context === 'fullResearch' && buttonToogle}
         <button type="submit">{text}</button>
     </form>}

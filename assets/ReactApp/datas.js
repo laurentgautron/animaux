@@ -5,7 +5,7 @@ const tableApi = {animal: 'animals', worldPopulation: 'world_populations'}
 const needIdTable = ['worldPopulation']
 
 const animal = {
-    text: [{table: 'animals', primaryEntity: "animalName", context: ['fullResearch', 'creation', 'edition']}],
+    text: [{table: 'animals', primaryEntity: "animalName", context: ['simpleResearch', 'fullResearch', 'creation', 'edition']}],
     textarea: [{table: 'animals', primaryEntity: "description", context: ['creation', 'edition']}],
     select: [
         {table: 'diets', primaryEntity: 'diet', context: ['fullResearch', 'creation', 'edition']},

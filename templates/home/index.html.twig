@@ -1,9 +1,5 @@
 {% extends 'layouts/base.html.twig' %}
 
 {% block body %}
-    {% if id is defined %}
-        <div id="root" data-id="{{id}}"></div>
-    {% else %}
-        <div id="root"></div>
-    {% endif %}
+    <div id="root" data-id="{{id}}"></div>
 {% endblock %}

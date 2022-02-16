@@ -14,7 +14,6 @@ class HelloApp extends React.Component
             detail: false,
             justName: true,
             url: "api/animals?",
-            addAnimal: false
         }
     }
 
@@ -45,10 +44,10 @@ class HelloApp extends React.Component
     }
     
     componentDidMount() {
-        console.log('je fais un hellopp avec id: ', this.props.id)
+        console.log('je monte le hellapp')
         if (this.props.id) {
+            console.log('un id dans helloapp: ', this.props.id)
             let animalId = prepareId(this.props.id)
-            console.log('le animalid genere: ', animalId)
             this.setState({
                 animalId: animalId,
                 onlyOne: true

@@ -20,9 +20,11 @@ import HelloApp from './ReactApp/HelloApp'
 if (document.getElementById("root")) {
     const id = parseInt(document.getElementById('root').dataset.id, 10)
     if (id === 0) {
+        console.log('pas id: ', id)
         ReactDOM.render(<HelloApp />, document.getElementById("root"))
         
     } else {
+        console.log('un id: ', id)
         ReactDOM.render(<HelloApp  id={id}/>, document.getElementById("root"))
     }
 }

@@ -15,16 +15,6 @@ export function Form (props) {
 
     const submitText = (props.context === 'edition' || props.context === 'creation') ? "enregistrer" : "rechercher"
     
-    const useToggle = (initialValue) => {
-        const [value, setValue] = useState(initialValue)
-        const toggle = useCallback( () => {
-            setValue( v => !v)
-        }, [])
-        return [value, toggle]
-    }
-    
-    const [simpleResearch, toggleResearch] = props.context === 'edition' || props.context === 'creation' ? useToggle(false) : useToggle(true)
-
     const [form, setForm] = useState(initFunction(props))
     const [formErrors, setFormErrors] = useState(init(fields, 'primaryEntity'))
     const [options, setOptions] = useState({})
@@ -98,13 +88,12 @@ export function Form (props) {
         }
     }
 
-    const buttonToogle = !simpleResearch ? 
-                        <button onClick={toggleResearch}>simple recherche</button> : 
-                        <button onClick={toggleResearch}>recherche détaillée</button>
-
     const handleSubmit = (ev) => {
         ev.preventDefault()
-        if (props.context === "fullResearch") {
+        if (props.context === "fullResearch" || props.context === 'simpleResearch') {
+            console.log('je lance une fabrication url')
+            console.log('avec un form: ', form)
+            console.log('et un make url: ', makeUrl(form))
             //make an url and pass url in HelloApp
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
@@ -154,9 +143,10 @@ export function Form (props) {
         }
     }
 
-    console.log('le abort de form: ', controller.current.abort())
+    console.log('les props: ', props)
 
     return (<div>
+        {/* faire un composant formTitle  */}
         {props.field === 'animal' && props.context === 'edition' && !showList && 
         <h1>modifier l'animal: {form.animalName}</h1>}
         {props.field === 'worldPopulation' && props.context === 'edition' && !showList && 
@@ -171,14 +161,16 @@ export function Form (props) {
         </div>
         })}
         {fields['text'] && fields["text"].map( item => {
-            return <div key={item['primaryEntity']}>
-                <span>{formErrors[item.primaryEntity]}</span>
-                {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
-                <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
-            </label>}
-        </div>
+            if ( item['context'].includes(props.context)) {
+                return <div key={item['primaryEntity']}>
+                    <span>{formErrors[item.primaryEntity]}</span>
+                    <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
+                    <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
+                </label>
+            </div>
+            }
         })}
-        {!simpleResearch && fields['textarea'] && fields["textarea"].map( item => {
+        {fields['textarea'] && fields["textarea"].map( item => {
             return <div key={item['primaryEntity']}>
                 <span>{formErrors[item.primaryEntity]}</span>
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
@@ -186,8 +178,8 @@ export function Form (props) {
             </label>}
         </div>
         })}
-        {!simpleResearch && <Select />}
-        {props.context === 'fullResearch' && buttonToogle}
+        <Select />
+        {/* {props.context === 'fullResearch' && buttonToogle} */}
         <button type="submit">{text}</button>
     </form>}
     {showList && props.field ==='worldPopulation' && <HelloApp  id={props.animalId}/>}

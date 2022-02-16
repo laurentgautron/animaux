@@ -137,7 +137,7 @@ class AnimalCard extends React.Component
             </div>}
             {this.state.wantModify && <Form context="edition" datas={this.state} id={this.props.animalId} field="animal"/>}
             {this.state.showPopulation && <Population id={this.props.animalId} animalName={this.state.animalName}/>}
-            {/* {this.state.destructionSuccess && <HelloApp />} */}
+            {this.state.destructionSuccess && <HelloApp />}
         </div> 
     }
 }

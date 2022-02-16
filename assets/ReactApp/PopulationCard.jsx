@@ -27,6 +27,7 @@ export function Population (props) {
     }, [])
 
     const onEdit = (pop) => {
+        console.log('je fetch avec id: ', pop["@id"])
         fetch(pop["@id"], {
             metohd: "GET",
             headers: {
@@ -53,6 +54,7 @@ export function Population (props) {
     }
 
     console.log('les datas de popyulation: ', datas)
+    console.log('le id de population: ', idPopulation)
 
     return (<div> 
         {!animalCard && !addYear && !edit &&
@@ -79,7 +81,7 @@ export function Population (props) {
                     </tbody>
                 </table>
             </div>}
-            {edit && <Form context="edition" datas={datas} id={idPopulation} field="worldPopulation"/>}
+            {edit && <Form context="edition" datas={datas} id={idPopulation} animalId={props.id} field="worldPopulation"/>}
         </div>)
 }
 //     const [animalCard, setAnimalCard] = useState(false)

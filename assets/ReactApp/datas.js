@@ -6,7 +6,7 @@ const needIdTable = ['worldPopulation']
 
 const animal = {
     text: [{table: 'animals', primaryEntity: "animalName", context: ['simpleResearch', 'fullResearch', 'creation', 'edition']}],
-    textarea: [{table: 'animals', primaryEntity: "description", context: ['creation', 'edition']}],
+    textarea: [{table: 'animals', primaryEntity: "description", context: ['fullResearch', 'creation', 'edition']}],
     select: [
         {table: 'diets', primaryEntity: 'diet', context: ['fullResearch', 'creation', 'edition']},
         {table: 'species', primaryEntity: 'species', context: ['fullResearch', 'creation', 'edition']},

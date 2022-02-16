@@ -18,7 +18,7 @@ class CardList extends React.Component
 
 
     findAnimalList = async (url) => {
-        console.log('je fais find: ', this.controller.signal)
+        console.log('je fais find: ', url)
         const response = await fetch(url, {signal: this.controller.signal})
         const rep = await response.json()
         this.setState({
@@ -29,14 +29,19 @@ class CardList extends React.Component
     }
 
     componentDidMount() {
-        console.log('je monte un signal: ', this.controller.signal)
-        this.findAnimalList(this.state.url)
+        console.log(' je monte le cardlist avec: ', this.props.url)
+        this.findAnimalList(this.props.url)
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('les props avant dans cardlist: ', prevProps.url)
+        console.log('les props après dans cardlist: ', this.props.url)
+        console.log('je suis dans le update')
         if (prevState.url !== this.state.url) {
+            console.log('le change url dans cardlist et fait larecherche animal:', this.state.url)
             this.findAnimalList(this.state.url)
         } else if (prevProps.url !== this.props.url) {
+            console.log('les props qui changent: ', this.props.url)
             this.setState( state => ({
                 key: state.key + 1,
                 animalList: []
@@ -59,6 +64,7 @@ class CardList extends React.Component
     }
 
     render() {
+        console.log('les props de cardList: ', this.props)
         return <div>
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {

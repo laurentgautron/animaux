@@ -73,6 +73,10 @@ export function Population (props) {
         setEdit(e => !e)
     }
 
+    const handleAddYear = () => {
+        setAddYear(y => !y)
+    }
+
     console.log('le props edit: ', props)
 
     return (<div> 
@@ -107,7 +111,11 @@ export function Population (props) {
                         animalId={props.id} 
                         field="worldPopulation" 
                         onEdit={handleEdit}/>}
-            {addYear && <Form context="creation" id={props.id} field="worldPopulation"/>}
+            {addYear && <Form 
+                        context="creation"
+                         id={props.id} 
+                         field="worldPopulation"
+                         onAdd={handleAddYear}/>}
         </div>)
 }
 //     const [animalCard, setAnimalCard] = useState(false)

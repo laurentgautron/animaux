@@ -113,7 +113,7 @@ export function Form (props) {
                     if (resp.violations) {
                         setFormErrors(validation(fields, resp))
                     } else {
-                        setShowList(l => !l)
+                        props.onAdd()
                     }
                 })
             } catch(error) {
@@ -177,8 +177,8 @@ export function Form (props) {
         <Select />
         <button type="submit">{text}</button>
     </form>}
-    {showList && props.field ==='worldPopulation' && <HelloApp  animalKey="10" id={props.animalId}/>}
-    {showList && props.field ==='animal' && <HelloApp  animalkey="10" id={props.id}/>}
+    {/* {showList && props.field ==='worldPopulation' && <HelloApp  animalKey="10" id={props.animalId}/>}
+    {showList && props.field ==='animal' && <HelloApp  animalkey="10" id={props.id}/>} */}
     </div>)
      
 }

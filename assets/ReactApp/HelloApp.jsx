@@ -15,7 +15,8 @@ class HelloApp extends React.Component
             justName: true,
             url: "api/animals?",
             fullResearch: false,
-            keyForm: 1
+            keyForm: 1,
+            addAnimal: false
         }
     }
 
@@ -45,6 +46,12 @@ class HelloApp extends React.Component
             fullResearch: !state.fullResearch
         }))
     }
+
+    handleAddAnimal = () => {
+        this.setState({
+            addAnimal: false
+        })
+    }
     
     componentDidMount() {
         if (this.props.id) {
@@ -72,7 +79,7 @@ class HelloApp extends React.Component
                     <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
                     <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url} />
                 </div>}
-                {this.state.addAnimal && <Form context="creation" field="animal"/>}
+                {this.state.addAnimal && <Form context="creation" field="animal" onAdd={this.handleAddAnimal}/>}
             </div>
     }
 }

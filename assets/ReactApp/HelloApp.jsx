@@ -27,7 +27,6 @@ class HelloApp extends React.Component
     }
 
     handleResult = (url) => {
-        console.log('je fait un changement url: ', url)
         this.setState({
             url: url,
             fullResearch: false
@@ -48,9 +47,7 @@ class HelloApp extends React.Component
     }
     
     componentDidMount() {
-        console.log('je monte le hellapp')
         if (this.props.id) {
-            console.log('un id dans helloapp: ', this.props.id)
             let animalId = prepareId(this.props.id)
             this.setState({
                 animalId: animalId,
@@ -60,7 +57,6 @@ class HelloApp extends React.Component
     }
 
     render() {
-        console.log('url de hellloapp: ', this.state.url)
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
         return <div>
                 {!this.state.onlyOne && !this.state.addAnimal &&
@@ -71,7 +67,7 @@ class HelloApp extends React.Component
                         <Form key={this.state.keyForm} context="simpleResearch" onResult={this.handleResult} field="animal" />
                     }
                 </div>}
-                {this.state.onlyOne && !this.state.addAnimal && <AnimalCard  animalId={this.state.animalId}/>}
+                {this.state.onlyOne && !this.state.addAnimal && <AnimalCard  key={this.props.animalKey} animalId={this.state.animalId}/>}
                 {!this.state.onlyOne && !this.state.addAnimal && !this.state.fullResearch && <div>
                     <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
                     <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url} />

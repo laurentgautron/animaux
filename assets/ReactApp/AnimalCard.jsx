@@ -58,7 +58,8 @@ class AnimalCard extends React.Component
                             ...state,  [key]: resp[key]
                         }))
                     // else it's an object
-                    } else {
+                    } 
+                    else {
                        for (const objectKey in resp[key]) {
                            const id =  resp[key]["@id"]
                            if (objectKey[0] !== '@') { 
@@ -114,8 +115,21 @@ class AnimalCard extends React.Component
         })
     }
 
+    handleChange = (form) => {
+        this.setState({
+            wantModify: false
+        })
+        // console.log('je tente de form: ', form)
+        // for (const key in form) {
+        //     this.setState({
+        //         [key]: form[key]
+        //     })
+        // }
+    }
+
 
     render() {
+        console.log('rendu de animalCard')
         return <div>
             {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div>
                 <h1>{this.state.animalName}</h1>
@@ -135,7 +149,7 @@ class AnimalCard extends React.Component
                                                 del={this.del}/>
                                                }
             </div>}
-            {this.state.wantModify && <Form context="edition" datas={this.state} id={this.props.animalId} field="animal"/>}
+            {this.state.wantModify && <Form context="edition" datas={this.state} id={this.props.animalId} field="animal" onChange={this.handleChange}/>}
             {this.state.showPopulation && <Population id={this.props.animalId} animalName={this.state.animalName}/>}
             {this.state.destructionSuccess && <HelloApp />}
         </div> 

@@ -4,8 +4,14 @@ import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Form } from "./Form";
 import { init } from "./utils";
 import { worldPopulation } from "./datas";
+import Pagination from "./Pagination";
 
 export function Population (props) {
+
+    const makeNumber = (value) => {
+        let urlTab = value.split('/')
+        return urlTab[urlTab.length - 1]
+    }
 
     const [animalCard, setAnimalCard] = useState(false)
     const [addYear, setAddYear] = useState(false)
@@ -13,18 +19,28 @@ export function Population (props) {
     const [edit, setEdit] = useState(false)
     const [datas, setDatas] = useState(init(worldPopulation))
     const [idPopulation, setIdPopulation] = useState()
+    const [url, setUrl] = useState('api/world_populations/?animal=' + makeNumber(props.id))
+    const [view, setView] = useState()
+    const [key, setKey] = useState(1)
 
     useEffect( () => {
-        fetch('api/world_populations/?animal=' + props.id, {
+        console.log(' la page url: ', url)
+        fetch(url, {
             method: "GET",
             headers: {'Content-Type' : 'application/ld+json'}
         })
         .then(response => response.json())
         .then(resp => {
-            console.log('la réponse: ', resp["hydra:member"])
+            console.log('la réponse: ', resp)
             setPopulationList(resp["hydra:member"])
+            setView(resp["hydra:view"])
         } )
-    }, [])
+    }, [url])
+
+    const handlePage = (activePage) => {
+        console.log('activePage: ', activePage)
+        setUrl(activePage)
+    }
 
     const onEdit = (pop) => {
         console.log('je fetch avec id: ', pop["@id"])
@@ -53,8 +69,7 @@ export function Population (props) {
         })
     }
 
-    console.log('les datas de popyulation: ', datas)
-    console.log('le id de population: ', idPopulation)
+    console.log('la view de population: ', view)
 
     return (<div> 
         {!animalCard && !addYear && !edit &&
@@ -80,8 +95,10 @@ export function Population (props) {
                         </tr>)}
                     </tbody>
                 </table>
+                <Pagination view={view} onPage={handlePage} key={key} />
             </div>}
             {edit && <Form context="edition" datas={datas} id={idPopulation} animalId={props.id} field="worldPopulation"/>}
+            {addYear && <Form context="creation" id={props.id} field="worldPopulation"/>}
         </div>)
 }
 //     const [animalCard, setAnimalCard] = useState(false)

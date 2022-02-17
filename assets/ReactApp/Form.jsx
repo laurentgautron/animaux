@@ -56,22 +56,17 @@ export function Form (props) {
         )  
     }
 
-    const controller = useRef(new AbortController())
     if (fields['select']) {
         useEffect ( async () => {
             let datas = {}
             for (const select of fields["select"]) {
-                const response = await fetch(
-                    'api/' + select["table"], {signal: controller.current.signal}
-                    ).then(rep => rep.json())
+                const response = await fetch('api/' + select["table"]).then(rep => rep.json())
                 datas[select["primaryEntity"]] =  extractDatasSelect(response["hydra:member"])
                 console.log('les datas: ', datas)
             }
             setOptions(datas)
         }, [])
     }
-
-    useEffect(() => () => controller.current.abort(), [])
 
     const handleChange = (ev) => {
         if (ev.target.multiple) {
@@ -126,9 +121,9 @@ export function Form (props) {
             }
         } else {
             fetch(props.id, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
-                    'Content-Type': 'application/merge-patch+json'
+                    'Content-Type': 'application/ld+json'
                 },
                 body: JSON.stringify(datasForRequest(form, 'edition', fields, props))
             })
@@ -137,13 +132,16 @@ export function Form (props) {
                 if (resp.violations) {
                     console.log(resp.violations)
                 } else {
-                    setShowList(l=> !l)
+                    props.onChange(form)
+                    // setShowList(l=> !l)
                 }
             })
         }
     }
 
+    console.log('les options: ', options)
     console.log('les props: ', props)
+    console.log('les fields: ', fields)
 
     return (<div>
         {/* faire un composant formTitle  */}
@@ -179,11 +177,10 @@ export function Form (props) {
         </div>
         })}
         <Select />
-        {/* {props.context === 'fullResearch' && buttonToogle} */}
         <button type="submit">{text}</button>
     </form>}
-    {showList && props.field ==='worldPopulation' && <HelloApp  id={props.animalId}/>}
-    {showList && props.field ==='animal' && <HelloApp  id={props.id}/>}
+    {showList && props.field ==='worldPopulation' && <HelloApp  animalKey="10" id={props.animalId}/>}
+    {showList && props.field ==='animal' && <HelloApp  animalkey="10" id={props.id}/>}
     </div>)
      
 }

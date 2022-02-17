@@ -10,25 +10,31 @@ export default function Pagination(props) {
     }
     
     const [page, setPage] = useState(1)
-    let last = getNumber(props.view["hydra:last"])
-    let first = getNumber(props.view["hydra:first"])
+    let [last, first] = ['','']
+    if (props.view !== undefined) {
+        last = getNumber(props.view["hydra:last"])
+        first = getNumber(props.view["hydra:first"])
+        console.log('le last du if; ', last)
+    }
 
     const makeUrl = (page) => {
         if (props.view["hydra:last"])  {
+            console.log('le last: ', props.view["hydra:last"])
             let urlTab = props.view["@id"].split("=")
             urlTab[urlTab.length - 1] = page
+            console.log('la page: ', urlTab.join('='))
             return urlTab.join("=")
         }
     }
     
     useEffect ( () => {
-        if (props.view["hydra:last"]) {
+        if (props.view !== undefined && props.view["hydra:last"]) {
             props.onPage(makeUrl(page))
         }
     }, [page])
     
     return ( <div className="d-flex ms-4">
-        {props.view["hydra:last"] &&
+        {props.view !== undefined && props.view["hydra:last"] &&
             <nav>
                 <ul className="animalsPagination  d-flex flex-column flex-sm-row text-center list-unstyled ms-4">
                 {(first !== undefined && first !== page) && <a href="#beginning"><li onClick={ () => setPage(page - 1)}>Précédent</li></a>}

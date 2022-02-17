@@ -46,6 +46,7 @@ function initFunction (props) {
                 break
         }
     }
+    console.log('le initForm de initfunction: ', initForm)
     return initForm
 }
 
@@ -95,7 +96,7 @@ const datasForRequest = (objectForm, context, field, props) => {
            console.log(' je mets un id: ', props.id)
            form['animal'] = props.id
        }
-    }
+    } 
     return form
 }
 

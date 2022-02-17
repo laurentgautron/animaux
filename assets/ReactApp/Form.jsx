@@ -132,19 +132,17 @@ export function Form (props) {
                 if (resp.violations) {
                     console.log(resp.violations)
                 } else {
-                    props.onChange(form)
+                    props.onEdit()
                     // setShowList(l=> !l)
                 }
             })
         }
     }
 
-    console.log('les options: ', options)
-    console.log('les props: ', props)
-    console.log('les fields: ', fields)
+    console.log('le edit dans form: ', props)
 
     return (<div>
-        {/* faire un composant formTitle  */}
+        {/* faire un composant formTitle  en mettant un enfant ...*/}
         {props.field === 'animal' && props.context === 'edition' && !showList && 
         <h1>modifier l'animal: {form.animalName}</h1>}
         {props.field === 'worldPopulation' && props.context === 'edition' && !showList && 
@@ -152,7 +150,7 @@ export function Form (props) {
         {!showList && <form onSubmit={handleSubmit}>
         {fields["number"] && fields["number"].map( item => {
             return <div key={item['primaryEntity']}>
-                <span>{formErrors[item.primaryEntity]}</span>
+                {formErrors[item.primaryEntity] === 0 ? <span></span>: <span>{formErrors[item.primaryEntity]}</span>}
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
                 <input type="number" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </label>}
@@ -164,8 +162,8 @@ export function Form (props) {
                     <span>{formErrors[item.primaryEntity]}</span>
                     <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
                     <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
-                </label>
-            </div>
+                    </label>
+                </div>
             }
         })}
         {fields['textarea'] && fields["textarea"].map( item => {

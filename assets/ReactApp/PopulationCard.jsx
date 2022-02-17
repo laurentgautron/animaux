@@ -42,7 +42,7 @@ export function Population (props) {
         setUrl(activePage)
     }
 
-    const onEdit = (pop) => {
+    const onModify = (pop) => {
         console.log('je fetch avec id: ', pop["@id"])
         fetch(pop["@id"], {
             metohd: "GET",
@@ -69,13 +69,17 @@ export function Population (props) {
         })
     }
 
-    console.log('la view de population: ', view)
+    const handleEdit = () => {
+        setEdit(e => !e)
+    }
+
+    console.log('le props edit: ', props)
 
     return (<div> 
         {!animalCard && !addYear && !edit &&
             <div>
                 <h1>liste des populations pour l'animal: {props.animalName}</h1>
-                <button onClick={() => setAnimalCard(true)}>descrition</button>
+                <button onClick={() => props.onDescription()}>description</button>
                 <button onClick={() => setAddYear(true)}>ajouter une population</button>
                 <table>
                     <thead>
@@ -91,13 +95,18 @@ export function Population (props) {
                             <td>{p.year}</td>
                             <td>{p.population}</td>
                             <td><button><FontAwesomeIcon icon={faTrashCan} /></button></td>
-                            <td><button onClick={() => onEdit(p)}><FontAwesomeIcon icon={faPencil} /></button></td>
+                            <td><button onClick={() => onModify(p)}><FontAwesomeIcon icon={faPencil} /></button></td>
                         </tr>)}
                     </tbody>
                 </table>
                 <Pagination view={view} onPage={handlePage} key={key} />
             </div>}
-            {edit && <Form context="edition" datas={datas} id={idPopulation} animalId={props.id} field="worldPopulation"/>}
+            {edit && <Form 
+                        context="edition" 
+                        datas={datas} id={idPopulation} 
+                        animalId={props.id} 
+                        field="worldPopulation" 
+                        onEdit={handleEdit}/>}
             {addYear && <Form context="creation" id={props.id} field="worldPopulation"/>}
         </div>)
 }

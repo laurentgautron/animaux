@@ -16,26 +16,13 @@ import './bootstrap';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import HelloApp from './ReactApp/HelloApp'
-import AnimalCard from './ReactApp/AnimalCard';
 
 if (document.getElementById("root")) {
     const id = parseInt(document.getElementById('root').dataset.id, 10)
-    if (id === 0) {
-        console.log('pas id: ', id)
-        ReactDOM.render(
-            <React.StrictMode>
-                <HelloApp />
-            </React.StrictMode>, 
-        document.getElementById("root"))
-        
-    } else {
-        console.log('un id: ', id)
-        let idCard = 'api/animals/' + id
-        ReactDOM.render(
-            <React.StrictMode>
-                <AnimalCard  animalId={idCard}/>
-            </React.StrictMode>, 
-            document.getElementById("root"))
-    }
+    ReactDOM.render(
+        <React.StrictMode>
+            <HelloApp id={id}/>
+        </React.StrictMode>, 
+    document.getElementById("root"))
 }
 

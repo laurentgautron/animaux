@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useCallback, useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {initFunction, 
         makeUrl, 
         datasForRequest, 
         validation, 
         init, 
-        contextFields,} from './utils'
+        contextFields,
+        prepareIdApi} from './utils'
 import { tableApi } from "./datas";
-import HelloApp from './HelloApp'
 
 export function Form (props) {
 
@@ -56,17 +56,22 @@ export function Form (props) {
         )  
     }
 
+
+    const controller = useRef(new AbortController())
     if (fields['select']) {
         useEffect ( async () => {
             let datas = {}
             for (const select of fields["select"]) {
-                const response = await fetch('api/' + select["table"]).then(rep => rep.json())
+                const response = await fetch('api/' + select["table"],
+                {signal: controller.current.signal}
+                ).then(rep => rep.json())
                 datas[select["primaryEntity"]] =  extractDatasSelect(response["hydra:member"])
-                console.log('les datas: ', datas)
             }
             setOptions(datas)
         }, [])
     }
+
+    useEffect ( () => () => controller.current.abort())
 
     const handleChange = (ev) => {
         if (ev.target.multiple) {
@@ -86,9 +91,6 @@ export function Form (props) {
     const handleSubmit = (ev) => {
         ev.preventDefault()
         if (props.context === "fullResearch" || props.context === 'simpleResearch') {
-            console.log('je lance une fabrication url')
-            console.log('avec un form: ', form)
-            console.log('et un make url: ', makeUrl(form))
             //make an url and pass url in HelloApp
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
@@ -120,10 +122,10 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
-            fetch(props.id, {
-                method: "PUT",
+            fetch(prepareIdApi(tableApi[props.field], props.id), {
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/ld+json'
+                    'Content-Type': 'application/merge-patch+json'
                 },
                 body: JSON.stringify(datasForRequest(form, 'edition', fields, props))
             })
@@ -132,22 +134,22 @@ export function Form (props) {
                 if (resp.violations) {
                     console.log(resp.violations)
                 } else {
-                    props.onEdit()
+                    console.log('jai fait le patch')
+                    props.onEdit(props.id)
                     // setShowList(l=> !l)
                 }
             })
         }
     }
 
-    console.log('le edit dans form: ', props)
-
+    console.log('la form du formulaire: ', props)
     return (<div>
         {/* faire un composant formTitle  en mettant un enfant ...*/}
         {props.field === 'animal' && props.context === 'edition' && !showList && 
         <h1>modifier l'animal: {form.animalName}</h1>}
         {props.field === 'worldPopulation' && props.context === 'edition' && !showList && 
         <h1>modifier la population de l'animal: {props.animalName}</h1>}
-        {!showList && <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
         {fields["number"] && fields["number"].map( item => {
             return <div key={item['primaryEntity']}>
                 {formErrors[item.primaryEntity] === 0 ? <span></span>: <span>{formErrors[item.primaryEntity]}</span>}
@@ -176,9 +178,7 @@ export function Form (props) {
         })}
         <Select />
         <button type="submit">{text}</button>
-    </form>}
-    {/* {showList && props.field ==='worldPopulation' && <HelloApp  animalKey="10" id={props.animalId}/>}
-    {showList && props.field ==='animal' && <HelloApp  animalkey="10" id={props.id}/>} */}
+    </form>
     </div>)
      
 }

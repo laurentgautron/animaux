@@ -9,22 +9,11 @@ class HelloApp extends React.Component
     constructor(props) {
         super(props)
         this.state = {
-            onlyOne: false,
-            animalId: null,
-            detail: false,
-            justName: true,
+            id: props.id,
             url: "api/animals?",
             fullResearch: false,
-            keyForm: 1,
             addAnimal: false
         }
-    }
-
-    handleOneAnimal = (value, animalId) => {
-        this.setState({
-            onlyOne: value,
-            animalId: animalId,
-        })
     }
 
     handleResult = (url) => {
@@ -52,33 +41,38 @@ class HelloApp extends React.Component
             addAnimal: false
         })
     }
-    
-    componentDidMount() {
-        if (this.props.id) {
-            let animalId = prepareId(this.props.id)
+
+    handleChangeId = (id) => {
+        console.log('je change le id dans helloapp')
+        if (id === this.state.id) {
+            console.log( 'le même id')
             this.setState({
-                animalId: animalId,
-                onlyOne: true
+                id: 0
             })
         }
+        this.setState({
+            id: id
+        })
     }
 
     render() {
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
         return <div>
-                {!this.state.onlyOne && !this.state.addAnimal &&
-                <div>
-                    <button className="btn btn-primary" onClick={this.toggleResearch}>{buttonResearchText}</button>
-                    {this.state.fullResearch ? 
-                        <Form key={this.state.keyForm} context="fullResearch" onResult={this.handleResult} field="animal" />:
-                        <Form key={this.state.keyForm} context="simpleResearch" onResult={this.handleResult} field="animal" />
-                    }
-                </div>}
-                {this.state.onlyOne && !this.state.addAnimal && <AnimalCard  key={this.props.animalKey} animalId={this.state.animalId}/>}
-                {!this.state.onlyOne && !this.state.addAnimal && !this.state.fullResearch && <div>
-                    <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
-                    <CardList wantOneAnimal={this.handleOneAnimal} url={this.state.url} />
-                </div>}
+                {this.state.id !== 0 ?
+                    <AnimalCard animalId={this.state.id} changeId={this.handleChangeId}/>
+                    : <>
+                        {!this.state.addAnimal && <div>
+
+                            <button className="btn btn-primary" onClick={this.toggleResearch}>{buttonResearchText}</button>
+                            {this.state.fullResearch ? 
+                                <Form context="fullResearch" onResult={this.handleResult} field="animal" />:
+                                <Form context="simpleResearch" onResult={this.handleResult} field="animal" />
+                            }
+                            <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
+                            <CardList url={this.state.url} changeId={this.handleChangeId}/>
+                        </div>}
+                    </>
+                }
                 {this.state.addAnimal && <Form context="creation" field="animal" onAdd={this.handleAddAnimal}/>}
             </div>
     }

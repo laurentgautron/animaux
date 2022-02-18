@@ -1,15 +1,16 @@
 import React from 'react'
 
 
-const Modale = ({hide, visible, animalId, context, del}) => {
+const Modale = ({hide, visible, animalId, context, del, changeId}) => {
 
     const handleClick = () => {
         hide()
         del()
+        changeId(0)
     }
 
-    const idTab = animalId.split('/')
-    const url = '/login/' + idTab[idTab.length - 1]
+    // const idTab = animalId.split('/')
+    const url = '/login/' + animalId
 
     return (visible && <div className='bg-warning'>
         {context === "change" && <div>

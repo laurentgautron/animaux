@@ -1,6 +1,6 @@
 import React from "react";
 import {animal, tableList} from './datas'
-import {init} from './utils'
+import {init, prepareIdApi} from './utils'
 import Modale from './Modale'
 import { Form } from "./Form";
 import HelloApp from "./HelloApp";
@@ -15,13 +15,14 @@ class AnimalCard extends React.Component
             visible: false,
             wantModify: false,
             wantDestruction: false, 
-            destructionSuccess: false,
-            showPopulation: false
+            showPopulation: false,
+            key: 1
         }
     }
 
-    componentDidMount() {
-        fetch(this.props.animalId, {
+    getAnimal = () => {
+        let form = {}
+        fetch('api/animals/' + this.props.animalId, {
             method: "GET",
         })
         .then( response => {if (response.ok) { return response.json() }} )
@@ -32,9 +33,7 @@ class AnimalCard extends React.Component
                 if (key[0] !== "@") {
                     // treat array if key is ain tableList: datas for an other component
                     if (Array.isArray(resp[key]) && tableList.includes(key)) {
-                        this.setState(state => ({
-                            ...state, [key]: resp[key]
-                        }))
+                        form[key] = resp[key]
                     // treat array
                     } else if (Array.isArray(resp[key])) {
                         let tab = []
@@ -49,29 +48,35 @@ class AnimalCard extends React.Component
                                 }
                             }
                         }
-                        this.setState(state => ({
-                            ...state,  [key]: tab
-                        }))
+                        form[key] = tab
                     // treat a value
                     } else if (typeof(resp[key]) === "string") {
-                        this.setState(state => ({
-                            ...state,  [key]: resp[key]
-                        }))
+                        form[key] = resp[key]
                     // else it's an object
                     } 
                     else {
                        for (const objectKey in resp[key]) {
                            const id =  resp[key]["@id"]
                            if (objectKey[0] !== '@') { 
-                                this.setState(state => ({
-                                    ...state,  [key]: [resp[key][objectKey], id]
-                                }))
+                               form[key] = [resp[key][objectKey], id]
                            }
                        }
                     }
                 }
             }
+            return form
+        }).then( form => {
+            for (const key in form) {
+                this.setState({
+                    [key]: form[key]
+                })
+            }
         })
+    }
+
+    componentDidMount() {
+        console.log('je monte')
+        this.getAnimal()
     }
 
     hide = () => {
@@ -86,6 +91,7 @@ class AnimalCard extends React.Component
         .then( resp =>{
             if (resp) {
                 if (ev.target.textContent === 'modifier') {
+                    console.log('on modifie')
                     this.setState({
                         wantModify: true,
                     })
@@ -104,31 +110,33 @@ class AnimalCard extends React.Component
     }
 
     del = () => {
-        fetch(this.props.animalId, {
+        fetch(prepareIdApi('animals', this.props.animalId), {
             method: "DELETE"
         }).then( response => {
             if (response.ok) {
-                this.setState({
-                    destructionSuccess: true
-                })
+                console.log('détruit')
             }
         })
     }
 
-    handleEdit = () => {
-        this.setState({
-            wantModify: false
-        })
+    changeId = (id) => {
+        console.log('je change le id dans animalCard')
+        this.props.changeId(id)
+    }
+
+    changeKey = () => {
+        this.setState(state =>({
+            key: state.key + 1
+        }))
     }
 
     render() {
-        console.log('le modify: ', this.state.wantModify)
         return <div>
             {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div>
-                <h1>{this.state.animalName}</h1>
                 <button type="button" className="btn btn-primary" onClick={this.onClick}>modifier</button>
                 <button type="button" className="'btn btn-primary" onClick={this.onClick}>supprimer</button>
                 <button type="button" className="'btn btn-primary" onClick={ () => this.setState({showPopulation: true})}>populations</button>
+                <h1>{this.state.animalName}</h1>
                 <p>Description:{this.state.description}</p>
                 <div>espèce: {this.state.species[0]}</div>
                 <div>régime: {this.state.diet[0]}</div>
@@ -139,16 +147,24 @@ class AnimalCard extends React.Component
                                                 hide={this.hide} 
                                                 animalId={this.props.animalId}
                                                 context="destruction"
-                                                del={this.del}/>
+                                                del={this.del}
+                                                changeId={this.props.changeId}/>
                                                }
             </div>}
-            {this.state.wantModify && <Form context="edition" datas={this.state} id={this.props.animalId} field="animal" onEdit={this.handleEdit}/>}
-            {this.state.showPopulation && <Population 
+            {this.state.wantModify && <Form 
+                                        context="edition" 
+                                        datas={this.state} 
+                                        id={this.props.animalId} 
+                                        field="animal" 
+                                        changeId={this.changeId}
+                                        onEdit={this.changeId}/>}
+            {this.state.showPopulation && <Population
+                                            key={this.state.key}
                                             id={this.props.animalId} 
                                             animalName={this.state.animalName}
                                             onDescription={() => this.setState({showPopulation: false})}
-                                            onEdit={this.handleEdit}/>}
-            {this.state.destructionSuccess && <HelloApp />}
+                                            changeKey={this.changeKey}
+                                            />}
         </div> 
     }
 }

@@ -19,7 +19,6 @@ function init(inputFields) {
 function initFunction (props) {
     let initForm = {}
     if (props.datas) {
-        console.log('il y a des datas: ', props.datas)
         for (const key in props.datas) {
             if (Array.isArray(props.datas[key])) {
                 if (Array.isArray(props.datas[key][0])) {
@@ -46,7 +45,6 @@ function initFunction (props) {
                 break
         }
     }
-    console.log('le initForm de initfunction: ', initForm)
     return initForm
 }
 
@@ -76,6 +74,11 @@ function makeUrl(form) {
     return url.slice(0, -1)
 }
 
+const prepareIdApi= (field, id) => {
+    console.log('pour le api: ', field, ' et ', id)
+    return 'api/'+ field + '/' + id
+}
+
 const datasForRequest = (objectForm, context, field, props) => {
     let form = {...objectForm}
     delete form['visible']
@@ -93,8 +96,8 @@ const datasForRequest = (objectForm, context, field, props) => {
            }
        }
        if (needIdTable.includes(props.field)) {
-           console.log(' je mets un id: ', props.id)
-           form['animal'] = props.id
+           form['animal'] = prepareIdApi('animals', props.id)
+           console.log('le id si need: ', form['animal'])
        }
     } 
     return form
@@ -143,4 +146,5 @@ export {makeUrl,
         validation,
         contextFields,
         prepareTable,
+        prepareIdApi,
         prepareId}

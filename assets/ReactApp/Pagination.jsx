@@ -14,15 +14,12 @@ export default function Pagination(props) {
     if (props.view !== undefined) {
         last = getNumber(props.view["hydra:last"])
         first = getNumber(props.view["hydra:first"])
-        console.log('le last du if; ', last)
     }
 
     const makeUrl = (page) => {
         if (props.view["hydra:last"])  {
-            console.log('le last: ', props.view["hydra:last"])
             let urlTab = props.view["@id"].split("=")
             urlTab[urlTab.length - 1] = page
-            console.log('la page: ', urlTab.join('='))
             return urlTab.join("=")
         }
     }

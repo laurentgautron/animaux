@@ -2,7 +2,7 @@ import React from "react";
 import CardList from "./CardList.jsx"
 import {Form} from "./Form.jsx";
 import AnimalCard from "./AnimalCard.jsx";
-import {prepareId} from './utils'
+import {prepareId} from '../services/utils'
 
 class HelloApp extends React.Component 
 {  
@@ -12,7 +12,8 @@ class HelloApp extends React.Component
             id: props.id,
             url: "api/animals?",
             fullResearch: false,
-            addAnimal: false
+            addAnimal: false,
+            animalKey: 1
         }
     }
 
@@ -43,12 +44,11 @@ class HelloApp extends React.Component
     }
 
     handleChangeId = (id) => {
-        console.log('je change le id dans helloapp')
         if (id === this.state.id) {
             console.log( 'le même id')
-            this.setState({
-                id: 0
-            })
+            this.setState(state => ({
+                animalKey: state.animalKey + 1
+            }))
         }
         this.setState({
             id: id
@@ -59,7 +59,7 @@ class HelloApp extends React.Component
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
         return <div>
                 {this.state.id !== 0 ?
-                    <AnimalCard animalId={this.state.id} changeId={this.handleChangeId}/>
+                    <AnimalCard animalId={this.state.id} changeId={this.handleChangeId} key={this.state.animalKey}/>
                     : <>
                         {!this.state.addAnimal && <div>
 

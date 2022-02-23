@@ -9,8 +9,10 @@ const Modale = ({hide, visible, animalId, context, del, changeId}) => {
         changeId(0)
     }
 
-    // const idTab = animalId.split('/')
     const url = '/login/' + animalId
+
+    console.log('ouvre la modale et visibilité: ', visible)
+    console.log('dans le contexte: ', context)
 
     return (visible && <div className='bg-warning'>
         {context === "change" && <div>

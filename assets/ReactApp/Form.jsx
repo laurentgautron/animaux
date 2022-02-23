@@ -5,8 +5,8 @@ import {initFunction,
         validation, 
         init, 
         contextFields,
-        prepareIdApi} from './utils'
-import { tableApi } from "./datas";
+        prepareIdApi} from '../services/utils'
+import { tableApi } from "../services/datas";
 
 export function Form (props) {
 
@@ -122,6 +122,9 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
+            console.log('pour le patch le field: ', props.field)
+            console.log('pour le patch la table: ', tableApi[props.field])
+            console.log('pour le patch le id: ', props.id)
             fetch(prepareIdApi(tableApi[props.field], props.id), {
                 method: "PATCH",
                 headers: {
@@ -134,15 +137,13 @@ export function Form (props) {
                 if (resp.violations) {
                     console.log(resp.violations)
                 } else {
-                    console.log('jai fait le patch')
+                    // callBack to change id in HeolloApp
                     props.onEdit(props.id)
-                    // setShowList(l=> !l)
                 }
             })
         }
     }
 
-    console.log('la form du formulaire: ', props)
     return (<div>
         {/* faire un composant formTitle  en mettant un enfant ...*/}
         {props.field === 'animal' && props.context === 'edition' && !showList && 

@@ -1,6 +1,6 @@
 import React from "react";
-import {animal, tableList} from './datas'
-import {init, prepareIdApi} from './utils'
+import {animal, tableList} from '../services/datas'
+import {init, prepareIdApi} from '../services/utils'
 import Modale from './Modale'
 import { Form } from "./Form";
 import HelloApp from "./HelloApp";
@@ -75,7 +75,6 @@ class AnimalCard extends React.Component
     }
 
     componentDidMount() {
-        console.log('je monte')
         this.getAnimal()
     }
 
@@ -91,7 +90,6 @@ class AnimalCard extends React.Component
         .then( resp =>{
             if (resp) {
                 if (ev.target.textContent === 'modifier') {
-                    console.log('on modifie')
                     this.setState({
                         wantModify: true,
                     })
@@ -120,7 +118,6 @@ class AnimalCard extends React.Component
     }
 
     changeId = (id) => {
-        console.log('je change le id dans animalCard')
         this.props.changeId(id)
     }
 
@@ -134,8 +131,8 @@ class AnimalCard extends React.Component
         return <div>
             {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div>
                 <button type="button" className="btn btn-primary" onClick={this.onClick}>modifier</button>
-                <button type="button" className="'btn btn-primary" onClick={this.onClick}>supprimer</button>
-                <button type="button" className="'btn btn-primary" onClick={ () => this.setState({showPopulation: true})}>populations</button>
+                <button type="button" className="btn btn-primary" onClick={this.onClick}>supprimer</button>
+                <button type="button" className="btn btn-primary" onClick={ () => this.setState({showPopulation: true})}>populations</button>
                 <h1>{this.state.animalName}</h1>
                 <p>Description:{this.state.description}</p>
                 <div>espèce: {this.state.species[0]}</div>

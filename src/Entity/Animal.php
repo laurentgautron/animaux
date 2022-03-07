@@ -17,7 +17,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     normalizationContext: ['groups' => ['read:collection']],
     denormalizationContext: ['groups' => ['write:collection']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ["animalName" => 'partial', 'species' => "exact", 'continents' => 'exact', 'diet' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "animalName" => 'partial', 
+    'species' => "exact", '
+    continents' => 'exact', 
+    'diet' => 'exact'
+    ]
+)]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 
 class Animal
@@ -38,7 +44,6 @@ class Animal
     private $continents;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: WorldPopulation::class)]
-    #[Groups(['read:collection'])]
     private $worldPopulation;
 
     #[ORM\ManyToOne(targetEntity: Species::class, inversedBy: 'animals')]

@@ -21,7 +21,7 @@ class ResetPasswordType extends AbstractType {
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'label' => 'Password',
+                'label' => 'Mot de passe',
                 'type' => PasswordType::class,
                 'invalid_message' => 'les deux mots de passe ne correspondent pas',
                 'mapped' => false,

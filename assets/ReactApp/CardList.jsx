@@ -13,7 +13,6 @@ class CardList extends React.Component
             view: {},
             key: 1,
         }
-        this.controller = new AbortController()
     }
 
     makeUrlNumber = (id) => {
@@ -22,7 +21,7 @@ class CardList extends React.Component
     }
 
     findAnimalList = async (url) => {
-        const response = await fetch(url, {signal: this.controller.signal})
+        const response = await fetch(url)
         const rep = await response.json()
         this.setState({
             animalList: rep["hydra:member"],
@@ -45,10 +44,6 @@ class CardList extends React.Component
             }))
             this.findAnimalList(this.props.url)
         } 
-    }
-
-    componentWillUnmount() {
-        this.controller.abort()
     }
 
     handlePage = (activePage) => {

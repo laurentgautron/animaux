@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Form } from "./Form";
 import { init } from "../services/utils";
-import { worldPopulation } from "../services/datas";
+import { world_populations } from "../services/datas";
 import Pagination from "./Pagination";
 import Modale from "./Modale";
 
@@ -17,14 +17,17 @@ export function Population (props) {
     const [addYear, setAddYear] = useState(false)
     const [populationList, setPopulationList] = useState([])
     const [edit, setEdit] = useState(false)
-    const [datas, setDatas] = useState(init(worldPopulation))
+    const [datas, setDatas] = useState(init(world_populations))
     const [idPopulation, setIdPopulation] = useState()
     const [url, setUrl] = useState('api/world_populations/?animal=' + props.id)
     const [view, setView] = useState()
     const [visible, setVisible] = useState(false)
     const [wantDesctruction, setWantDesctruction] = useState(false)
+    const [key, setKey] = useState()
+    const [modaleKey, setModaleKey] = useState(1)
     
     useEffect( () => {
+        console.log('useEffect dans population')
         fetch(url, {
             method: "GET",
             headers: {'Content-Type' : 'application/ld+json'}
@@ -51,9 +54,9 @@ export function Population (props) {
         }
     }
 
-    const onModify = async (pop) => {
+    const onModify = async (pop, key) => {
+        console.log('le p: ', key)
         if (await checkconnexion()) {
-            console.log('je suis connecté')
             fetch(pop["@id"], {
                 metohd: "GET",
                 headers: {
@@ -75,9 +78,12 @@ export function Population (props) {
                 }
                 setEdit(true)
                 setIdPopulation(makeNumber(pop["@id"]))
+                console.log('je change la clé: ', key)
+                setKey(key)
             })
         } else {
            setVisible(true)
+           setModaleKey(m => m+1)
         }
     }
 
@@ -87,19 +93,18 @@ export function Population (props) {
     }
     
     const handleEdit = () => {
-        console.log('je edite')
         setEdit(false)
     }
 
     const handleDelete = async (p) => {
         if (await checkconnexion()) {
-            console.log('tu es connecté')
             setVisible(true)
             setWantDesctruction(true)
             setIdPopulation(p["@id"])
+            setModaleKey(m => m+1)
         } else {
-            console.log('tu es pasq connecté')
             setVisible(true)
+            setModaleKey(m => m+1)
         }
     }
 
@@ -113,12 +118,6 @@ export function Population (props) {
             }
         })
     }
-
-    const hide = () => {
-        setVisible(false)
-    }
-
-    console.log('la destruction: ', wantDesctruction)
 
     return (<div> 
         {!addYear && !edit &&
@@ -136,11 +135,11 @@ export function Population (props) {
                         </tr>
                     </thead>
                     <tbody>
-                    {populationList.map( p => <tr key={p["@id"]}>
+                    {populationList.map( (p,key) => <tr key={p["@id"]}>
                             <td>{p.year}</td>
                             <td>{p.population}</td>
                             <td><button onClick={() => handleDelete(p)}><FontAwesomeIcon icon={faTrashCan} /></button></td>
-                            <td><button onClick={() => onModify(p)}><FontAwesomeIcon icon={faPencil} /></button></td>
+                            <td><button onClick={() => onModify(p, key)}><FontAwesomeIcon icon={faPencil} /></button></td>
                         </tr>)}
                     </tbody>
                 </table>
@@ -151,22 +150,27 @@ export function Population (props) {
                         datas={datas} 
                         id={idPopulation} 
                         animalId={props.id} 
-                        field="worldPopulation" 
-                        onEdit={handleEdit}/>}
+                        field="world_populations" 
+                        onEdit={handleEdit}>
+                        modifier la population de l'année {populationList[key] !== undefined && 
+                        <span>{populationList[key]["year"]}</span>} pour l'animal {props.animalName}
+                        </Form>}
             {addYear && <Form 
                         context="creation"
-                         id={props.id} 
-                         field="worldPopulation"
-                         onAdd={handleAddYear}/>}
+                        id={props.id} 
+                        field="world_populations"
+                        onAdd={handleAddYear}>
+                        ajouter une population pour l'animal {props.animalName}
+                        </Form>}
             {wantDesctruction && <Modale visible={visible} 
-                                         hide={hide} 
                                          animalId={props.id}
                                          context="destruction"
                                          del={del}
-                                         changeId={handleEdit}/>}
+                                         changeId={handleEdit}
+                                         key={modaleKey}/>}
             {!wantDesctruction && <Modale  visible={visible}
-                                           hide={hide}
                                            context="change"
-                                           animalId={props.id}/>}
+                                           animalId={props.id}
+                                           key={modaleKey}/>}
         </div>)
 }

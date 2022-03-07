@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 
-const Modale = ({hide, visible, animalId, context, del, changeId}) => {
+const Modale = ({visible, animalId, context, del, changeId}) => {
+
+    const [show, setShow] = useState(visible)
 
     const handleClick = () => {
-        hide()
+        setShow(s => !s)
         del()
         changeId(0)
     }
@@ -14,18 +16,20 @@ const Modale = ({hide, visible, animalId, context, del, changeId}) => {
     console.log('ouvre la modale et visibilité: ', visible)
     console.log('dans le contexte: ', context)
 
-    return (visible && <div className='bg-warning'>
-        {context === "change" && <div>
-            <h1>vou devez vous connecter pour faire cette opération</h1>
-            <a href={url}>Se connecter</a>
-        </div>}
-        {context === "destruction" && <div>
-            <h1>Vous voulez détruire cette fiche ?</h1>
-            <button onClick={handleClick}>oui</button>
-        </div>}
-        <div onClick={hide}>x</div>
-    </div>)
-
+    return (show && <div className="overlay">
+            <div className='bg-warning wrapper d-flex flex-column justify-content-center align-items-center'>
+                {context === "change" && <div className='text-center'>
+                    <h1>vou devez vous connecter pour faire cette opération</h1>
+                    <a href={url}>Se connecter</a>
+                </div>}
+                {context === "destruction" && <div className='text-center'>
+                    <h1>Vous voulez détruire cette fiche ?</h1>
+                    <button onClick={handleClick}>oui</button>
+                </div>}
+                <div onClick={() => setShow(s => !s)} className="shotModale">x</div>
+            </div>
+        </div>
+    )
 } 
 
 export default Modale

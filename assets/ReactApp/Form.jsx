@@ -6,10 +6,8 @@ import {initFunction,
         init, 
         contextFields,
         prepareIdApi} from '../services/utils'
-import { tableApi } from "../services/datas";
 
 export function Form (props) {
-
 
     const fields = contextFields(props.field)
 
@@ -18,8 +16,6 @@ export function Form (props) {
     const [form, setForm] = useState(initFunction(props))
     const [formErrors, setFormErrors] = useState(init(fields, 'primaryEntity'))
     const [options, setOptions] = useState({})
-    const text = submitText
-    const [showList, setShowList] = useState(false)
     const [error, setError] = useState()
 
     const extractDatasSelect = (datas) => {
@@ -95,13 +91,15 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
-                const url = 'api/' + tableApi[props.field]
+                console.log('je post: ', props)
+                console.log('le data for request: ', datasForRequest(form, 'creation', props))
+                const url = 'api/' + props.field
                 fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/ld+json'
                     },
-                    body: JSON.stringify(datasForRequest(form, 'creation', fields, props))
+                    body: JSON.stringify(datasForRequest(form, 'creation', props))
                 })
                 .then (response => {
                     if (response.status === 422) {
@@ -122,15 +120,12 @@ export function Form (props) {
                 console.log('il y a une erreur: ', error)
             }
         } else {
-            console.log('pour le patch le field: ', props.field)
-            console.log('pour le patch la table: ', tableApi[props.field])
-            console.log('pour le patch le id: ', props.id)
-            fetch(prepareIdApi(tableApi[props.field], props.id), {
+            fetch(prepareIdApi(props.field, props.id), {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/merge-patch+json'
                 },
-                body: JSON.stringify(datasForRequest(form, 'edition', fields, props))
+                body: JSON.stringify(datasForRequest(form, 'edition', props))
             })
             .then(response => response.json())
             .then(resp => {
@@ -144,14 +139,12 @@ export function Form (props) {
         }
     }
 
+    console.log('la form: ', form)
     return (<div>
-        {/* faire un composant formTitle  en mettant un enfant ...*/}
-        {props.field === 'animal' && props.context === 'edition' && !showList && 
-        <h1>modifier l'animal: {form.animalName}</h1>}
-        {props.field === 'worldPopulation' && props.context === 'edition' && !showList && 
-        <h1>modifier la population de l'animal: {props.animalName}</h1>}
+        <h1>{props.children}</h1>
         <form onSubmit={handleSubmit}>
         {fields["number"] && fields["number"].map( item => {
+            console.log('le number')
             return <div key={item['primaryEntity']}>
                 {formErrors[item.primaryEntity] === 0 ? <span></span>: <span>{formErrors[item.primaryEntity]}</span>}
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}
@@ -178,7 +171,7 @@ export function Form (props) {
         </div>
         })}
         <Select />
-        <button type="submit">{text}</button>
+        <button type="submit">{submitText}</button>
     </form>
     </div>)
      

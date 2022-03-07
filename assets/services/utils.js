@@ -1,4 +1,4 @@
-import { animal, worldPopulation, needIdTable } from "./datas"
+import { animals, world_populations, needIdTable } from "./datas"
 
 function init(inputFields) {
     let initForm = {}
@@ -37,11 +37,11 @@ function initFunction (props) {
         }
     } else {
         switch(props.field) {
-            case 'animal':
-                initForm = init(animal, "primaryEntity")
+            case 'animals':
+                initForm = init(animals, "primaryEntity")
                 break
-            case 'worldPopulation':
-                initForm = init(worldPopulation, "primaryEntity")
+            case 'world_populations':
+                initForm = init(world_populations, "primaryEntity")
                 break
         }
     }
@@ -49,10 +49,10 @@ function initFunction (props) {
 }
 
 const contextFields = (field) => {
-    if (field === 'animal') {
-        return animal
+    if (field === 'animals') {
+        return animals
     } else {
-        return worldPopulation
+        return world_populations
     }
 }
 
@@ -75,11 +75,11 @@ function makeUrl(form) {
 }
 
 const prepareIdApi= (field, id) => {
-    console.log('pour le api: ', field, ' et ', id)
     return 'api/'+ field + '/' + id
 }
 
-const datasForRequest = (objectForm, context, field, props) => {
+const datasForRequest = (objectForm, context, props) => {
+    console.log('les props field dans data for: ', props)
     let form = {...objectForm}
     delete form['visible']
     delete form['wantModify']
@@ -89,15 +89,15 @@ const datasForRequest = (objectForm, context, field, props) => {
     if (context ==="creation") {
        for (const key in form) {
            if (form[key] === "") {
-               const {type, multiple} = getInfos(key, field)
+               const {type, multiple} = getInfos(key, props.field)
                 if (type === 'select' && !multiple) {
                    form[key] = null
                }
            }
        }
        if (needIdTable.includes(props.field)) {
+           console.log('dans le need')
            form['animal'] = prepareIdApi('animals', props.id)
-           console.log('le id si need: ', form['animal'])
        }
     } 
     return form

@@ -4,6 +4,7 @@ import {init, prepareIdApi} from '../services/utils'
 import Modale from './Modale'
 import { Form } from "./Form";
 import { Population } from "./PopulationCard";
+import AnimalService from "../services/animals-services";
 
 class AnimalCard extends React.Component
 { 
@@ -70,32 +71,28 @@ class AnimalCard extends React.Component
         this.getAnimal()
     }
 
-    onClick = (ev) => {
-        fetch('/checkUserConnexion')
-        .then( response => response.json())
-        .then( resp =>{
-            if (resp) {
-                if (ev.target.textContent === 'modifier') {
-                    this.setState(state => ({
-                        wantModify: true,
-                        modaleKey: state.modaleKey
-                    }))
-                }  else {
-                    console.log('je veux détruire')
-                    this.setState(state => ({
-                        visible: true,
-                        wantDestruction: true,
-                        modaleKey: state.modaleKey + 1
-                    }))
-                }
-            } else {
-                console.log('je rends visible')
+    onClick = async (ev) => {
+        if (await AnimalService.checkconnexion()) {
+            if (ev.target.textContent === 'modifier') {
+                this.setState(state => ({
+                    wantModify: true,
+                    modaleKey: state.modaleKey
+                }))
+            }  else {
+                console.log('je veux détruire')
                 this.setState(state => ({
                     visible: true,
+                    wantDestruction: true,
                     modaleKey: state.modaleKey + 1
                 }))
             }
-        })
+        } else {
+            console.log('je rends visible')
+            this.setState(state => ({
+                visible: true,
+                modaleKey: state.modaleKey + 1
+            }))
+        }
     }
 
     del = () => {

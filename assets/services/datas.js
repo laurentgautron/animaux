@@ -16,7 +16,7 @@ const animals = {
         table: 'animals', 
         primaryEntity: "description", 
         context: [
-            'fullResearch', 'creation', 'edition'
+            'creation', 'edition'
         ]
     }],
     select: [

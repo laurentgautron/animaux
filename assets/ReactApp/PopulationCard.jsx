@@ -6,6 +6,7 @@ import { init } from "../services/utils";
 import { world_populations } from "../services/datas";
 import Pagination from "./Pagination";
 import Modale from "./Modale";
+import AnimalService from "../services/animals-services";
 
 export function Population (props) {
 
@@ -45,18 +46,9 @@ export function Population (props) {
         setUrl(activePage)
     }
 
-    const checkconnexion = async () => {
-        let response = await fetch('/checkUserConnexion')
-        if (response.ok) {
-            return response.json()
-        } else {
-            return response.status
-        }
-    }
-
     const onModify = async (pop, key) => {
-        console.log('le p: ', key)
-        if (await checkconnexion()) {
+        console.log('la connexion: ', await AnimalService.checkconnexion())
+        if (await AnimalService.checkconnexion()) {
             fetch(pop["@id"], {
                 metohd: "GET",
                 headers: {

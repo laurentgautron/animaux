@@ -16,15 +16,20 @@ export function Form (props) {
     const [form, setForm] = useState(initFunction(props))
     const [formErrors, setFormErrors] = useState(init(fields, 'primaryEntity'))
     const [options, setOptions] = useState({})
-    const [error, setError] = useState()
 
     const extractDatasSelect = (datas) => {
+        // need value and iri for select
         let arrayDatas = []
+        let name = ""
         for ( const data of datas) {
-            // nem key in data
-            const name = data["@type"].toLowerCase() + "Name"
-            // iri
-            arrayDatas.push([data["@id"], data[name]])
+            console.log('la data: ', data)
+            for ( const key in data) {
+                if (key[0] !== "@") {
+                    // according to apiRessource there is only one key whithout @ who is the value sought
+                    name = data[key]
+                }
+            }
+            arrayDatas.push([data["@id"], name])
         }
         return arrayDatas
     }
@@ -43,7 +48,9 @@ export function Form (props) {
                                 onChange={handleChange}
                                 multiple={item.multiple}>
                             <option value=""></option>
-                            {options[item["primaryEntity"]] && options[item["primaryEntity"]].map( op => <option value={op[0]} key={op[0]}>{op[1]}</option>)}
+                            {options[item["primaryEntity"]] && options[item["primaryEntity"]].map( 
+                                op => <option value={op[0]} key={op[0]}>{op[1]}</option>)
+                            }
                         </select>
                     </label>}
                 </div>
@@ -52,22 +59,17 @@ export function Form (props) {
         )  
     }
 
-
-    const controller = useRef(new AbortController())
     if (fields['select']) {
         useEffect ( async () => {
             let datas = {}
             for (const select of fields["select"]) {
-                const response = await fetch('api/' + select["table"],
-                {signal: controller.current.signal}
-                ).then(rep => rep.json())
+                const response = await fetch('api/' + select["table"])
+                .then(rep => rep.json())
                 datas[select["primaryEntity"]] =  extractDatasSelect(response["hydra:member"])
             }
             setOptions(datas)
         }, [])
     }
-
-    useEffect ( () => () => controller.current.abort())
 
     const handleChange = (ev) => {
         if (ev.target.multiple) {

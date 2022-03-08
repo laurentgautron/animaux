@@ -81,6 +81,7 @@ const prepareIdApi= (field, id) => {
 const datasForRequest = (objectForm, context, fields, props) => {
     console.log('les props field dans data for: ', props)
     let form = {...objectForm}
+    console.log('la form dans le datas: ', form)
     delete form['visible']
     delete form['wantModify']
     delete form['wantDestruction']
@@ -90,18 +91,24 @@ const datasForRequest = (objectForm, context, fields, props) => {
     delete form['populationKey']
     delete form['modaleKey']
     if (context === "creation" || context === "edition") {
-        console.log('dans la creation')
+        console.log('dans la creation: ', context)
+        console.log('lesz champs: ', fields)
         for (const key in form) {
+            console.log(' le result: ', form[key])
             if (form[key] === "") {
+                console.log('le for de datas')
                 const {type, multiple} = getInfos(key, fields)
-                    if (type === 'select' && !multiple) {
-                    form[key] = null
+                if (type === 'select' && !multiple) {
+                form[key] = null
                 }
+            } else if (isNaN(form[key])) {
+                console.log('un NaN')
+                form[key] = 0
             }
         }
-       if (needIdTable.includes(props.field)) {
-           console.log('dans le need')
-           form['animal'] = prepareIdApi('animals', props.id)
+        if (needIdTable.includes(props.field)) {
+            console.log('dans le need')
+            form['animal'] = prepareIdApi('animals', props.id)
        }
     } 
     console.log('la form retournée: ', form)

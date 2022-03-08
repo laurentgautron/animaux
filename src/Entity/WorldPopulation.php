@@ -8,11 +8,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\WorldPopulationRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     attributes: ['pagination_items_per_page' => 9],
     // denormalizationContext: ['groups' => ['write:collection']],
-    normalizationContext: ['groups' => ['pworldPopulation:read:collection']],
+    normalizationContext: ['groups' => ['worldPopulation:read:collection']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['animal' => 'exact'])]
 #[ORM\Entity(repositoryClass: WorldPopulationRepository::class)]
@@ -24,15 +25,16 @@ class WorldPopulation
     private $id;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['pworldPopulation:read:collection'])]
+    #[Assert\NotEqualTo(0)]
+    #[Groups(['worldPopulation:read:collection'])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 4)]
-    #[Groups(['pworldPopulation:read:collection'])]
+    #[Groups(['worldPopulation:read:collection'])]
     private $year;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'worldPopulation')]
-    #[Groups(['pworldPopulation:read:collection'])]
+    #[Groups(['worldPopulation:read:collection'])]
     private $animal;
 
     public function getId(): ?int

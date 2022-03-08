@@ -27,9 +27,7 @@ export default function Pagination(props) {
     }
     
     useEffect ( () => {
-        console.log('je page useeffect la page: ', page)
         if (props.view !== undefined && props.view["hydra:last"]) {
-            console.log('dans le if')
             props.onPage(makeUrl(page))
         }
     }, [page])

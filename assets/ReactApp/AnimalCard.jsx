@@ -119,7 +119,6 @@ class AnimalCard extends React.Component
     }
 
     render() {
-        console.log('la cle et modale et visible: ', this.state.modaleKey, this.state.visible)
         return <div>
             {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div>
                 <button type="button" className="btn btn-primary" onClick={this.onClick}>modifier</button>

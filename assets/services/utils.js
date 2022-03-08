@@ -78,7 +78,7 @@ const prepareIdApi= (field, id) => {
     return 'api/'+ field + '/' + id
 }
 
-const datasForRequest = (objectForm, context, props) => {
+const datasForRequest = (objectForm, context, fields, props) => {
     console.log('les props field dans data for: ', props)
     let form = {...objectForm}
     delete form['visible']
@@ -86,24 +86,30 @@ const datasForRequest = (objectForm, context, props) => {
     delete form['wantDestruction']
     delete form['destructionSuccess']
     delete form['showPopulation']
-    if (context ==="creation") {
-       for (const key in form) {
-           if (form[key] === "") {
-               const {type, multiple} = getInfos(key, props.field)
-                if (type === 'select' && !multiple) {
-                   form[key] = null
-               }
-           }
-       }
+    delete form['populationKey']
+    delete form['populationKey']
+    delete form['modaleKey']
+    if (context === "creation" || context === "edition") {
+        console.log('dans la creation')
+        for (const key in form) {
+            if (form[key] === "") {
+                const {type, multiple} = getInfos(key, fields)
+                    if (type === 'select' && !multiple) {
+                    form[key] = null
+                }
+            }
+        }
        if (needIdTable.includes(props.field)) {
            console.log('dans le need')
            form['animal'] = prepareIdApi('animals', props.id)
        }
     } 
+    console.log('la form retournée: ', form)
     return form
 }
 
 const getInfos = (key, tableFields) => {
+    console.log('les infos: ', tableFields)
     let multiple = false
     let type = ''
     for (const keyInput in tableFields) {

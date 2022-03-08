@@ -92,14 +92,14 @@ export function Form (props) {
         } else if (props.context === 'creation') {
             try {
                 console.log('je post: ', props)
-                console.log('le data for request: ', datasForRequest(form, 'creation', props))
+                console.log('le data for request: ', datasForRequest(form, 'creation', fields, props))
                 const url = 'api/' + props.field
                 fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/ld+json'
                     },
-                    body: JSON.stringify(datasForRequest(form, 'creation', props))
+                    body: JSON.stringify(datasForRequest(form, 'creation', fields, props))
                 })
                 .then (response => {
                     if (response.status === 422) {
@@ -125,12 +125,12 @@ export function Form (props) {
                 headers: {
                     'Content-Type': 'application/merge-patch+json'
                 },
-                body: JSON.stringify(datasForRequest(form, 'edition', props))
+                body: JSON.stringify(datasForRequest(form, 'edition', fields, props))
             })
             .then(response => response.json())
             .then(resp => {
                 if (resp.violations) {
-                    console.log(resp.violations)
+                    setFormErrors(validation(fields, resp))
                 } else {
                     // callBack to change id in HeolloApp
                     props.onEdit(props.id)
@@ -139,12 +139,10 @@ export function Form (props) {
         }
     }
 
-    console.log('la form: ', form)
     return (<div>
         <h1>{props.children}</h1>
         <form onSubmit={handleSubmit}>
         {fields["number"] && fields["number"].map( item => {
-            console.log('le number')
             return <div key={item['primaryEntity']}>
                 {formErrors[item.primaryEntity] === 0 ? <span></span>: <span>{formErrors[item.primaryEntity]}</span>}
                 {item["context"].includes(props.context) && <label htmlFor={item["primaryEntity"]}>{item["primaryEntity"]}

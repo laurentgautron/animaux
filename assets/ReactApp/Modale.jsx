@@ -13,8 +13,6 @@ const Modale = ({visible, animalId, context, del, changeId}) => {
 
     const url = '/login/' + animalId
 
-    console.log('ouvre la modale et visibilité: ', visible)
-    console.log('dans le contexte: ', context)
 
     return (show && <div className="overlay">
             <div className='bg-warning wrapper d-flex flex-column justify-content-center align-items-center'>

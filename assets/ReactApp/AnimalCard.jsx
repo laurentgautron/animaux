@@ -4,7 +4,7 @@ import {init, prepareIdApi} from '../services/utils'
 import Modale from './Modale'
 import { Form } from "./Form";
 import { Population } from "./PopulationCard";
-import AnimalService from "../services/animals-services";
+import AnimalServices from "../services/animals-services";
 
 class AnimalCard extends React.Component
 { 
@@ -72,7 +72,7 @@ class AnimalCard extends React.Component
     }
 
     onClick = async (ev) => {
-        if (await AnimalService.checkconnexion()) {
+        if (await AnimalServices.checkconnexion()) {
             if (ev.target.textContent === 'modifier') {
                 this.setState(state => ({
                     wantModify: true,

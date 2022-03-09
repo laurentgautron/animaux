@@ -90,14 +90,14 @@ const datasForRequest = (objectForm, context, fields, props) => {
     delete form['modaleKey']
     if (context === "creation" || context === "edition") {
         for (const key in form) {
-            console.log(' le result: ', form[key])
+            console.log('le formkey: ', form[key])
             if (form[key] === "") {
                 console.log('le for de datas')
                 const {type, multiple} = getInfos(key, fields)
                 if (type === 'select' && !multiple) {
                 form[key] = null
                 }
-            } else if (isNaN(form[key])) {
+            } else if (form[key] === NaN) {
                 form[key] = 0
             }
         }
@@ -105,6 +105,7 @@ const datasForRequest = (objectForm, context, fields, props) => {
             form['animal'] = prepareIdApi('animals', props.id)
        }
     } 
+    console.log('la form de datarequest: ', form)
     return form
 }
 

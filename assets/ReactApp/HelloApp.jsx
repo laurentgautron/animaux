@@ -30,7 +30,6 @@ class HelloApp extends React.Component
     }
 
     toggleResearch = () => {
-        console.log('dans le tooggle')
         this.setState(state => ({
             keyForm: state.keyForm + 1,
             fullResearch: !state.fullResearch
@@ -55,10 +54,7 @@ class HelloApp extends React.Component
     }
 
     render() {
-        console.log('la recherche: ', this.state.fullResearch)
-        console.log('le state: ', this.state)
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
-        console.log('le bouton recherche: ', buttonResearchText)
         return <div>
                 {this.state.id !== 0 ?
                     <AnimalCard animalId={this.state.id} changeId={this.handleChangeId} key={this.state.animalKey}/>
@@ -79,7 +75,6 @@ class HelloApp extends React.Component
                         }
                     </>
                 }
-                {/* {this.state.addAnimal && <Form context="creation" field="animal" onAdd={this.handleAddAnimal}/>} */}
             </div>
     }
 }

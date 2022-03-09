@@ -6,7 +6,7 @@ import { init } from "../services/utils";
 import { world_populations } from "../services/datas";
 import Pagination from "./Pagination";
 import Modale from "./Modale";
-import AnimalService from "../services/animals-services";
+import AnimalServices from "../services/animals-services";
 
 export function Population (props) {
 
@@ -47,8 +47,8 @@ export function Population (props) {
     }
 
     const onModify = async (pop, key) => {
-        console.log('la connexion: ', await AnimalService.checkconnexion())
-        if (await AnimalService.checkconnexion()) {
+        console.log('la connexion: ', await AnimalServices.checkconnexion())
+        if (await AnimalServices.checkconnexion()) {
             fetch(pop["@id"], {
                 metohd: "GET",
                 headers: {

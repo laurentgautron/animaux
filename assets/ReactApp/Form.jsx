@@ -22,7 +22,6 @@ export function Form (props) {
         let arrayDatas = []
         let name = ""
         for ( const data of datas) {
-            console.log('la data: ', data)
             for ( const key in data) {
                 if (key[0] !== "@") {
                     // according to apiRessource there is only one key whithout @ who is the value sought
@@ -79,9 +78,17 @@ export function Form (props) {
             }))
         } else {
             const { name, value, type }  = ev.target
-            const newValue = type === "number" ? parseInt(value, 10) : value
+            const newValue = () => {
+                if (type === 'number' && !isNaN(parseInt(value, 10))) {
+                    return parseInt(value, 10)
+                } else if (type === 'number' && isNaN(parseInt(value, 10))) {
+                    return 0
+                } else {
+                    return value
+                } 
+            }
             setForm( state => ({
-                ...state, [name]: newValue
+                ...state, [name]: newValue()
             }))
         }
     }
@@ -93,8 +100,6 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
-                console.log('je post: ', props)
-                console.log('le data for request: ', datasForRequest(form, 'creation', fields, props))
                 const url = 'api/' + props.field
                 fetch(url, {
                     method: 'POST',
@@ -103,14 +108,7 @@ export function Form (props) {
                     },
                     body: JSON.stringify(datasForRequest(form, 'creation', fields, props))
                 })
-                .then (response => {
-                    if (response.status === 422) {
-                        return  response.json()
-                    } else {
-                        console.log('des erreurs: ', response.status, response.statusText)
-                        return response.json()
-                    }
-                })
+                .then (response => response.json())
                 .then(resp => {
                     if (resp.violations) {
                         setFormErrors(validation(fields, resp))
@@ -121,6 +119,7 @@ export function Form (props) {
             } catch(error) {
                 console.log('il y a une erreur: ', error)
             }
+        // if not a creation it's a modification
         } else {
             fetch(prepareIdApi(props.field, props.id), {
                 method: "PATCH",
@@ -134,7 +133,7 @@ export function Form (props) {
                 if (resp.violations) {
                     setFormErrors(validation(fields, resp))
                 } else {
-                    // callBack to change id in HeolloApp
+                    // callBack to change id in HelloApp
                     props.onEdit(props.id)
                 }
             })

@@ -1,5 +1,3 @@
-const tableList = ['animal', 'worldPopulation']
-
 const needIdTable = ['world_populations']
 
 const animals = {
@@ -16,7 +14,7 @@ const animals = {
         table: 'animals', 
         primaryEntity: "description", 
         context: [
-            'creation', 'edition'
+            'fullResearch', 'creation', 'edition'
         ]
     }],
     select: [
@@ -36,4 +34,4 @@ const world_populations = {
 
 }
 
-export {animals, world_populations, tableList, needIdTable}
+export {animals, world_populations, needIdTable}

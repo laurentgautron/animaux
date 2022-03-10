@@ -15,7 +15,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ApiResource(
     attributes: ["pagination_items_per_page" => 9],
     normalizationContext: ['groups' => ['read:collection']],
-    denormalizationContext: ['groups' => ['write:collection']]
+    denormalizationContext: ['groups' => ['write:collection']],
 )]
 #[ApiFilter(SearchFilter::class, properties: [
     "animalName" => 'partial', 

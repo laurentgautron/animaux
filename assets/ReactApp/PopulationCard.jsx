@@ -28,7 +28,6 @@ export function Population (props) {
     const [modaleKey, setModaleKey] = useState(1)
     
     useEffect( () => {
-        console.log('useEffect dans population')
         fetch(url, {
             method: "GET",
             headers: {'Content-Type' : 'application/ld+json'}
@@ -47,7 +46,6 @@ export function Population (props) {
     }
 
     const onModify = async (pop, key) => {
-        console.log('la connexion: ', await AnimalServices.checkconnexion())
         if (await AnimalServices.checkconnexion()) {
             fetch(pop["@id"], {
                 metohd: "GET",
@@ -89,7 +87,7 @@ export function Population (props) {
     }
 
     const handleDelete = async (p) => {
-        if (await checkconnexion()) {
+        if (await AnimalServices.checkconnexion()) {
             setVisible(true)
             setWantDesctruction(true)
             setIdPopulation(p["@id"])

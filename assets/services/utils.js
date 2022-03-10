@@ -80,19 +80,18 @@ const prepareIdApi= (field, id) => {
 
 const datasForRequest = (objectForm, context, fields, props) => {
     let form = {...objectForm}
-    delete form['visible']
-    delete form['wantModify']
-    delete form['wantDestruction']
-    delete form['destructionSuccess']
-    delete form['showPopulation']
-    delete form['populationKey']
-    delete form['populationKey']
-    delete form['modaleKey']
+    const formInit = init(fields)
+    // to remove key we don't need in body for request
+    for (const key in form) {
+        console.log('dans le form: ', key, !(key in formInit))
+        if (!(key in formInit)) {
+            delete form[key]
+        }
+    }
+    // to put null in select  and multiple field
     if (context === "creation" || context === "edition") {
         for (const key in form) {
-            console.log('le formkey: ', form[key])
             if (form[key] === "") {
-                console.log('le for de datas')
                 const {type, multiple} = getInfos(key, fields)
                 if (type === 'select' && !multiple) {
                 form[key] = null
@@ -105,12 +104,10 @@ const datasForRequest = (objectForm, context, fields, props) => {
             form['animal'] = prepareIdApi('animals', props.id)
        }
     } 
-    console.log('la form de datarequest: ', form)
     return form
 }
 
 const getInfos = (key, tableFields) => {
-    console.log('les infos: ', tableFields)
     let multiple = false
     let type = ''
     for (const keyInput in tableFields) {

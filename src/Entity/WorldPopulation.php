@@ -14,6 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     attributes: ['pagination_items_per_page' => 9],
     // denormalizationContext: ['groups' => ['write:collection']],
     normalizationContext: ['groups' => ['worldPopulation:read:collection']],
+    denormalizationContext: ['groups' => ['worldPopulation:write:collection']],
+    itemOperations: [
+        'get',
+        'delete',
+        'patch' => ['normalization_context' => ['groups' => ['patch']]]
+    ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['animal' => 'exact'])]
 #[ORM\Entity(repositoryClass: WorldPopulationRepository::class)]
@@ -26,15 +32,25 @@ class WorldPopulation
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotEqualTo(0)]
-    #[Groups(['worldPopulation:read:collection'])]
+    #[Groups([
+        'worldPopulation:read:collection',
+        'worldPopulation:write:collection',
+        'patch'
+    ])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 4)]
-    #[Groups(['worldPopulation:read:collection'])]
+    #[Groups([
+        'worldPopulation:read:collection',
+        'worldPopulation:write:collection',
+    ])]
     private $year;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'worldPopulation')]
-    #[Groups(['worldPopulation:read:collection'])]
+    #[Groups([
+        'worldPopulation:read:collection',
+        'worldPopulation:write:collection'
+    ])]
     private $animal;
 
     public function getId(): ?int

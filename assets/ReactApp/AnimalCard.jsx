@@ -116,11 +116,27 @@ class AnimalCard extends React.Component
 
     render() {
         return <div>
-            {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div>
-                <button type="button" className="btn btn-primary" onClick={this.onClick}>modifier</button>
-                <button type="button" className="btn btn-primary" onClick={this.onClick}>supprimer</button>
-                <button type="button" className="btn btn-primary" onClick={ () => this.setState({showPopulation: true})}>populations</button>
-                <h1>{this.state.animalName}</h1>
+            {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div className="one-card">
+                <div className="d-flex mt-4 justify-content-left align-items-center">
+                <h1 className="me-4">{this.state.animalName}</h1>
+                <div className="btn-action">
+                    <button type="button" 
+                            className="btn btn-primary" 
+                            onClick={this.onClick}>
+                        modifier
+                    </button>
+                    <button type="button" 
+                            className="btn btn-primary" 
+                            onClick={this.onClick}>
+                        supprimer
+                    </button>
+                    <button type="button" 
+                            className="btn btn-primary" 
+                            onClick={ () => this.setState({showPopulation: true})}>
+                        populations
+                    </button>
+                </div>
+                </div>
                 <p>description:{this.state.description}</p>
                 <div>espèce: {this.state.species[0]}</div>
                 <div>régime: {this.state.diet[0]}</div>

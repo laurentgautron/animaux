@@ -121,7 +121,7 @@ class AnimalCard extends React.Component
                 <button type="button" className="btn btn-primary" onClick={this.onClick}>supprimer</button>
                 <button type="button" className="btn btn-primary" onClick={ () => this.setState({showPopulation: true})}>populations</button>
                 <h1>{this.state.animalName}</h1>
-                <p>Description:{this.state.description}</p>
+                <p>description:{this.state.description}</p>
                 <div>espèce: {this.state.species[0]}</div>
                 <div>régime: {this.state.diet[0]}</div>
                 {this.state.continents && <div>continents: {this.state["continents"].map( c => <span key={c[1]}>{c[0]}</span>)}</div>}

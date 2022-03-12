@@ -68,7 +68,7 @@ class HelloApp extends React.Component
                                 <button className="btn btn-primary add-button"
                                         onClick={ () => { this.setState({addAnimal: true})}}>
                                 <FontAwesomeIcon icon={faPlus} className="me-2"/>
-                                Ajouter un animal
+                                ajouter un animal
                                 </button>
                             </div>
                             {this.state.fullResearch ? 

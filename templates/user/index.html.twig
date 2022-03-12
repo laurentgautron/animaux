@@ -10,18 +10,18 @@
 		{{ form_widget(userForm.lastName) }}
 	</div>
 	<div class="col-12 col-sm-3 col-md-2 col-lg-1 col-xl-1 me-sm-3 my-2">
-		<button type="submit" class="btn userResearch">Rechercher</button>
+		<button type="submit" class="btn userResearch">rechercher</button>
 	</div>
 	<div class="col-12 col-md-4 col-lg-4 col-xl-3 ms-md-2 ms-0 my-2">
 		<a href="{{ path('app_register') }}" class="btn add-button">
-			<i class="fas fa-plus me-2"></i>Ajouter un utilisateur</a>
+			<i class="fas fa-plus me-2"></i>ajouter un utilisateur</a>
 	</div>
 </div>
 {{ form_end(userForm) }}
 
 {% if is_find %}
 
-<h1 class="mb-sm-5">Liste des utilisateurs</h1>
+<h1 class="mb-sm-5">liste des utilisateurs</h1>
 <table class="table text-center mt-sm-3">
 	<thead>
 		<tr>
@@ -53,8 +53,8 @@
 </div>
 
 {% else %}
-    <p>Aucun utilisateur trouvé !</p>
-    <a href='{{ path('app_user_research') }}' class='btn btn-info'>Retour à la liste</a>
+    <p>aucun utilisateur trouvé !</p>
+    <a href='{{ path('app_user_research') }}' class='btn btn-info'>retour à la liste</a>
 {% endif %}
 
 {% endblock %}

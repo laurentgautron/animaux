@@ -37,7 +37,7 @@ export default function Pagination(props) {
             <nav>
                 <ul className="animalsPagination  d-flex flex-column flex-sm-row text-center list-unstyled">
                 {(first !== undefined && first !== page) && 
-                    <a href="#beginning"><li onClick={ () => setPage(page - 1)}>Précédent</li></a>}
+                    <a href="#beginning"><li onClick={ () => setPage(page - 1)}>précédent</li></a>}
                 {(first === undefined || first === page) && 
                     <a href="#beginning"><li className="disabled">Précédent</li></a>}
                 <ul className="d-flex list-unstyled">
@@ -60,7 +60,7 @@ export default function Pagination(props) {
                 {(last === undefined || page === last) && 
                     <a href="#beginning"><li className="disabled">Suivant</li></a>}
                 {(last !== undefined && last !== page) && 
-                    <a href="#beginning"><li onClick={ () => setPage(page + 1) }>Suivant</li></a>}
+                    <a href="#beginning"><li onClick={ () => setPage(page + 1) }>suivant</li></a>}
                 </ul>
             </nav>
         }

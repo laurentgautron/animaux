@@ -10,17 +10,17 @@
         <li class="list-group-item m-1"><span class="w-25 d-inline-block">Rôle:</span> 
             {% for role in user.roles %}
                 {% if role == 'ROLE_ADMIN' %}
-                    Administrateur
+                    administrateur
                 {% elseif role == 'ROLE_COLL'%}
-                    Collaborateur
+                    collaborateur
                 {% endif %}
             {% endfor %}
         </li>
     </ul>
     <div class="col-9 col-sm-8 mt-3 ps-3 text-center cta">
-        <a href="{{ path('app_user_edit', {id: user.id}) }}" class="btn m-1">Modifier</a>
-        <a href="{{ path('app_user_delete', {id: user.id}) }}" class="btn m-1">Supprimer</a>
-        <a href="{{ path('app_user_new_password', {id: user.id}) }}" class="btn m-1">Nouveau mot de passe</a>
+        <a href="{{ path('app_user_edit', {id: user.id}) }}" class="btn m-1">modifier</a>
+        <a href="{{ path('app_user_delete', {id: user.id}) }}" class="btn m-1">supprimer</a>
+        <a href="{{ path('app_user_new_password', {id: user.id}) }}" class="btn m-1">nouveau mot de passe</a>
     </div>
 </div>
 {% endblock %}

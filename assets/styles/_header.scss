@@ -34,15 +34,17 @@ header {
         }
     }
     ul {
-        list-style-type: none;
         li {
+            list-style: none;
             margin-left: 0.2rem;
             margin-right: 0.2rem;
         }
         @include media-breakpoint-down(sm) {
-            --bs-gutter-x: 0;
+            // --bs-gutter-x: 0;
             li {
+                --bs-gutter-x: 0;
                 margin-top: 1rem;
+                margin-bottom: 1rem;
             }
         }
     }

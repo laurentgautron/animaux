@@ -1,9 +1,9 @@
 {% extends "layouts/base.html.twig" %}
 
 {% block body %}
-<div class="userProfile row flex-column align-items-center">
+<div class="user-profile row flex-column align-items-center">
     <h1 class="my-5 text-center col">{{ user.lastName }} {{ user.firstName }}</h1>
-    <ul class="userField list-group col-sm-8 ps-3">
+    <ul class="user-field list-group col-sm-8 ps-3">
         <li class="list-group-item m-1"><span class="w-25 d-inline-block">Nom:</span> {{ user.lastName }}</li>
         <li class="list-group-item m-1"><span class="w-25 d-inline-block">Prénom:</span> {{ user.firstName }}</li>
         <li class="list-group-item m-1"><span class="w-25 d-inline-block">Email:</span> {{ user.email }}</li>

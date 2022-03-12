@@ -1,13 +1,13 @@
 <header id="beginning">
-    <div class="container-fluid">
+    <div class="container-fluid h-100">
         <div class="row justify-content-between align-items-center">
             <a href="{{ path('app_home') }}" class="col-3 my-1 bear-link"><img class="bear w-100" src="{{asset('images/bear_hello.jpg')}}" alt="bear say welcome"></a>
             <div class="col d-flex flex-column flex-sm-row align-items-center justify-content-between">
                 <h1 class="text-center mb-0"><a href="{{ path('app_home')}}"><span class="text-uppercase">adm</span></a></h1>
                 <div>
-                    {% if app.user %}
                     <nav>
-                        <ul class="navbar d-flex justify-content-evenly align-items-center ps-0 mb-0">
+                        <ul class="d-flex flex-wrap justify-content-evenly align-items-center ps-0 mb-0">
+                        {% if app.user %}
                             <li>
                                 <a class={{include('layouts/_includes/actual.html.twig', {'route': 'app_home'})}} 
                                    href="{{ path('app_home') }}">accueil
@@ -23,13 +23,13 @@
                                    href="{{ path('app_logout') }}" >déconnexion
                                 </a>
                             </li>
-                            {% if is_granted("ROLE_ADMIN") %}
-                                <li>
-                                    <a class={{include('layouts/_includes/actual.html.twig', {'route': 'app_user_research'})}} 
-                                       href="{{ path('app_user_research') }}" >utilisateurs
-                                    </a>
-                                </li>
-                            {% endif %}
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <li>
+                                        <a class={{include('layouts/_includes/actual.html.twig', {'route': 'app_user_research'})}} 
+                                        href="{{ path('app_user_research') }}" >utilisateurs
+                                        </a>
+                                    </li>
+                                {% endif %}
                             {% else %}
                             <li>
                                 <a class="btn btn-info btn-sm" 

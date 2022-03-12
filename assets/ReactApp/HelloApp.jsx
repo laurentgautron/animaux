@@ -57,18 +57,19 @@ class HelloApp extends React.Component
 
     render() {
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
-        return <div>
+        return <div className="h-100">
                 {this.state.id !== 0 ?
                     <AnimalCard animalId={this.state.id} changeId={this.handleChangeId} key={this.state.animalKey}/>
                     : <>
-                        {!this.state.addAnimal ? <div className="text-center">
-                            <div className="newAction d-flex justify-center mt-4 mb-3">
-                                <button className="btn btn-primary me-2" 
-                                        onClick={this.toggleResearch}>{buttonResearchText}</button>
-                                <button className="btn btn-primary add-button"
+                        {!this.state.addAnimal ? <div className="text-center h-100">
+                            <div className="new-action d-flex justify-center mt-4 mb-3">
+                                <button className="btn btn-primary add-button detail me-2"
                                         onClick={ () => { this.setState({addAnimal: true})}}>
                                 <FontAwesomeIcon icon={faPlus} className="me-2"/>
                                 ajouter un animal
+                                </button>
+                                <button className="btn btn-primary" 
+                                        onClick={this.toggleResearch}>{buttonResearchText}
                                 </button>
                             </div>
                             {this.state.fullResearch ? 

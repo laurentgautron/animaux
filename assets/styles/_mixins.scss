@@ -1,6 +1,6 @@
 //media queries for little phone
 @mixin little-phone {
-    @media screen and (max-width: 450px) {
+    @media screen and (max-width: 475px) {
         @content
     }
 }

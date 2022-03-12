@@ -12,7 +12,11 @@
     </head>
     <body>
         {% include "layouts/header.html.twig" %}
+        {% if app.request.attributes.get('_route') != 'app_home' %}
+        <div class="container-fluid h-100">
+        {%  else %}
         <div class="container-fluid">
+        {% endif %}
             {% block body %}
             {% endblock %}
         </div>

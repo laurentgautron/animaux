@@ -53,7 +53,7 @@ class CardList extends React.Component
     }
 
     render() {
-        return <div>
+        return <div className="d-flex flex-column align-items-center">
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {
                     return  <div key={element["@id"]} 

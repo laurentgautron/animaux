@@ -1,3 +1,8 @@
+@mixin actual {
+    color: var(--bs-info);
+    background-color: var(--bs-white);
+}
+
 header {
     background-color: var(--bs-blue);
     .bear {
@@ -14,11 +19,18 @@ header {
         color: var(--bs-white);
         background-color: (--bs-info);
         &:hover {
-            color: var(--bs-info);
-            background-color: var(--bs-white);
+            @include actual()
         }
+    }
+    .actual {
+        @include actual()
     }
     span {
         color: white;
+    }
+    a {
+        &:hover {
+            color: white;
+        }
     }
 }

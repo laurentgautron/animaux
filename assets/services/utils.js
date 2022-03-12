@@ -6,7 +6,8 @@ function init(inputFields) {
         for (const field of inputFields[item]) {
             if (item === "number") {
                 initForm[field["primaryEntity"]] = 0
-            }else if (field['multiple']) {
+            }
+            else if (field['multiple']) {
                 initForm[field['primaryEntity']]  = []
             } else {
                 initForm[field['primaryEntity']]  = ''
@@ -96,9 +97,7 @@ const datasForRequest = (objectForm, context, fields, props) => {
                 if (type === 'select' && !multiple) {
                 form[key] = null
                 }
-            } else if (form[key] === NaN) {
-                form[key] = 0
-            }
+            } 
         }
         if (needIdTable.includes(props.field)) {
             form['animal'] = prepareIdApi('animals', props.id)

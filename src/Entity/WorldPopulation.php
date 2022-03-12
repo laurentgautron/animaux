@@ -15,11 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     // denormalizationContext: ['groups' => ['write:collection']],
     normalizationContext: ['groups' => ['worldPopulation:read:collection']],
     denormalizationContext: ['groups' => ['worldPopulation:write:collection']],
-    itemOperations: [
-        'get',
-        'delete',
-        'patch' => ['normalization_context' => ['groups' => ['patch']]]
-    ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['animal' => 'exact'])]
 #[ORM\Entity(repositoryClass: WorldPopulationRepository::class)]
@@ -35,11 +30,11 @@ class WorldPopulation
     #[Groups([
         'worldPopulation:read:collection',
         'worldPopulation:write:collection',
-        'patch'
     ])]
     private $population;
 
     #[ORM\Column(type: 'string', length: 4)]
+    #[Assert\NotBlank()]
     #[Groups([
         'worldPopulation:read:collection',
         'worldPopulation:write:collection',

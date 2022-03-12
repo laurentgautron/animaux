@@ -32,16 +32,6 @@
     }
 }
 
-.addUserButton {
-    font-style: italic;
-    color: var(--bs-blue);
-    background-color: #fff;
-    &:hover {
-        color: white;
-        background-color: var(--bs-blue);
-    }
-}
-
 .userResearch {
     background-color: var(--bs-blue);
     color: white;

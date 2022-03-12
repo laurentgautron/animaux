@@ -1,12 +1,20 @@
 const needIdTable = ['world_populations']
 
+const trad = {
+    'animalName': 'Nom animal',
+    'diets': 'régime',
+    'continents': 'continents',
+    'species': 'espèce',
+    'description': 'description'
+}
+
 const animals = {
     text: [{
         table: 'animals', 
         primaryEntity: "animalName", 
         context: [
-            'simpleResearch', 
-            'fullResearch', 
+            'simple-research', 
+            'full-research', 
             'creation', 'edition'
         ]
     }],
@@ -14,13 +22,13 @@ const animals = {
         table: 'animals', 
         primaryEntity: "description", 
         context: [
-            'fullResearch', 'creation', 'edition'
+            'creation', 'edition'
         ]
     }],
     select: [
-        {table: 'diets', primaryEntity: 'diet', context: ['fullResearch', 'creation', 'edition']},
-        {table: 'species', primaryEntity: 'species', context: ['fullResearch', 'creation', 'edition']},
-        {table: 'continents', primaryEntity: 'continents', multiple: true, context: ['fullResearch', 'creation', 'edition']}
+        {table: 'diets', primaryEntity: 'diet', context: ['full-research', 'creation', 'edition']},
+        {table: 'species', primaryEntity: 'species', context: ['full-research', 'creation', 'edition']},
+        {table: 'continents', primaryEntity: 'continents', multiple: true, context: ['full-research', 'creation', 'edition']}
     ],
 }
 
@@ -34,4 +42,4 @@ const world_populations = {
 
 }
 
-export {animals, world_populations, needIdTable}
+export {animals, world_populations, needIdTable, trad}

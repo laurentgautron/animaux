@@ -68,7 +68,6 @@ export function Population (props) {
                 }
                 setEdit(true)
                 setIdPopulation(makeNumber(pop["@id"]))
-                console.log('je change la clé: ', key)
                 setKey(key)
             })
         } else {
@@ -147,12 +146,14 @@ export function Population (props) {
                         </Form>}
             {addYear && <Form 
                         context="creation"
+                        // props.id is animalId
                         id={props.id} 
                         field="world_populations"
                         onAdd={handleAddYear}>
                         ajouter une population pour l'animal {props.animalName}
                         </Form>}
             {wantDesctruction && <Modale visible={visible} 
+                                         // i need animalId if not connected to come back on animal's card
                                          animalId={props.id}
                                          context="destruction"
                                          del={del}

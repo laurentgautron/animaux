@@ -1,9 +1,12 @@
 body {
     background-color: var(--bs-gray-dark);
+    height: 100vh;
     position: relative;
     a {
-        text-decoration: none;
-        font-style: italic;
+        nav {
+            text-decoration: none;
+            font-style: italic;
+        }
     }
     .btn {
         border-radius: 5px;
@@ -12,5 +15,20 @@ body {
         &.change {
             background-color: var(--bs-blue);
         }
+    }
+    .add-button {
+        font-style: italic;
+        color: var(--bs-blue);
+        background-color: #fff;
+        &:hover {
+            color: white;
+            background-color: var(--bs-blue);
+        }
+    }
+    h1::first-letter {
+        text-transform: capitalize;
+    }
+    #root {
+        height: 100%;
     }
 }

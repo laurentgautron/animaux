@@ -79,7 +79,6 @@ class AnimalCard extends React.Component
                     modaleKey: state.modaleKey
                 }))
             }  else {
-                console.log('je veux détruire')
                 this.setState(state => ({
                     visible: true,
                     wantDestruction: true,
@@ -144,8 +143,7 @@ class AnimalCard extends React.Component
                                         context="edition" 
                                         datas={this.state} 
                                         id={this.props.animalId} 
-                                        field="animals" 
-                                        changeId={this.changeId}
+                                        field="animals"
                                         onEdit={this.changeId}>
                                         modifier l'animal: {this.state.animalName}
                                     </Form>}

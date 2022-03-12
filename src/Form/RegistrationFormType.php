@@ -45,6 +45,7 @@ class RegistrationFormType extends AbstractType
                         'data' => $entity->getRoles() ? $entity->getRoles()[0] : '',
                         'label'   => 'Rôle',
                         'choices' => [
+                            '' => '',
                             'Collaborateur'  => 'ROLE_COLL',
                             'Administrateur' => 'ROLE_ADMIN',
                         ],

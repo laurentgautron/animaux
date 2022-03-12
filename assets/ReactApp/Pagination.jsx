@@ -32,10 +32,10 @@ export default function Pagination(props) {
         }
     }, [page])
     
-    return ( <div className="d-flex ms-4">
+    return ( <div className="d-flex">
         {props.view !== undefined && props.view["hydra:last"] &&
             <nav>
-                <ul className="animalsPagination  d-flex flex-column flex-sm-row text-center list-unstyled ms-4">
+                <ul className="animalsPagination  d-flex flex-column flex-sm-row text-center list-unstyled">
                 {(first !== undefined && first !== page) && 
                     <a href="#beginning"><li onClick={ () => setPage(page - 1)}>Précédent</li></a>}
                 {(first === undefined || first === page) && 

@@ -2,6 +2,8 @@ import React from "react";
 import CardList from "./CardList.jsx"
 import {Form} from "./Form.jsx";
 import AnimalCard from "./AnimalCard.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class HelloApp extends React.Component 
 {  
@@ -59,14 +61,20 @@ class HelloApp extends React.Component
                 {this.state.id !== 0 ?
                     <AnimalCard animalId={this.state.id} changeId={this.handleChangeId} key={this.state.animalKey}/>
                     : <>
-                        {!this.state.addAnimal ? <div>
-
-                            <button className="btn btn-primary" onClick={this.toggleResearch}>{buttonResearchText}</button>
+                        {!this.state.addAnimal ? <div className="text-center">
+                            <div className="newAction d-flex justify-center mt-4 mb-3">
+                                <button className="btn btn-primary me-2" 
+                                        onClick={this.toggleResearch}>{buttonResearchText}</button>
+                                <button className="btn btn-primary add-button"
+                                        onClick={ () => { this.setState({addAnimal: true})}}>
+                                <FontAwesomeIcon icon={faPlus} className="me-2"/>
+                                Ajouter un animal
+                                </button>
+                            </div>
                             {this.state.fullResearch ? 
-                                <Form context="fullResearch" onResult={this.handleResult} field="animals" />:
-                                <Form context="simpleResearch" onResult={this.handleResult} field="animals" />
+                                <Form context="full-research" onResult={this.handleResult} field="animals" />:
+                                <Form context="simple-research" onResult={this.handleResult} field="animals" />
                             }
-                            <button className="btn btn-primary" onClick={ () => { this.setState({addAnimal: true})}}>Ajouter un animal</button>
                             <CardList url={this.state.url} changeId={this.handleChangeId}/>
                         </div>
                         : <Form context="creation" field="animals" onAdd={this.handleAddAnimal}>

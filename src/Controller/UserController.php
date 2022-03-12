@@ -26,11 +26,6 @@ class UserController extends AbstractController
         $is_find = true;
 
         $form = $this->createForm(RegistrationFormType::class, $user, ['research' => true]);
-        // $form->remove('plainPassword');
-        // $form->remove('agreeTerms');
-        // $form->remove('roles');
-        // $form->remove('email');
-        // $form->remove('firstName');
 
         $form->handleRequest($request);
 

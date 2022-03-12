@@ -1,16 +1,6 @@
 //media queries for little phone
 @mixin little-phone {
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 450px) {
         @content
-    }
-}
-
-@mixin add-item {
-    font-style: italic;
-    color: var(--bs-blue);
-    background-color: #fff;
-    &:hover {
-        color: white;
-        background-color: var(--bs-blue);
     }
 }

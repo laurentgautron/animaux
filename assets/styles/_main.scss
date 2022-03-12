@@ -28,9 +28,6 @@ body {
             background-color: var(--bs-blue);
         }
     }
-    h1::first-letter {
-        text-transform: capitalize;
-    }
     #root {
         height: 100%;
     }

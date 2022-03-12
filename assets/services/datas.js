@@ -1,7 +1,7 @@
 const needIdTable = ['world_populations']
 
 const trad = {
-    'animalName': 'Nom animal',
+    'animalName': 'Nom de l\'animal',
     'diets': 'régime',
     'continents': 'continents',
     'species': 'espèce',

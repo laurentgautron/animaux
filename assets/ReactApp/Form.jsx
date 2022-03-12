@@ -46,7 +46,7 @@ export function Form (props) {
                             <span>{formErrors[item.primaryEntity]}</span>}</div>
                         :<span>{formErrors[item.primaryEntity]}</span>
                     }
-                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}</label>
+                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}:</label>
                     {field === 'textarea' ?
                         <textarea type="text" 
                                   name={item["primaryEntity"]} 
@@ -72,7 +72,8 @@ export function Form (props) {
                         {item["context"].includes(props.context) ?
                             <div>
                                 <label htmlFor={item["table"]} key={item["table"]}>
-                                {trad[item["table"]]}</label>
+                                {trad[item["table"]]}:
+                                </label>
                                 <select name={item["primaryEntity"]}
                                         key={item["primaryEntity"]+1} 
                                         value={form[item.primaryEntity]} 
@@ -129,7 +130,7 @@ export function Form (props) {
 
     const handleSubmit = (ev) => {
         ev.preventDefault()
-        if (props.context === "fullResearch" || props.context === 'simpleResearch') {
+        if (props.context === "full-research" || props.context === 'simple-research') {
             //make an url and pass url in HelloApp
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {

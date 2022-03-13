@@ -152,14 +152,15 @@ export function Population (props) {
                         onAdd={handleAddYear}>
                         ajouter une population pour l'animal {props.animalName}
                         </Form>}
-            {wantDesctruction && <Modale visible={visible} 
+            {wantDesctruction ? <Modale visible={visible} 
                                          // i need animalId if not connected to come back on animal's card
                                          animalId={props.id}
                                          context="destruction"
                                          del={del}
                                          changeId={handleEdit}
-                                         key={modaleKey}/>}
-            {!wantDesctruction && <Modale  visible={visible}
+                                         key={modaleKey}
+                                />:
+                                <Modale  visible={visible}
                                            context="change"
                                            animalId={props.id}
                                            key={modaleKey}/>}

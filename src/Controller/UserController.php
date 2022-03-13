@@ -122,11 +122,12 @@ class UserController extends AbstractController
     #[Route('/checkUserConnexion', name: "checkUser")]
     public function checkUser()
     {
-        if ($this->getUser()) {
-            return $this->json(true);
-        } else {
-            return $this->json(false);
-        }
+        return $this->json($this->getUser());
+        // if ($this->getUser()) {
+        //     return $this->json(true);
+        // } else {
+        //     return $this->json(false);
+        // }
     }
 
 }

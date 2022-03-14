@@ -14,6 +14,7 @@ function init(inputFields) {
             }
         }
     }
+    console.log('la form de init: ', initForm)
     return initForm
 }
 
@@ -37,7 +38,8 @@ function initFunction (props) {
             }
         }
     } else {
-       initForm = init(props.table)
+        console.log('pas de données')
+       initForm = init(props.fields)
     }
     return initForm
 }

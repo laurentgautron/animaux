@@ -6,7 +6,7 @@ const trad = {
     'continents': 'continents',
     'species': 'espèce',
     'description': 'description',
-    'population': 'population',
+    'population': "population",
     'year': 'année'
 }
 

@@ -56,12 +56,12 @@ class CardList extends React.Component
         return <div className="d-flex flex-column align-items-center">
             <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
                 {this.state.animalList.map( element => {
-                    return  <div key={element["@id"]} 
-                                role="button"
-                                className="animalCard col-sm-3 m-4 px-3 d-flex justify-content-center align-items-center"
-                                onClick={ () => this.props.changeId(this.makeUrlNumber(element["@id"])) }>
-                                <h2 className="text-center">{ element["animalName"] }</h2>
-                            </div>
+                    return  <a href="#beginning" className="animalCard col-sm-3 m-4 px-3 d-flex justify-content-center align-items-center"
+                                                 key={element["@id"]}
+                                                 onClick={ () => this.props.changeId(this.makeUrlNumber(element["@id"])) }>
+                                 
+                                <h2 className="text-center">{ element["animalName"] }</h2> 
+                            </a>
                     })
                 }
             </div>

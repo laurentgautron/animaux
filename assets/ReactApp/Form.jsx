@@ -15,6 +15,9 @@ export function Form (props) {
     const [formErrors, setFormErrors] = useState(init(props.fields))
     const [options, setOptions] = useState({})
 
+    console.log('la form: ', form)
+    console.log('les errors: ' ,formErrors)
+
     const extractDatasSelect = (datas) => {
         // need value and iri for select
         let arrayDatas = []
@@ -31,37 +34,6 @@ export function Form (props) {
         return arrayDatas
     }
 
-    const Field = ({field}) => {
-
-        return <div>
-            {props.fields[field] && props.fields[field].map( item => {
-            if (item['context'].includes(props.context)) {
-                return <div key={item['primaryEntity']}>
-                    {field === 'number' ? 
-                        <div> {formErrors[item.primaryEntity] === 0 ?
-                            <span></span>: 
-                            <span>{formErrors[item.primaryEntity]}</span>}</div>
-                        :<span>{formErrors[item.primaryEntity]}</span>
-                    }
-                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}:</label>
-                    {field === 'textarea' ?
-                        <textarea type="text" 
-                                  name={item["primaryEntity"]} 
-                                  value={form[item.primaryEntity]} 
-                                  onChange={handleChange}/>
-                        :
-                        <input type={field} 
-                               name={item["primaryEntity"]} 
-                               value={form[item.primaryEntity]} 
-                               onChange={handleChange}
-                               />
-                    }
-                </div>
-            }
-        })}
-        </div>
-    }
-
     const Select = () => {
         return ( <div>
             {props.fields['select'] && props.fields["select"].map( item => {
@@ -70,7 +42,7 @@ export function Form (props) {
                         {item["context"].includes(props.context) ?
                             <div>
                                 <label htmlFor={item["table"]} key={item["table"]}>
-                                {trad[item["table"]]}:
+                                {trad[item["table"]]}: 
                                 </label>
                                 <select name={item["primaryEntity"]}
                                         key={item["primaryEntity"]+1} 
@@ -180,18 +152,36 @@ export function Form (props) {
     return (<div>
         <h1>{props.children}</h1>
         <form onSubmit={handleSubmit} className={props.context}>
-            <div>
-
-            <Field field='number' />
+        {props.fields["number"] && props.fields["number"].map( item => {
+            if (item['context'].includes(props.context)) {
+                return <div key={item['primaryEntity']}>
+                    {formErrors[item.primaryEntity] === 0 ? <span></span>: <span>{formErrors[item.primaryEntity]}</span>}
+                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
+                    <input type="number" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </div>
-            <div>
-
-            <Field field='text'/>
+            }
+        })}
+        {props.fields['text'] && props.fields["text"].map( item => {
+            if ( item['context'].includes(props.context)) {
+                return <div key={item['primaryEntity']}>
+                    <span>{formErrors[item.primaryEntity]}</span>
+                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
+                    <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
+                </div>
+            }
+        })}
+        {props.fields['textarea'] && props.fields["textarea"].map( item => {
+            if (item["context"].includes(props.context)) {
+                return <div key={item['primaryEntity']}>
+                    <span>{formErrors[item.primaryEntity]}</span>
+                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
+                    <textarea name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </div>
-            <Field field="textarea" />
-            <Select />
-            <button type="submit" className="btn btn-primary">{submitText}</button>
-        </form>
+            }
+        })}
+        <Select />
+        <button type="submit">{submitText}</button>
+    </form>
     </div>)
      
 }

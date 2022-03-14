@@ -1,4 +1,4 @@
-import { animals, world_populations, needIdTable } from "./datas"
+import { needIdTable } from "./datas"
 
 function init(inputFields) {
     let initForm = {}
@@ -37,24 +37,9 @@ function initFunction (props) {
             }
         }
     } else {
-        switch(props.field) {
-            case 'animals':
-                initForm = init(animals, "primaryEntity")
-                break
-            case 'world_populations':
-                initForm = init(world_populations, "primaryEntity")
-                break
-        }
+       initForm = init(props.table)
     }
     return initForm
-}
-
-const contextFields = (field) => {
-    if (field === 'animals') {
-        return animals
-    } else {
-        return world_populations
-    }
 }
 
 function makeUrl(form) {
@@ -79,9 +64,9 @@ const prepareIdApi= (field, id) => {
     return 'api/'+ field + '/' + id
 }
 
-const datasForRequest = (objectForm, context, fields, props) => {
+const datasForRequest = (objectForm, context, props) => {
     let form = {...objectForm}
-    const formInit = init(fields)
+    const formInit = init(props.fields)
     // to remove key we don't need in body for request
     for (const key in form) {
         console.log('dans le form: ', key, !(key in formInit))
@@ -93,13 +78,13 @@ const datasForRequest = (objectForm, context, fields, props) => {
     if (context === "creation" || context === "edition") {
         for (const key in form) {
             if (form[key] === "") {
-                const {type, multiple} = getInfos(key, fields)
+                const {type, multiple} = getInfos(key, props.fields)
                 if (type === 'select' && !multiple) {
                 form[key] = null
                 }
             } 
         }
-        if (needIdTable.includes(props.field)) {
+        if (needIdTable.includes(props.table)) {
             form['animal'] = prepareIdApi('animals', props.id)
        }
     } 
@@ -147,7 +132,6 @@ export {makeUrl,
         init, 
         datasForRequest,
         validation,
-        contextFields,
         prepareTable,
         prepareIdApi,
         prepareId}

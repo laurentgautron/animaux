@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Form } from "./Form";
 import { init } from "../services/utils";
-import { world_populations } from "../services/datas";
+import { worldPopulations } from "../services/datas";
 import Pagination from "./Pagination";
 import Modale from "./Modale";
 import AnimalServices from "../services/animals-services";
+import * as fields from "../services/datas.js"
 
 export function Population (props) {
 
@@ -18,7 +19,7 @@ export function Population (props) {
     const [addYear, setAddYear] = useState(false)
     const [populationList, setPopulationList] = useState([])
     const [edit, setEdit] = useState(false)
-    const [datas, setDatas] = useState(init(world_populations))
+    const [datas, setDatas] = useState(init(worldPopulations))
     const [idPopulation, setIdPopulation] = useState()
     const [url, setUrl] = useState('api/world_populations/?animal=' + props.id)
     const [view, setView] = useState()
@@ -59,6 +60,7 @@ export function Population (props) {
                 }
             })
             .then(resp => {
+                console.log('les datas: ', datas)
                 for ( const key in resp) {
                     if (datas[key] !== undefined) {
                         setDatas(state => ({
@@ -139,7 +141,8 @@ export function Population (props) {
                         datas={datas} 
                         id={idPopulation} 
                         animalId={props.id} 
-                        field="world_populations" 
+                        fields={fields.worldPopulations}
+                        table="world_populations"
                         onEdit={handleEdit}>
                         modifier la population de l'année {populationList[key] !== undefined && 
                         <span>{populationList[key]["year"]}</span>} pour l'animal {props.animalName}
@@ -148,7 +151,8 @@ export function Population (props) {
                         context="creation"
                         // props.id is animalId
                         id={props.id} 
-                        field="world_populations"
+                        fields={fields.worldPopulations}
+                        table="world_populations"
                         onAdd={handleAddYear}>
                         ajouter une population pour l'animal {props.animalName}
                         </Form>}

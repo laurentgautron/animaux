@@ -4,6 +4,7 @@ import {Form} from "./Form.jsx";
 import AnimalCard from "./AnimalCard.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import * as fields from "../services/datas.js"
 
 class HelloApp extends React.Component 
 {  
@@ -73,12 +74,12 @@ class HelloApp extends React.Component
                                 </button>
                             </div>
                             {this.state.fullResearch ? 
-                                <Form context="full-research" onResult={this.handleResult} field="animals" />:
-                                <Form context="simple-research" onResult={this.handleResult} field="animals" />
+                                <Form context="full-research" onResult={this.handleResult} fields={fields.animals} />:
+                                <Form context="simple-research" onResult={this.handleResult} fields={fields.animals} />
                             }
                             <CardList url={this.state.url} changeId={this.handleChangeId}/>
                         </div>
-                        : <Form context="creation" field="animals" onAdd={this.handleAddAnimal}>
+                        : <Form context="creation" fields={fields.animals} table="animals" onAdd={this.handleAddAnimal}>
                             remplir les champs pour ajouter un animal à la collection
                         </Form>
                         }

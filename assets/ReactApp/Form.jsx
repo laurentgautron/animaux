@@ -5,17 +5,14 @@ import {initFunction,
         datasForRequest, 
         validation, 
         init, 
-        contextFields,
         prepareIdApi} from '../services/utils'
 
 export function Form (props) {
 
-    const fields = contextFields(props.field)
-
     const submitText = (props.context === 'edition' || props.context === 'creation') ? "enregistrer" : "rechercher"
     
     const [form, setForm] = useState(initFunction(props))
-    const [formErrors, setFormErrors] = useState(init(fields, 'primaryEntity'))
+    const [formErrors, setFormErrors] = useState(init(props.fields))
     const [options, setOptions] = useState({})
 
     const extractDatasSelect = (datas) => {
@@ -37,8 +34,8 @@ export function Form (props) {
     const Field = ({field}) => {
 
         return <div>
-            {fields[field] && fields[field].map( item => {
-            if ( item['context'].includes(props.context)) {
+            {props.fields[field] && props.fields[field].map( item => {
+            if (item['context'].includes(props.context)) {
                 return <div key={item['primaryEntity']}>
                     {field === 'number' ? 
                         <div> {formErrors[item.primaryEntity] === 0 ?
@@ -56,7 +53,8 @@ export function Form (props) {
                         <input type={field} 
                                name={item["primaryEntity"]} 
                                value={form[item.primaryEntity]} 
-                               onChange={handleChange}/>
+                               onChange={handleChange}
+                               />
                     }
                 </div>
             }
@@ -66,7 +64,7 @@ export function Form (props) {
 
     const Select = () => {
         return ( <div>
-            {fields['select'] && fields["select"].map( item => {
+            {props.fields['select'] && props.fields["select"].map( item => {
                 return <div key={item["primaryEntity"]}>
                         <span>{formErrors[item.primaryEntity]}</span>
                         {item["context"].includes(props.context) ?
@@ -93,10 +91,10 @@ export function Form (props) {
         )  
     }
 
-    if (fields['select']) {
+    if (props.fields['select']) {
         useEffect ( async () => {
             let datas = {}
-            for (const select of fields["select"]) {
+            for (const select of props.fields["select"]) {
                 const response = await fetch('api/' + select["table"])
                 .then(rep => rep.json())
                 datas[select["primaryEntity"]] =  extractDatasSelect(response["hydra:member"])
@@ -106,12 +104,15 @@ export function Form (props) {
     }
 
     const handleChange = (ev) => {
+        ev.persist()
+        console.log('je change')
         if (ev.target.multiple) {
             const {name, selectedOptions} = ev.target
             setForm ( state => ({
                 ...state, [name]: Array.from(selectedOptions, option => option.value)
             }))
         } else {
+            console.log('pas un select')
             const { name, value, type }  = ev.target
             const newValue = () => {
                 if (type === 'number' && !isNaN(parseInt(value, 10))) {
@@ -119,6 +120,7 @@ export function Form (props) {
                 } else if (type === 'number' && isNaN(parseInt(value, 10))) {
                     return 0
                 } else {
+                    console.log('un texte')
                     return value
                 } 
             }
@@ -135,18 +137,18 @@ export function Form (props) {
             props.onResult(makeUrl(form))
         } else if (props.context === 'creation') {
             try {
-                const url = 'api/' + props.field
+                const url = 'api/' + props.table
                 fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/ld+json'
                     },
-                    body: JSON.stringify(datasForRequest(form, 'creation', fields, props))
+                    body: JSON.stringify(datasForRequest(form, 'creation', props))
                 })
                 .then (response => response.json())
                 .then(resp => {
                     if (resp.violations) {
-                        setFormErrors(validation(fields, resp))
+                        setFormErrors(validation(props.fields, resp))
                     } else {
                         props.onAdd()
                     }
@@ -156,17 +158,17 @@ export function Form (props) {
             }
         // if not a creation it's a modification
         } else {
-            fetch(prepareIdApi(props.field, props.id), {
+            fetch(prepareIdApi(props.table, props.id), {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/ld+json'
                 },
-                body: JSON.stringify(datasForRequest(form, 'edition', fields, props))
+                body: JSON.stringify(datasForRequest(form, 'edition', props))
             })
             .then(response => response.json())
             .then(resp => {
                 if (resp.violations) {
-                    setFormErrors(validation(fields, resp))
+                    setFormErrors(validation(props.fields, resp))
                 } else {
                     // callBack to change id in HelloApp
                     props.onEdit(props.id)
@@ -178,8 +180,14 @@ export function Form (props) {
     return (<div>
         <h1>{props.children}</h1>
         <form onSubmit={handleSubmit} className={props.context}>
+            <div>
+
             <Field field='number' />
+            </div>
+            <div>
+
             <Field field='text'/>
+            </div>
             <Field field="textarea" />
             <Select />
             <button type="submit" className="btn btn-primary">{submitText}</button>

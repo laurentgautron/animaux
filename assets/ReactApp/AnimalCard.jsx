@@ -5,6 +5,7 @@ import Modale from './Modale'
 import { Form } from "./Form";
 import { Population } from "./PopulationCard";
 import AnimalServices from "../services/animals-services";
+import * as fields from "../services/datas"
 
 class AnimalCard extends React.Component
 { 
@@ -159,7 +160,8 @@ class AnimalCard extends React.Component
                                         context="edition" 
                                         datas={this.state} 
                                         id={this.props.animalId} 
-                                        field="animals"
+                                        fields={fields.animals}
+                                        table="animals"
                                         onEdit={this.changeId}>
                                         modifier l'animal: {this.state.animalName}
                                     </Form>}

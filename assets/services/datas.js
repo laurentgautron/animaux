@@ -5,7 +5,9 @@ const trad = {
     'diets': 'régime',
     'continents': 'continents',
     'species': 'espèce',
-    'description': 'description'
+    'description': 'description',
+    'population': 'population',
+    'year': 'année'
 }
 
 const animals = {
@@ -32,14 +34,14 @@ const animals = {
     ],
 }
 
-const world_populations = {
+const worldPopulations = {
     number: [
         {table: 'worldPopulation', primaryEntity: "population", context: ['creation', 'edition']},
     ],
     text: [
-        {table: 'worldPopulation', primaryEntity: "year", finalEntity: "year", context: ['creation']},
+        {table: 'worldPopulation', primaryEntity: "year", context: ['creation']},
     ],
 
 }
 
-export {animals, world_populations, needIdTable, trad}
+export {animals, worldPopulations, needIdTable, trad}

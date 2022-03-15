@@ -1,5 +1,10 @@
-<div class="row form-field flex-column flex-lg-row bg-info align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
-{{ form_label((formField), null, {'label_attr': {'class': 'align-self-center col-md-2 mb-3 mb-lg-0 col-3'}}) }}
+<div class="row form-field flex-column flex-lg-row bg-info 
+            align-items-start p-sm-5 p-2 align-center my-2 mx-1 mx-sm-0">
+{{ form_label((formField), null, {
+    'label_attr': {'class': 'align-self-center col-md-2 mb-3 mb-lg-0 col-3'}}
+    )
+}}
 {{ form_errors(formField)}}
 {{ form_widget((formField), {'attr': {'class': 'col'}}) }}
 </div>
+

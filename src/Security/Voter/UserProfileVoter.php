@@ -53,11 +53,7 @@ class UserProfileVoter extends Voter
 
     private function canView(User $currentUser, User $user)
     {
-        if ($this->canEdit($currentUser, $user)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->canEdit($currentUser, $user);
     }
 
     private function canChange(User $currentUser, User $user)

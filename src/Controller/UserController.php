@@ -19,7 +19,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     #[Route('admin/user/research', name: 'app_user_research')]
-    public function index(UserRepository $userRepository, Request $request, PaginatorInterface $paginator): Response
+    public function index(UserRepository $userRepository, 
+                          Request $request, 
+                          PaginatorInterface $paginator): Response
     {
         $user = new User();
         $data = $userRepository->findAll();
@@ -123,11 +125,6 @@ class UserController extends AbstractController
     public function checkUser()
     {
         return $this->json($this->getUser());
-        // if ($this->getUser()) {
-        //     return $this->json(true);
-        // } else {
-        //     return $this->json(false);
-        // }
     }
 
 }

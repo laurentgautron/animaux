@@ -1,0 +1,35 @@
+.populations {
+    table {
+        border-collapse: collapse;
+        text-align: center;
+        width: 100%;
+        table-layout: fixed;
+        font-weight: 800;
+        thead {
+            th {
+                padding: 0rem 0rem 1rem 0rem;
+            }
+            th:nth-child(1),
+            th:nth-child(2) {
+                width: 15%;
+            }
+            th:nth-child(3) {
+                color: var(--bs-gray-dark);
+            }
+        }
+        td:nth-child(3) {
+            text-align: right;
+            button {
+                margin: 0.3rem 0.8rem;
+            }
+        }
+        caption {
+            text-align: center;
+        }
+        tbody {
+            td {
+                border-bottom: solid 0.2rem var(--bs-gray-dark);
+            }
+        }
+    }
+}

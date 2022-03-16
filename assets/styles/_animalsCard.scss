@@ -1,4 +1,5 @@
-.animalCard {
+.animal-card {
+    box-shadow: 1px 1px 3px white;
     width: 390px;
     height: 390px;
     background-color: var(--bs-secondary);
@@ -9,5 +10,18 @@
 }
 
 .one-card {
-    height: 100vh;
+    h1 {
+        font-size: 5rem;
+    }
+    p {
+        font-size: 3rem;
+    }
+    div {
+        h2 {
+            margin-left: 1rem;
+        }
+        p {
+            font-size: 1.5rem;
+        }
+    }
 }

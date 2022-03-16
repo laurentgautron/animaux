@@ -14,7 +14,6 @@ function init(inputFields) {
             }
         }
     }
-    console.log('la form de init: ', initForm)
     return initForm
 }
 

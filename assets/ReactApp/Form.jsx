@@ -77,14 +77,12 @@ export function Form (props) {
 
     const handleChange = (ev) => {
         ev.persist()
-        console.log('je change')
         if (ev.target.multiple) {
             const {name, selectedOptions} = ev.target
             setForm ( state => ({
                 ...state, [name]: Array.from(selectedOptions, option => option.value)
             }))
         } else {
-            console.log('pas un select')
             const { name, value, type }  = ev.target
             const newValue = () => {
                 if (type === 'number' && !isNaN(parseInt(value, 10))) {
@@ -92,7 +90,6 @@ export function Form (props) {
                 } else if (type === 'number' && isNaN(parseInt(value, 10))) {
                     return 0
                 } else {
-                    console.log('un texte')
                     return value
                 } 
             }
@@ -150,7 +147,7 @@ export function Form (props) {
     }
 
     return (<div>
-        <h1>{props.children}</h1>
+        <h1 className="m-4">{props.children}</h1>
         <form onSubmit={handleSubmit} className={props.context}>
         {props.fields["number"] && props.fields["number"].map( item => {
             if (item['context'].includes(props.context)) {
@@ -180,7 +177,7 @@ export function Form (props) {
             }
         })}
         <Select />
-        <button type="submit">{submitText}</button>
+        <button type="submit" className="btn btn-primary">{submitText}</button>
     </form>
     </div>)
      

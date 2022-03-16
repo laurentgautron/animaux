@@ -117,31 +117,43 @@ class AnimalCard extends React.Component
 
     render() {
         return <div>
-            {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && <div className="one-card">
-                <div className="d-flex mt-4 justify-content-left align-items-center">
-                <h1 className="me-4">{this.state.animalName}</h1>
-                <div className="btn-action">
-                    <button type="button" 
-                            className="btn btn-primary" 
-                            onClick={this.onClick}>
-                        modifier
-                    </button>
-                    <button type="button" 
-                            className="btn btn-primary" 
-                            onClick={this.onClick}>
-                        supprimer
-                    </button>
-                    <button type="button" 
-                            className="btn btn-primary" 
-                            onClick={ () => this.setState({showPopulation: true})}>
-                        populations
-                    </button>
+            {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && 
+            <div className="one-card">
+                <div className="mt-4">
+                    <div className="btn-action mb-4">
+                        <button type="button" 
+                                className="btn btn-primary" 
+                                onClick={this.onClick}>
+                            modifier
+                        </button>
+                        <button type="button" 
+                                className="btn btn-primary" 
+                                onClick={this.onClick}>
+                            supprimer
+                        </button>
+                        <button type="button" 
+                                className="btn btn-primary" 
+                                onClick={ () => this.setState({showPopulation: true})}>
+                            populations
+                        </button>
+                        <h1 className="mb-4 text-center">{this.state.animalName}</h1>
+                    </div>
                 </div>
+                <p className="w-100">{this.state.description}</p>
+                <div className="row d-flex justify-content-center">
+                    <div className="col-8 col-xl-5 bg-info pt-2 mb-2">
+                        <h2 className="text-dark me-2">espèce:</h2>
+                        <p className="text-center pb-2">{this.state.species[0]}</p>
+                    </div>
+                    <div className="col-8 col-xl-5 bg-info pt-2 ms-xl-2 mb-2">
+                        <h2 className="text-dark me-2">régime:</h2>
+                        <p className="text-center pb-2">{this.state.diet[0]}</p>
+                    </div>
+                    <div className="col-8 col-xl-5 bg-info pt-2 mb-2">
+                        <h2 className="text-dark me-2">continents:</h2>
+                        <p className="text-center pb-2">{this.state["continents"].map( c => <span key={c[1]}>{c[0]}</span>)}</p>
+                    </div>
                 </div>
-                <p>description:{this.state.description}</p>
-                <div>espèce: {this.state.species[0]}</div>
-                <div>régime: {this.state.diet[0]}</div>
-                {this.state.continents && <div>continents: {this.state["continents"].map( c => <span key={c[1]}>{c[0]}</span>)}</div>}
                 {!this.state.wantDestruction ? <Modale 
                                                 visible={this.state.visible} 
                                                 animalId={this.props.animalId} 
@@ -164,7 +176,7 @@ class AnimalCard extends React.Component
                                         table="animals"
                                         onEdit={this.changeId}>
                                         modifier l'animal: {this.state.animalName}
-                                    </Form>}
+                                       </Form>}
             {this.state.showPopulation && <Population
                                             key={this.state.populationKey}
                                             id={this.props.animalId} 

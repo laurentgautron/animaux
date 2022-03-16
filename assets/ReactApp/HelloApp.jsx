@@ -15,15 +15,15 @@ class HelloApp extends React.Component
             url: "api/animals?",
             fullResearch: false,
             addAnimal: false,
-            animalKey: 1
+            animalKey: 1,
+            keyForm: 1
         }
     }
 
     handleResult = (url) => {
-        this.setState({
+        this.setState(state => ({
             url: url,
-            fullResearch: false
-        })
+        }))
     }
 
     createAnimal = () => {
@@ -60,7 +60,9 @@ class HelloApp extends React.Component
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
         return <div>
                 {this.state.id !== 0 ?
-                    <AnimalCard animalId={this.state.id} changeId={this.handleChangeId} key={this.state.animalKey}/>
+                    <AnimalCard animalId={this.state.id} 
+                                changeId={this.handleChangeId} 
+                                key={this.state.animalKey}/>
                     : <div>
                         {!this.state.addAnimal ? <div className="text-center">
                             <div className="new-action d-flex justify-center mt-4 mb-3">
@@ -74,12 +76,15 @@ class HelloApp extends React.Component
                                 </button>
                             </div>
                             {this.state.fullResearch ? 
-                                <Form context="full-research" onResult={this.handleResult} fields={fields.animals} />:
-                                <Form context="simple-research" onResult={this.handleResult} fields={fields.animals} />
+                                <Form context="full-research" onResult={this.handleResult} fields={fields.animals} key={this.state.keyForm}/>:
+                                <Form context="simple-research" onResult={this.handleResult} fields={fields.animals} key={this.state.keyForm}/>
                             }
                             <CardList url={this.state.url} changeId={this.handleChangeId}/>
                         </div>
-                        : <Form context="creation" fields={fields.animals} table="animals" onAdd={this.handleAddAnimal}>
+                        : <Form context="creation" 
+                                fields={fields.animals} 
+                                table="animals" 
+                                onAdd={this.handleAddAnimal}>
                             remplir les champs pour ajouter un animal à la collection
                         </Form>
                         }

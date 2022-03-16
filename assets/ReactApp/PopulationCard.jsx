@@ -112,28 +112,37 @@ export function Population (props) {
 
     return (<div> 
         {!addYear && !edit &&
-            <div>
-                <h1>liste des populations pour l'animal: {props.animalName}</h1>
-                <button onClick={() => props.onDescription()}>description</button>
-                <button onClick={() => setAddYear(true)}>ajouter une population</button>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>année</th>
-                            <th>population</th>
-                            <th>suppression</th>
-                            <th>modification</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {populationList.map( (p,key) => <tr key={p["@id"]}>
-                            <td>{p.year}</td>
-                            <td>{p.population}</td>
-                            <td><button onClick={() => handleDelete(p)}><FontAwesomeIcon icon={faTrashCan} /></button></td>
-                            <td><button onClick={() => onModify(p, key)}><FontAwesomeIcon icon={faPencil} /></button></td>
-                        </tr>)}
-                    </tbody>
-                </table>
+            <div className="populations">
+                <h1 className="mt-4 mb-4">liste des populations pour l'animal: <span className="d-inline-block">{props.animalName}</span></h1>
+                <button onClick={() => props.onDescription()} className="btn btn-primary me-2 mb-4">description</button>
+                <button onClick={() => setAddYear(true)} className="btn btn-primary mb-4">ajouter une population</button>
+                <div className="d-flex justify-content-center align-items-center">
+                    <div className="w-50">
+                        <table className="mb-4">
+                            <caption>
+                                population par années de l'animal {props.animalName}
+                            </caption>
+                            <thead className="mb-4">
+                                <tr>
+                                    <th>année</th>
+                                    <th>population</th>
+                                    <th colspan="2">actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-info text-dark">
+                            {populationList.map( (p,key) => <tr key={p["@id"]}>
+                                    <td>{p.year}</td>
+                                    <td>{p.population}</td>
+                                    <td colspan="2" className="text-right">
+                                        <button onClick={() => handleDelete(p)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                                        <button onClick={() => onModify(p, key)}><FontAwesomeIcon icon={faPencil} /></button>
+                                    </td>
+                                </tr>)}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="w-50 d-flex justify-content-center">graphique</div>
+                </div>
                 <Pagination view={view} onPage={handlePage} />
             </div>}
             {edit && <Form 

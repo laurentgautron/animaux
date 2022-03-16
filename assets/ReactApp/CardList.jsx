@@ -53,18 +53,21 @@ class CardList extends React.Component
     }
 
     render() {
-        return <div className="d-flex flex-column align-items-center">
-            <div className="row animal_container container justify-content-center mt-5 p-0 mx-auto">
+        return <div className="card-list">
+            <ul>
                 {this.state.animalList.map( element => {
-                    return  <a href="#beginning" className="animalCard col-sm-3 m-4 px-3 d-flex justify-content-center align-items-center"
-                                                 key={element["@id"]}
-                                                 onClick={ () => this.props.changeId(this.makeUrlNumber(element["@id"])) }>
-                                 
+                    return <li>
+                            <a href="#beginning" 
+                                className="animal-card col-sm-3 m-4 px-3 d-flex 
+                                            justify-content-center align-items-center"
+                                key={element["@id"]}
+                                onClick={ () => this.props.changeId(this.makeUrlNumber(element["@id"])) }> 
                                 <h2 className="text-center">{ element["animalName"] }</h2> 
                             </a>
+                        </li>
                     })
                 }
-            </div>
+            </ul>
             {this.state.animalList.length !== 0 ? 
                 <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/> :
                 <div>pas de résultat</div>

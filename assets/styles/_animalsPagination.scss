@@ -1,9 +1,6 @@
-.animalsPagination {
+.animals-pagination {
     background-color: var(--bs-secondary);
     li {
-        &:hover {
-            cursor: pointer;
-        }
         padding: 1em;
         &.actualPage {
             background-color: var(--bs-primary);
@@ -13,6 +10,13 @@
         &.disabled {
             cursor: default;
             color: rgba(255, 255, 255, 0.4);
+        }
+    }
+    a {
+        text-decoration: none;
+        color: white;
+        &:hover {
+            cursor: pointer;
         }
     }
 }

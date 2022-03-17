@@ -126,14 +126,14 @@ export function Population (props) {
                                 <tr>
                                     <th>année</th>
                                     <th>population</th>
-                                    <th colspan="2">actions</th>
+                                    <th colSpan="2">actions</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-info text-dark">
                             {populationList.map( (p,key) => <tr key={p["@id"]}>
                                     <td>{p.year}</td>
                                     <td>{p.population}</td>
-                                    <td colspan="2" className="text-right">
+                                    <td colSpan="2" className="text-right">
                                         <button onClick={() => handleDelete(p)}><FontAwesomeIcon icon={faTrashCan} /></button>
                                         <button onClick={() => onModify(p, key)}><FontAwesomeIcon icon={faPencil} /></button>
                                     </td>

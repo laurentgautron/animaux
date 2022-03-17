@@ -56,7 +56,7 @@ class CardList extends React.Component
         return <div className="card-list">
             <ul>
                 {this.state.animalList.map( element => {
-                    return <li>
+                    return <li key={element['@id']}>
                             <a href="#beginning" 
                                 className="animal-card col-sm-3 m-4 px-3 d-flex 
                                             justify-content-center align-items-center"

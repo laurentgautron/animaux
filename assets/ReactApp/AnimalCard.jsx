@@ -45,7 +45,7 @@ class AnimalCard extends React.Component
                         }
                         form[key] = tab
                     // treat a value
-                    } else if (typeof(resp[key]) === "string") {
+                    } else if (typeof resp[key] === "string") {
                         form[key] = resp[key]
                     // else it's an object
                     } else {

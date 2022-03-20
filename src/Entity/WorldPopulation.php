@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     attributes: ['pagination_items_per_page' => 9],
-    // denormalizationContext: ['groups' => ['write:collection']],
     normalizationContext: ['groups' => ['worldPopulation:read:collection']],
     denormalizationContext: ['groups' => ['worldPopulation:write:collection']],
 )]

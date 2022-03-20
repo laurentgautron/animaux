@@ -21,9 +21,9 @@ class HelloApp extends React.Component
     }
 
     handleResult = (url) => {
-        this.setState(state => ({
+        this.setState({
             url: url,
-        }))
+        })
     }
 
     createAnimal = () => {
@@ -76,8 +76,15 @@ class HelloApp extends React.Component
                                 </button>
                             </div>
                             {this.state.fullResearch ? 
-                                <Form context="full-research" onResult={this.handleResult} fields={fields.animals} key={this.state.keyForm}/>:
-                                <Form context="simple-research" onResult={this.handleResult} fields={fields.animals} key={this.state.keyForm}/>
+                                <Form context="full-research" 
+                                      onResult={this.handleResult} 
+                                      fields={fields.animals} 
+                                      key={this.state.keyForm}/>
+                            :
+                                <Form context="simple-research" 
+                                      onResult={this.handleResult} 
+                                      fields={fields.animals} 
+                                      key={this.state.keyForm}/>
                             }
                             <CardList url={this.state.url} changeId={this.handleChangeId}/>
                         </div>

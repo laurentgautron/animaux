@@ -86,7 +86,7 @@ const datasForRequest = (objectForm, context, props) => {
             } 
         }
         if (needIdTable.includes(props.table)) {
-            form['animal'] = prepareIdApi('animals', props.id)
+            form['animal'] = prepareIdApi('animals', props.animalId)
        }
     } 
     return form

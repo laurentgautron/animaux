@@ -15,9 +15,6 @@ export function Form (props) {
     const [formErrors, setFormErrors] = useState(init(props.fields))
     const [options, setOptions] = useState({})
 
-    console.log('la form: ', form)
-    console.log('les errors: ' ,formErrors)
-
     const extractDatasSelect = (datas) => {
         // need value and iri for select
         let arrayDatas = []
@@ -128,9 +125,9 @@ export function Form (props) {
         // if not a creation it's a modification
         } else {
             fetch(prepareIdApi(props.table, props.id), {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/ld+json'
+                    'Content-Type': 'application/merge-patch+json'
                 },
                 body: JSON.stringify(datasForRequest(form, 'edition', props))
             })

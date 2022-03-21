@@ -19,8 +19,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 )]
 #[ApiFilter(SearchFilter::class, properties: [
     "animalName" => 'partial', 
-    'species' => "exact", '
-    continents' => 'exact', 
+    'species' => "exact",
+    'continents' => 'exact', 
     'diet' => 'exact'
     ]
 )]

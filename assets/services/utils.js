@@ -57,6 +57,7 @@ function makeUrl(form) {
             }
         }
     }
+    console.log('la form de recherche: ', url)
     return url.slice(0, -1)
 }
 

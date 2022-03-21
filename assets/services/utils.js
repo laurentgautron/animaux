@@ -37,7 +37,6 @@ function initFunction (props) {
             }
         }
     } else {
-        console.log('pas de données')
        initForm = init(props.fields)
     }
     return initForm
@@ -106,10 +105,11 @@ const getInfos = (key, tableFields) => {
 }
 
 const validation = (field, resp) => {
-    let theform = init(field, "primaryEntity")
+    let theform = init(field)
     for (const item of resp.violations) {
         theform[item['propertyPath']] = item['message']
     }
+    console.log('the form dans validation: ', theform)
     return theform
 }
 

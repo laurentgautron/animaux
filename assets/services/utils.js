@@ -70,7 +70,6 @@ const datasForRequest = (objectForm, context, props) => {
     const formInit = init(props.fields)
     // to remove key we don't need in body for request
     for (const key in form) {
-        console.log('dans le form: ', key, !(key in formInit))
         if (!(key in formInit)) {
             delete form[key]
         }

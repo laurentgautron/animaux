@@ -11,7 +11,6 @@ import * as fields from "../services/datas.js"
 
 export function Population (props) {
 
-
     const makeNumber = (value) => {
         let urlTab = value.split('/')
         return urlTab[urlTab.length - 1]
@@ -28,17 +27,14 @@ export function Population (props) {
     const [wantDesctruction, setWantDesctruction] = useState(false)
     const [key, setKey] = useState()
     const [modaleKey, setModaleKey] = useState(1)
-    const [paginationKey, setPaginationKey] = useState(1)
     
     useEffect( () => {
-        console.log('url de popu: ', url)
         fetch(url, {
             method: "GET",
             headers: {'Content-Type' : 'application/ld+json'}
         })
         .then(response => response.json())
         .then(resp => {
-            console.log('le resp popu: ', resp['hydra:member'])
             setPopulationList(resp["hydra:member"])
             setView(resp["hydra:view"])
         } )
@@ -146,7 +142,7 @@ export function Population (props) {
                     </div>
                     <div className="w-50 d-flex justify-content-center">graphique</div>
                 </div>
-                <Pagination view={view} onPage={handlePage} key={paginationKey}/>
+                <Pagination view={view} onPage={handlePage}/>
             </div>}
             {edit && <Form 
                         context="edition" 
@@ -162,7 +158,7 @@ export function Population (props) {
             {addYear && <Form 
                         context="creation"
                         // props.id is animalId
-                        id={props.id} 
+                        animalId={props.id} 
                         fields={fields.worldPopulations}
                         table="world_populations"
                         onAdd={handleAddYear}>

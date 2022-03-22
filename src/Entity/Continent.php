@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ContinentRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read:collection']],
-    denormalizationContext: ['groups' => ['write:collection']]
 )]
 class Continent
 {
@@ -22,7 +21,7 @@ class Continent
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    #[Groups(['read:collection', 'write:collection'])]
+    #[Groups(['read:collection'])]
     private $continentName;
 
     #[ORM\ManyToMany(targetEntity: Animal::class, mappedBy: 'continents')]

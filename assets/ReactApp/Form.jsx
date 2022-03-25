@@ -5,7 +5,8 @@ import {initFunction,
         datasForRequest, 
         validation, 
         init, 
-        prepareIdApi} from '../services/utils'
+        prepareIdApi,
+        countSelections} from '../services/utils'
 
 export function Form (props) {
 
@@ -32,30 +33,37 @@ export function Form (props) {
     }
 
     const Select = () => {
-        return ( <div>
-            {props.fields['select'] && props.fields["select"].map( item => {
-                return <div key={item["primaryEntity"]}>
-                        <span>{formErrors[item.primaryEntity]}</span>
-                        {item["context"].includes(props.context) ?
-                            <div>
-                                <label htmlFor={item["table"]} key={item["table"]}>
-                                {trad[item["table"]]}: 
-                                </label>
-                                <select name={item["primaryEntity"]}
-                                        key={item["primaryEntity"]+1} 
-                                        value={form[item.primaryEntity]} 
-                                        onChange={handleChange}
-                                        multiple={item.multiple}>
-                                    <option value=""></option>
-                                    {options[item["primaryEntity"]] && options[item["primaryEntity"]].map( 
-                                        op => <option value={op[0]} key={op[0]}>{op[1]}</option>)
-                                    }
-                                </select>
+        return (<div> {countSelections(props.fields['select'], props.context) !== 0 ?
+                <fieldset>
+                    <legend>caractéristiques</legend>
+                    <div className="selections">
+                        {props.fields["select"].map( item => {
+                            return <div key={item["primaryEntity"]}
+                                        className="form-group">
+                                    {item["context"].includes(props.context) ?
+                                        <div>
+                                            <label htmlFor={item["table"]} key={item["table"]}>
+                                            {trad[item["table"]]}:
+                                            </label>
+                                            <small>{formErrors[item.primaryEntity]}</small>
+                                            <select name={item["primaryEntity"]}
+                                                    key={item["primaryEntity"]+1} 
+                                                    value={form[item.primaryEntity]} 
+                                                    onChange={handleChange}
+                                                    multiple={item.multiple}>
+                                                <option value=""></option>
+                                                {options[item["primaryEntity"]] && options[item["primaryEntity"]].map( 
+                                                    op => <option value={op[0]} key={op[0]}>{op[1]}</option>)
+                                                }
+                                            </select>
+                                        </div>
+                                        : null
+                                }
                             </div>
-                            : null
-                    }
-                </div>
-            })}
+                        })}
+                    </div>      
+                </fieldset>
+                : null}
         </div>
         )  
     }
@@ -148,33 +156,36 @@ export function Form (props) {
         <form onSubmit={handleSubmit} className={props.context}>
         {props.fields["number"] && props.fields["number"].map( item => {
             if (item['context'].includes(props.context)) {
-                return <div key={item['primaryEntity']}>
-                    {formErrors[item.primaryEntity] === 0 ? <span></span>: <span>{formErrors[item.primaryEntity]}</span>}
-                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
+                return <div key={item['primaryEntity']}
+                            className="form-group">
+                    <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]} </label>
+                    {formErrors[item.primaryEntity] === 0 ? <small></small>: <small>{formErrors[item.primaryEntity]}</small>}
                     <input type="number" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </div>
             }
         })}
         {props.fields['text'] && props.fields["text"].map( item => {
             if ( item['context'].includes(props.context)) {
-                return <div key={item['primaryEntity']}>
-                    <span>{formErrors[item.primaryEntity]}</span>
+                return <div key={item['primaryEntity']}
+                            className="form-group">
                     <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
+                    <small>{formErrors[item.primaryEntity]}</small>
                     <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
                 </div>
             }
         })}
+        <Select />
         {props.fields['textarea'] && props.fields["textarea"].map( item => {
             if (item["context"].includes(props.context)) {
-                return <div key={item['primaryEntity']}>
-                    <span>{formErrors[item.primaryEntity]}</span>
+                return <div key={item['primaryEntity']}
+                            className="form-group">
                     <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
+                    <small>{formErrors[item.primaryEntity]}</small>
                     <textarea name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
             </div>
             }
         })}
-        <Select />
-        <button type="submit" className="btn btn-primary">{submitText}</button>
+        <div><button type="submit" className="btn btn-primary">{submitText}</button></div>
     </form>
     </div>)
      

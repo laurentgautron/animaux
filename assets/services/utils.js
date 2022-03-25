@@ -128,6 +128,16 @@ const prepareId = (id) => {
     return id
 }
 
+const countSelections = (selections, context) => {
+    let selectionCounter = 0
+    for (const selection of selections) {
+        if (selection['context'].includes(context)) {
+            selectionCounter += 1
+        }
+    }
+    return selectionCounter
+}
+
 export {makeUrl, 
         initFunction,
         init, 
@@ -135,4 +145,5 @@ export {makeUrl,
         validation,
         prepareTable,
         prepareIdApi,
-        prepareId}
+        prepareId,
+        countSelections}

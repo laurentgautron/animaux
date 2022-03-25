@@ -34,7 +34,7 @@ class Animal
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "vous devez donner un nom commun à l'animal")]
     #[Groups(['read:collection', 'write:collection'])]
     private $animalName;
 
@@ -47,17 +47,17 @@ class Animal
     private $worldPopulation;
 
     #[ORM\ManyToOne(targetEntity: Species::class, inversedBy: 'animals')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "vous devez choisir une espèce parmi la liste")]
     #[Groups(['read:collection', 'write:collection'])]
     private $species;
 
     #[ORM\ManyToOne(targetEntity: Diet::class, inversedBy: 'animals')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "vous devez choisir le régime alimentaire dans la liste")]
     #[Groups(['read:collection', 'write:collection'])]
     private $diet;
 
     #[ORM\Column(type: 'text')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "vous devez écrire une description pour l'animal")]
     #[Groups(['read:collection', 'write:collection'])]
     private $description;
 

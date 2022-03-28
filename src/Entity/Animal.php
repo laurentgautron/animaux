@@ -61,6 +61,9 @@ class Animal
     #[Groups(['read:collection', 'write:collection'])]
     private $description;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $AnimalImageName;
+
     public function __construct()
     {
         $this->continents = new ArrayCollection();
@@ -170,6 +173,18 @@ class Animal
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAnimalImageName(): ?string
+    {
+        return $this->AnimalImageName;
+    }
+
+    public function setAnimalImageName(?string $AnimalImageName): self
+    {
+        $this->AnimalImageName = $AnimalImageName;
 
         return $this;
     }

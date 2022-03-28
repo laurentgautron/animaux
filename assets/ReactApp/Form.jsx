@@ -33,8 +33,8 @@ export function Form (props) {
     }
 
     const Select = () => {
-        return (<div> {countSelections(props.fields['select'], props.context) !== 0 ?
-                <fieldset>
+        return <div> {countSelections(props.fields['select'], props.context) !== 0 ?
+                <fieldset className="content p-3 m-3 ">
                     <legend>caractéristiques</legend>
                     <div className="selections">
                         {props.fields["select"].map( item => {
@@ -64,8 +64,7 @@ export function Form (props) {
                     </div>      
                 </fieldset>
                 : null}
-        </div>
-        )  
+        </div> 
     }
 
     if (props.fields['select']) {
@@ -157,7 +156,7 @@ export function Form (props) {
         {props.fields["number"] && props.fields["number"].map( item => {
             if (item['context'].includes(props.context)) {
                 return <div key={item['primaryEntity']}
-                            className="form-group">
+                            className="form-group content p-3 m-3">
                     <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]} </label>
                     {formErrors[item.primaryEntity] === 0 ? <small></small>: <small>{formErrors[item.primaryEntity]}</small>}
                     <input type="number" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
@@ -167,7 +166,7 @@ export function Form (props) {
         {props.fields['text'] && props.fields["text"].map( item => {
             if ( item['context'].includes(props.context)) {
                 return <div key={item['primaryEntity']}
-                            className="form-group">
+                            className="form-group content p-3 m-3">
                     <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
                     <small>{formErrors[item.primaryEntity]}</small>
                     <input type="text" name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>
@@ -178,7 +177,7 @@ export function Form (props) {
         {props.fields['textarea'] && props.fields["textarea"].map( item => {
             if (item["context"].includes(props.context)) {
                 return <div key={item['primaryEntity']}
-                            className="form-group">
+                            className="form-group content p-3 m-3">
                     <label htmlFor={item["primaryEntity"]}>{trad[item["primaryEntity"]]}: </label>
                     <small>{formErrors[item.primaryEntity]}</small>
                     <textarea name={item["primaryEntity"]} value={form[item.primaryEntity]} onChange={handleChange}/>

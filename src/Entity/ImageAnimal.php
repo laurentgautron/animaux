@@ -3,31 +3,37 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\AnimalImageController;
 use App\Repository\ImageAnimalRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @Vich\Uploadable
  */
 #[ORM\Entity(repositoryClass: ImageAnimalRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read:collection']],
-    denormalizationContext: ['groups' => ['write:collection']],
-    // attributes: [
-    //     'input_formats' => ['jsonld' => 'application/ld+json'],
-    //     'output_formats' => ['jsonld' => 'application/ld+json']
-    // ],
+    attributes: [
+        'input_formats' => [
+            'jsonld' => 'application/ld+json',
+            'json' => 'application/json'
+        ],
+        'output_formats' => [
+            'jsonld' => 'application/ld+json',
+            'json' => 'application/json'
+        ]
+    ],
     collectionOperations: [
         'get',
-        'post',
         'image' => [
-            'path' => 'animals/image',
+            'path' => 'animals/{id}/image',
             'method' => 'post',
             'controller' => AnimalImageController::class,
+            'normalization_context' => ['groups' => ['image:read:collection']],
+            'denormalization_context' => ['groups' => ['image:write:collection']],
             'deserialize' => false
         ]
     ]
@@ -41,11 +47,11 @@ class ImageAnimal
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['read:collection', 'write:collection'])]
+    #[Groups(['image:read:collection', 'image:write:collection'])]
     private $imagePath;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['read:collection', 'write:collection'])]
+    // #[Groups(['image:read:collection', 'image:write:collection'])]
     private $imageUrl;
 
     /**
@@ -56,10 +62,11 @@ class ImageAnimal
     private $imageFile;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups(['read:collection', 'write:collection'])]
+    #[Groups(['image:read:collection', 'image:write:collection'])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'image')]
+    #[Groups(['image:read:collection','image:write:collection'])]
     private $animal;
 
     public function getId(): ?int
@@ -100,7 +107,7 @@ class ImageAnimal
     {
         $this->imageFile = $imageFile;
         if ($this->imageFile instanceof UploadedFile) {
-            $this->createdAt = new \DateTimeImmutable();
+            $this->createdAt = new \DateTimeImmutable;
         }
         
         return $this;

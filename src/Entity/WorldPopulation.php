@@ -13,8 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     attributes: [
         'pagination_items_per_page' => 9,
-        'input_formats' => ['jsonld' => 'application/ld+json'],
-        'output_formats' => ['jsonld' => 'application/ld+json']
+        'input_formats' => [
+            'jsonld' => 'application/ld+json',
+            'json' => 'application/json'
+        ],
+        'output_formats' => [
+            'jsonld' => 'application/ld+json',
+            'json' => 'application/json'
+        ]
     ],
     normalizationContext: ['groups' => ['worldPopulation:read:collection']],
     denormalizationContext: ['groups' => ['worldPopulation:write:collection']],

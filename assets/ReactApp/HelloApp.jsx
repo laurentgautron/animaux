@@ -79,7 +79,9 @@ class HelloApp extends React.Component
                                 <Form context="full-research" 
                                       onResult={this.handleResult} 
                                       fields={fields.animals} 
-                                      key={this.state.keyForm}/>
+                                      key={this.state.keyForm}>
+                                donnez des détails pour la recherche
+                                </Form>
                             :
                                 <Form context="simple-research" 
                                       onResult={this.handleResult} 

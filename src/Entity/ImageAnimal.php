@@ -16,10 +16,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ImageAnimalRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read:collection']],
+    attributes: [
+        'input_formats' => ['jsonld' => 'application/ld+json'],
+        'output_formats' => ['jsonld' => 'application/ld+json']
+    ],
     collectionOperations: [
         'get',
+        'post',
         'image' => [
-            'path' => 'animals/{id}/image',
+            'path' => 'animals/image',
             'method' => 'post',
             'controller' => AnimalImageController::class,
             'deserialize' => false

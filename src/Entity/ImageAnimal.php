@@ -47,10 +47,6 @@ class ImageAnimal
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['image:read:collection', 'image:write:collection'])]
-    private $imagePath;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     // #[Groups(['image:read:collection', 'image:write:collection'])]
     private $imageUrl;
 
@@ -61,6 +57,10 @@ class ImageAnimal
      */
     private $imageFile;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['image:read:collection', 'image:write:collection'])]
+    private $imagePath;
+
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     #[Groups(['image:read:collection', 'image:write:collection'])]
     private $createdAt;
@@ -69,6 +69,11 @@ class ImageAnimal
     #[Groups(['image:read:collection','image:write:collection'])]
     private $animal;
 
+    public function __construct($animal)
+    {
+        $this->setAnimal($animal);
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

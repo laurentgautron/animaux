@@ -61,10 +61,14 @@ class Animal
     #[Groups(['read:collection', 'write:collection'])]
     private $description;
 
+    #[ORM\OneToMany(mappedBy: 'animal', targetEntity: ImageAnimal::class)]
+    private $image;
+
     public function __construct()
     {
         $this->continents = new ArrayCollection();
         $this->worldPopulation = new ArrayCollection();
+        $this->image = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,6 +174,36 @@ class Animal
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageAnimal[]
+     */
+    public function getImage(): Collection
+    {
+        return $this->image;
+    }
+
+    public function addImage(ImageAnimal $image): self
+    {
+        if (!$this->image->contains($image)) {
+            $this->image[] = $image;
+            $image->setAnimal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(ImageAnimal $image): self
+    {
+        if ($this->image->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getAnimal() === $this) {
+                $image->setAnimal(null);
+            }
+        }
 
         return $this;
     }

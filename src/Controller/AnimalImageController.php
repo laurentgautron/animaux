@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AnimalImageController extends AbstractController
 {
-    public function __invoke(Animal $animal, Request $request)
+    public function __invoke(Animal $animal, Request $request, EntityManagerInterface $em)
     {
         $image = new ImageAnimal($animal);
-        $file = $request->files->get('file');
-        $image->setImageFile($file);
+        // $file = $request->files->get('file');
+        // //$image->setImageFile($file);
+        // $em->persist($image);
+        // $em->flush();
         dd($image);
     }
 }

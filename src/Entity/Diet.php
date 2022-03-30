@@ -10,6 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
+    attributes: [
+        'input_formats' => ['jsonld' => 'application/ld+json'],
+        'output_formats' => ['jsonld' => 'application/ld+json']
+    ],
     normalizationContext: ['groups' => ['read:collection']]
 )]
 #[ORM\Entity(repositoryClass: DietRepository::class)]

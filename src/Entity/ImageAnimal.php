@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ImageAnimalRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read:collection']],
+    denormalizationContext: ['groups' => ['write:collection']],
     // attributes: [
     //     'input_formats' => ['jsonld' => 'application/ld+json'],
     //     'output_formats' => ['jsonld' => 'application/ld+json']
@@ -40,11 +41,11 @@ class ImageAnimal
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $imagePath;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $imageUrl;
 
     /**
@@ -55,7 +56,7 @@ class ImageAnimal
     private $imageFile;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'write:collection'])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'image')]

@@ -11,6 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ContinentRepository::class)]
 #[ApiResource(
+    attributes: [
+        'input_formats' => ['jsonld' => 'application/ld+json'],
+        'output_formats' => ['jsonld' => 'application/ld+json']
+    ],
     normalizationContext: ['groups' => ['read:collection']],
 )]
 class Continent

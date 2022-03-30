@@ -15,8 +15,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ApiResource(
     attributes: [
         "pagination_items_per_page" => 9,
-        // 'input_formats' => ['jsonld' => 'application/ld+json'],
-        // 'output_formats' => ['jsonld' => 'application/ld+json']
+        'input_formats' => ['jsonld' => 'application/ld+json'],
+        'output_formats' => ['jsonld' => 'application/ld+json']
     ],
     normalizationContext: ['groups' => ['read:collection']],
     denormalizationContext: ['groups' => ['write:collection']],

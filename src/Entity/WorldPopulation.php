@@ -11,7 +11,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
-    attributes: ['pagination_items_per_page' => 9],
+    attributes: [
+        'pagination_items_per_page' => 9,
+        'input_formats' => ['jsonld' => 'application/ld+json'],
+        'output_formats' => ['jsonld' => 'application/ld+json']
+    ],
     normalizationContext: ['groups' => ['worldPopulation:read:collection']],
     denormalizationContext: ['groups' => ['worldPopulation:write:collection']],
 )]

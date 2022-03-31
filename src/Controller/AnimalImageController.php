@@ -4,19 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Animal;
 use App\Entity\ImageAnimal;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class AnimalImageController extends AbstractController
+class AnimalImageController
 {
-    public function __invoke(Animal $animal, Request $request, EntityManagerInterface $em)
+    public function __invoke(Animal $animal, Request $request)
     {
         $image = new ImageAnimal($animal);
-        // $file = $request->files->get('file');
-        // //$image->setImageFile($file);
-        // $em->persist($image);
-        // $em->flush();
-        dd($image);
+        $uploadFile = $request->files->get('file');
+        $image->setFeatured(false);
+        $image->setImageFile($uploadFile);
+        return $image;
     }
 }

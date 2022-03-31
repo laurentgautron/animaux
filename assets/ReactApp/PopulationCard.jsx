@@ -35,6 +35,7 @@ export function Population (props) {
         })
         .then(response => response.json())
         .then(resp => {
+            console.log('la pop: ', resp)
             setPopulationList(resp["hydra:member"])
             setView(resp["hydra:view"])
         } )

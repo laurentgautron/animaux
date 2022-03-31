@@ -6,6 +6,7 @@ import { Form } from "./Form";
 import { Population } from "./PopulationCard";
 import AnimalServices from "../services/animals-services";
 import * as fields from "../services/datas"
+import { Images } from "./Images";
 
 class AnimalCard extends React.Component
 { 
@@ -139,6 +140,7 @@ class AnimalCard extends React.Component
                         <h1 className="mb-4 text-center">{this.state.animalName}</h1>
                     </div>
                 </div>
+                <Images id={this.props.animalId}/> 
                 <p className="w-100">{this.state.description}</p>
                 <div className="row d-flex justify-content-center">
                     <div className="col-8 col-xl-5 bg-info pt-2 mb-2">

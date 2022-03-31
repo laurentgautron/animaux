@@ -1,4 +1,6 @@
 import React from "react";
+import { async } from "regenerator-runtime";
+import AnimalServices from "../services/animals-services";
 import Pagination from "./Pagination";
 
 
@@ -30,6 +32,12 @@ class CardList extends React.Component
         })
     }
 
+    getFeatured = async (animal) => {
+        const image = await AnimalServices.getfeaturedImage(animal)
+        console.log('une image:', image)
+        return image
+    }
+
     componentDidMount() {
         this.findAnimalList(this.props.url)
     }
@@ -56,13 +64,15 @@ class CardList extends React.Component
         return <div className="card-list">
             <ul>
                 {this.state.animalList.map( element => {
+                    
                     return <li key={element['@id']}>
                             <a href="#beginning" 
                                 className="animal-card col-sm-3 m-4 px-3 d-flex 
                                             justify-content-center align-items-center"
                                 key={element["@id"]}
                                 onClick={ () => this.props.changeId(this.makeUrlNumber(element["@id"])) }> 
-                                <h2 className="text-center">{ element["animalName"] }</h2> 
+                                <h2 className="text-center">{ element["animalName"] }</h2>
+                                <img src={featured}></img>
                             </a>
                         </li>
                     })

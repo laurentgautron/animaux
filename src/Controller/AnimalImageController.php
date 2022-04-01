@@ -12,6 +12,7 @@ class AnimalImageController
     {
         $image = new ImageAnimal($animal);
         $uploadFile = $request->files->get('file');
+        dd($request);
         $image->setFeatured(false);
         $image->setImageFile($uploadFile);
         return $image;

@@ -44,4 +44,13 @@ const worldPopulations = {
 
 }
 
-export {animals, worldPopulations, needIdTable, trad}
+const imageAnimal = {
+    file: [
+        {table: 'imageAnimal', primaryEntity: "imageFile", context: ['creation']}
+    ],
+    Boolean:[
+        {table: 'imageAnimal', primaryEntity: "featured", context: ["creation"]}]
+
+}
+
+export {animals, worldPopulations, needIdTable, trad, imageAnimal}

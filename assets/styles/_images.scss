@@ -1,5 +1,9 @@
 .images {
-    li {
-        list-style-type: none;
+    ul {
+        width: 30%;
+        overflow-x: scroll;
+        li {
+            list-style-type: none;
+        }
     }
 }

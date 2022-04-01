@@ -64,7 +64,7 @@ class HelloApp extends React.Component
                                 changeId={this.handleChangeId} 
                                 key={this.state.animalKey}/>
                     : <div>
-                        {!this.state.addAnimal ? <div className="text-center">
+                        {!this.state.addAnimal ? <div>
                             <div className="new-action d-flex justify-center mt-4 mb-3">
                                 <button className="btn btn-primary add-button detail me-2"
                                         onClick={ () => { this.setState({addAnimal: true})}}>

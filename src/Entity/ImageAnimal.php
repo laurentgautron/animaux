@@ -56,19 +56,19 @@ class ImageAnimal
     public $imageFile;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['image:write:collection'])]
+    //#[Groups(['image:write:collection'])]
     private $imagePath;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    // #[Groups(['image:read:collection'])]
+    #[Groups(['image:read:collection'])]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'image')]
-    #[Groups(['image:write:collection'])]
+    //#[Groups(['image:write:collection'])]
     private $animal;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['read:collection', 'imge:write:collection'])]
+    //#[Groups(['read:collection', 'imge:write:collection'])]
     private $featured;
 
     public function __construct($animal)

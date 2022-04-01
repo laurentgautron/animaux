@@ -18,6 +18,7 @@ class AnimalCard extends React.Component
             wantModify: false,
             wantDestruction: false, 
             showPopulation: false,
+            showImages: false,
             populationKey: 1,
             modaleKey: 1
         }
@@ -118,7 +119,10 @@ class AnimalCard extends React.Component
 
     render() {
         return <div>
-            {!this.state.wantModify && !this.state.destructionSuccess && !this.state.showPopulation && 
+            {!this.state.wantModify && 
+             !this.state.destructionSuccess && 
+             !this.state.showPopulation &&
+             !this.state.showImages &&
             <div className="one-card">
                 <div className="mt-4">
                     <div className="btn-action mb-4">
@@ -137,10 +141,14 @@ class AnimalCard extends React.Component
                                 onClick={ () => this.setState({showPopulation: true})}>
                             populations
                         </button>
+                        <button type="button" 
+                                className="btn btn-primary" 
+                                onClick={ () => this.setState({showImages: true})}>
+                            images
+                        </button>
                         <h1 className="mb-4 text-center">{this.state.animalName}</h1>
                     </div>
-                </div>
-                <Images id={this.props.animalId}/> 
+                </div> 
                 <p className="w-100">{this.state.description}</p>
                 <div className="row d-flex justify-content-center">
                     <div className="col-8 col-xl-5 bg-info pt-2 mb-2">
@@ -186,6 +194,11 @@ class AnimalCard extends React.Component
                                             onDescription={() => this.setState({showPopulation: false})}
                                             changeKey={this.changeKey}
                                             />}
+            {this.state.showImages && 
+                <Images id={this.props.animalId}>
+                les images de l'animal {this.state.animalName}
+                </Images>
+            }
         </div> 
     }
 }

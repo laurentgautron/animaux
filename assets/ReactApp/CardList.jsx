@@ -25,17 +25,17 @@ class CardList extends React.Component
     findAnimalList = async (url) => {
         const response = await fetch(url)
         const rep = await response.json()
+        let featureJoinAnimal = []
+        for (const animal of rep["hydra:member"]) {
+            const featured = await AnimalServices.getfeaturedImage(animal["@id"])
+            featureJoinAnimal.push([animal, featured])
+        }
+
         this.setState({
-            animalList: rep["hydra:member"],
+            animalList: featureJoinAnimal,
             animalsNumber: rep["hydra:totalItems"],
             view: rep["hydra:view"]
         })
-    }
-
-    getFeatured = async (animal) => {
-        const image = await AnimalServices.getfeaturedImage(animal)
-        console.log('une image:', image)
-        return image
     }
 
     componentDidMount() {
@@ -63,16 +63,14 @@ class CardList extends React.Component
     render() {
         return <div className="card-list">
             <ul>
-                {this.state.animalList.map( element => {
-                    
-                    return <li key={element['@id']}>
+                {this.state.animalList && this.state.animalList.map( element => {
+                    return <li key={element[0]['@id']}>
                             <a href="#beginning" 
-                                className="animal-card col-sm-3 m-4 px-3 d-flex 
-                                            justify-content-center align-items-center"
-                                key={element["@id"]}
-                                onClick={ () => this.props.changeId(this.makeUrlNumber(element["@id"])) }> 
-                                <h2 className="text-center">{ element["animalName"] }</h2>
-                                <img src={featured}></img>
+                                className="animal-card col-sm-3 m-4 px-3"
+                                key={element[0]["@id"]}
+                                onClick={ () => this.props.changeId(this.makeUrlNumber(element[0]["@id"])) }>
+                                <h2 className="text-center">{ element[0]["animalName"] }</h2>
+                                {element[1][0] && <img src={element[1][0]['imageUrl']}></img>}
                             </a>
                         </li>
                     })

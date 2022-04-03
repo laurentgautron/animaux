@@ -17,4 +17,14 @@ export default class AnimalServices {
             return response.status
         }
     }
+
+    static getDefaultFeaturedImage = async (animal) => {
+        const url = 'api/image_animals?&animal=' + animal
+        let response = await fetch(url)
+        if (response.ok) {
+            return response.json()
+        } else {
+            return response.status
+        }
+    }
 }

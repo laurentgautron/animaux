@@ -5,10 +5,13 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/images/animals
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###< symfony/framework-images ###
+/public/images/animals
+###< symfony/framework-images ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache

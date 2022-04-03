@@ -27,7 +27,10 @@ class CardList extends React.Component
         const rep = await response.json()
         let featureJoinAnimal = []
         for (const animal of rep["hydra:member"]) {
-            const featured = await AnimalServices.getfeaturedImage(animal["@id"])
+            let featured = await AnimalServices.getfeaturedImage(animal["@id"])
+            if (featured.length === 0 ) {
+                featured = await AnimalServices.getDefaultFeaturedImage(animal["@id"])
+            }
             featureJoinAnimal.push([animal, featured])
         }
 
@@ -63,7 +66,7 @@ class CardList extends React.Component
     render() {
         return <div className="card-list">
             <ul>
-                {this.state.animalList && this.state.animalList.map( element => {
+                {this.state.animalList.length !== 0 && this.state.animalList.map( element => {
                     return <li key={element[0]['@id']}>
                             <a href="#beginning" 
                                 className="animal-card col-sm-3 m-4 px-3"

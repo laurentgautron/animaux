@@ -56,7 +56,6 @@ class ImageAnimal
     public $imageFile;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    //#[Groups(['image:write:collection'])]
     private $imagePath;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -64,7 +63,7 @@ class ImageAnimal
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'image')]
-    //#[Groups(['image:write:collection'])]
+    #[Groups(['image:read:collection'])]
     private $animal;
 
     #[ORM\Column(type: 'boolean')]

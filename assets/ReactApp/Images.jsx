@@ -7,6 +7,7 @@ export function Images(props) {
     const [imageList, setImageList] = useState([])
     const [addImage, setAddImage] = useState(false)
     const [indexImage, setIndexImage] = useState(0)
+    const [file, setFile] = useState()
     const url = "api/image_animals?animal=" + props.id
 
     useEffect ( () => {
@@ -23,21 +24,19 @@ export function Images(props) {
         })
     },[])
 
+    const handleChange = (ev) => {
+        setFile(ev.target.files[0])
+    }
+
     const handleSubmit = (ev) => {
-        const file = document.getElementById('file').files[0]
-        console.log('le fichier: ', file)
         ev.preventDefault()
+        let formData = new FormData()
+        formData.append("file", file)
         fetch('api/animals/' + props.id + "/image", {
             method: "POST",
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            body: {file: file}
+            body: formData
         })
-        .then(response => {
-            console.log(response)
-            response.json()
-        })
+        .then(response =>  response.json())
         .then(rep => console.log('la reponse: ', rep))
     }
 
@@ -46,7 +45,6 @@ export function Images(props) {
         setIndexImage( index => (index + step+ imageList.length) % imageList.length )
     }
 
-    console.log('le index: ', indexImage)
     return <div className="images">
         <h1>{props.children}</h1>
         { imageList.length !== 0 &&
@@ -57,9 +55,9 @@ export function Images(props) {
             </div>
         }
         { addImage &&
-            <form onSubmit={handleSubmit}>
+            <form name="form" id="form" onSubmit={handleSubmit}>
                 <label htmlFor="file">choisir un fichier</label>
-                <input type="file" name="file" id="file" />
+                <input type="file" name="file" id="file" onChange={handleChange}/>
                 <button type="submit">Ajouter</button>
             </form>
         }

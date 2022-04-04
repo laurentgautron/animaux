@@ -3,6 +3,7 @@
 namespace App\Serializer;
 
 use App\Entity\ImageAnimal;
+use Doctrine\ORM\EntityManagerInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
@@ -16,7 +17,6 @@ class ImageAnimalNormalizer implements ContextAwareNormalizerInterface, Normaliz
 
     public function __construct(private StorageInterface $storage)
     {
-        
     }
 
     

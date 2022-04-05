@@ -5,6 +5,8 @@ import AnimalCard from "./AnimalCard.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import * as fields from "../services/datas.js"
+import Modale from "./Modale.jsx";
+import AnimalServices from "../services/animals-services.js";
 
 class HelloApp extends React.Component 
 {  
@@ -16,7 +18,9 @@ class HelloApp extends React.Component
             fullResearch: false,
             addAnimal: false,
             animalKey: 1,
-            keyForm: 1
+            keyForm: 1,
+            visible: false,
+            modaleKey: 1
         }
     }
 
@@ -45,6 +49,21 @@ class HelloApp extends React.Component
         })
     }
 
+    newAnimal = async () => {
+        console.log('dans le new animal')
+        if (await AnimalServices.checkconnexion()) {
+            this.setState({
+                addAnimal: true
+            })
+        } else {
+            console.log('pas connecté')
+            this.setState(state => ({
+                modaleKey: state.modaleKey + 1,
+                visible: true
+            }))
+        }
+    }
+
     handleChangeId = (id) => {
         if (id === this.state.id) {
             this.setState(state => ({
@@ -67,7 +86,7 @@ class HelloApp extends React.Component
                         {!this.state.addAnimal ? <div>
                             <div className="new-action d-flex justify-center mt-4 mb-3">
                                 <button className="btn btn-primary add-button detail me-2"
-                                        onClick={ () => { this.setState({addAnimal: true})}}>
+                                        onClick={this.newAnimal}>
                                 <FontAwesomeIcon icon={faPlus} className="me-2"/>
                                 ajouter un animal
                                 </button>
@@ -76,12 +95,14 @@ class HelloApp extends React.Component
                                 </button>
                             </div>
                             {this.state.fullResearch ? 
-                                <Form context="full-research" 
-                                      onResult={this.handleResult} 
-                                      fields={fields.animals} 
-                                      key={this.state.keyForm}>
-                                donnez des détails pour la recherche
-                                </Form>
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <Form context="full-research" 
+                                        onResult={this.handleResult} 
+                                        fields={fields.animals} 
+                                        key={this.state.keyForm}>
+                                    donnez des détails pour la recherche
+                                    </Form>
+                                </div>
                             :
                                 <Form context="simple-research" 
                                       onResult={this.handleResult} 
@@ -99,6 +120,11 @@ class HelloApp extends React.Component
                         }
                     </div>
                 }
+                <Modale visible={this.state.visible}
+                        context="add"
+                        animalId={0}
+                        key={this.state.modaleKey}
+                />
             </div>
     }
 }

@@ -196,7 +196,7 @@ class AnimalCard extends React.Component
                                             />}
             {this.state.showImages && 
                 <Images id={this.props.animalId}>
-                les images de l'animal {this.state.animalName}
+                les images de l'animal: <span className="d-inline-block">{this.state.animalName}</span>
                 </Images>
             }
         </div> 

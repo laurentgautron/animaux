@@ -46,14 +46,14 @@ export function Images(props) {
     }
 
     return <div className="images">
-        <h1>{props.children}</h1>
+        <h1 className="my-5">{props.children}</h1>
         { imageList.length !== 0 ?
             <div className="d-flex">
                 { indexImage > 0 && <button onClick={() => changeImage(-1)}>&lt;</button>}
                 <img src={imageList[indexImage]["imageUrl"]} alt="" />
                 { indexImage < imageList.length - 1 && <button onClick={() => changeImage(1)}>&gt;</button>}
             </div>
-            : <div>
+            : <div className="mb-5">
                 pas d'images
             </div>
         }

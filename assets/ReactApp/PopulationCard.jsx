@@ -110,12 +110,23 @@ export function Population (props) {
         })
     }
 
+    const handleAddPopuplation = async () => {
+        console.log('dans le add')
+        if (await AnimalServices.checkconnexion()) {
+            setAddYear(true)
+        } else {
+            console.log('pas connecté')
+            setVisible(true)
+            setModaleKey(m => m+1)
+        }
+    }
+
     return (<div> 
         {!addYear && !edit &&
             <div className="populations">
                 <h1 className="mt-4 mb-4">liste des populations pour l'animal: <span className="d-inline-block">{props.animalName}</span></h1>
                 <button onClick={() => props.onDescription()} className="btn btn-primary me-2 mb-4">description</button>
-                <button onClick={() => setAddYear(true)} className="btn btn-primary mb-4">ajouter une population</button>
+                <button onClick={handleAddPopuplation} className="btn btn-primary mb-4">ajouter une population</button>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="w-50">
                         <table className="mb-4">
@@ -163,7 +174,7 @@ export function Population (props) {
                         fields={fields.worldPopulations}
                         table="world_populations"
                         onAdd={handleAddYear}>
-                        ajouter une population pour l'animal {props.animalName}
+                        ajouter une population pour l'animal <span className="d-inline-block">{props.animalName}</span>
                         </Form>}
             {wantDesctruction ? <Modale visible={visible} 
                                          // i need animalId if not connected to come back on animal's card

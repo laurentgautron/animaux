@@ -23,16 +23,15 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 #[
 ApiResource(
     attributes: ["pagination_enabled" => false],
+    normalizationContext: ['groups' => ['image:read:collection']],
+    denormalizationContext: ['groups' => ['image:write:collection']],
     collectionOperations: [
-        'get' => [
-            'normalization_context' => ['groups' => ['image:read:collection']],
-            'denormalization_context' => ['groups' => ['image:write:collection']],
-        ],
+        'get' ,
         'post' => [
             'path' => 'animals/{id}/image',
             'controller' => AnimalImageController::class,
-            'normalization_context' => ['groups' => ['image:read:collection']],
-            'denormalization_context' => ['groups' => ['image:write:collection']],
+            // 'normalization_context' => ['groups' => ['image:read:collection']],
+            // 'denormalization_context' => ['groups' => ['image:write:collection']],
             'deserialize' => false
         ]
     ]
@@ -56,6 +55,7 @@ class ImageAnimal
     public $imageFile;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    //#[Groups(['image:read:collection', 'image:write:collection'])]
     private $imagePath;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -80,7 +80,7 @@ class ImageAnimal
         return $this->id;
     }
 
-    public function getIamgeFile(): File
+    public function getImageFile(): File
     {
         return $this->imageFile;
     }

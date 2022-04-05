@@ -130,9 +130,11 @@ const prepareId = (id) => {
 
 const countSelections = (selections, context) => {
     let selectionCounter = 0
-    for (const selection of selections) {
-        if (selection['context'].includes(context)) {
-            selectionCounter += 1
+    if (selections !== undefined) {
+        for (const selection of selections) {
+            if (selection['context'].includes(context)) {
+                selectionCounter += 1
+            }
         }
     }
     return selectionCounter

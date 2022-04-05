@@ -34,9 +34,9 @@ export function Form (props) {
 
     const Select = () => {
         return <div> {countSelections(props.fields['select'], props.context) !== 0 ?
-                <fieldset className="content p-3 m-3 ">
+                <fieldset className="content p-3 m-3">
                     <legend>caractéristiques</legend>
-                    <div className="selections">
+                    <div className="selections row">
                         {props.fields["select"].map( item => {
                             return <div key={item["primaryEntity"]}
                                         className="form-group">
@@ -150,7 +150,7 @@ export function Form (props) {
         }
     }
 
-    return (<div>
+    return (<div className="col-12 col-sm-6">
         <h1 className="m-4">{props.children}</h1>
         <form onSubmit={handleSubmit} className={props.context}>
         {props.fields["number"] && props.fields["number"].map( item => {

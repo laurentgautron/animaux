@@ -19,7 +19,7 @@ const Modale = ({visible, animalId, context, del, changeId}) => {
             <div className='bg-danger wrapper d-flex flex-column justify-content-center align-items-center'>
                 {context === "change" | context === 'add' && <div className='text-center'>
                     <h1>vous devez vous connecter pour faire cette opération</h1>
-                    <a href={url}>Se connecter</a>
+                    <a className="btn btn-primary mt-4" href={url}>Se connecter</a>
                 </div>}
                 {(context === "destruction") && <div className='text-center'>
                     <h1>vous voulez détruire cette fiche ?</h1>

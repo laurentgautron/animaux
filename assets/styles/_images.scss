@@ -1,10 +1,21 @@
 .images {
     height: 100vh;
+    .pictures {
+        height: 350px;
+    }
     ul {
         width: 30%;
         overflow-x: scroll;
         li {
             list-style-type: none;
         }
+    }
+    button {
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+    img {
+        display: block;
+        width: 250px;
     }
 }

@@ -14,8 +14,7 @@ export function Images(props) {
     const [modaleKey, setMdaleKey] = useState(1)
     const url = "api/image_animals?animal=" + props.id
 
-    useEffect ( () => {
-        console.log('url pour images: ', url)
+    useEffect (() => {
         fetch(url, {
             method: 'GET',
             hedaers: {'Content-Type': 'application/json'}
@@ -61,10 +60,14 @@ export function Images(props) {
     return <div className="images">
         <h1 className="my-5">{props.children}</h1>
         { imageList.length !== 0 ?
-            <div className="d-flex">
-                { indexImage > 0 && <button onClick={() => changeImage(-1)}>&lt;</button>}
+            <div className="pictures d-flex justify-content-center align-items-center">
+                { indexImage > 0 && 
+                    <button className="btn" onClick={() => changeImage(-1)}>&lt;</button>
+                }
                 <img src={imageList[indexImage]["imageUrl"]} alt="" />
-                { indexImage < imageList.length - 1 && <button onClick={() => changeImage(1)}>&gt;</button>}
+                { indexImage < imageList.length - 1 && 
+                    <button className="btn" onClick={() => changeImage(1)}>&gt;</button>
+                }
             </div>
             : <div className="mb-5">
                 pas d'images
@@ -74,13 +77,13 @@ export function Images(props) {
             <form name="form" id="form" onSubmit={handleSubmit}>
                 <label htmlFor="file">choisir un fichier</label>
                 <input type="file" name="file" id="file" onChange={handleChange}/>
-                <button type="submit">Ajouter</button>
+                <button className="btn btn-primary" type="submit">Ajouter</button>
             </form>
         }
-        <button onClick={handleAddImage}>ajouter une image</button>
+        <button className="btn btn-primary" onClick={handleAddImage}>ajouter une image</button>
         <Modale visible={visible}
                 context="add"
-                animalId={0}
+                animalId={props.id}
                 key={modaleKey}
         />
     </div>

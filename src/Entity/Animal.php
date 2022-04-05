@@ -66,7 +66,6 @@ class Animal
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'animal', targetEntity: ImageAnimal::class)]
-    #[Groups(['read:collection'])]
     private $image;
 
     public function __construct()

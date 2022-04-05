@@ -1,6 +1,8 @@
 import React, { useEffect,useState } from "react";
+import AnimalServices from "../services/animals-services";
 import { imageAnimal } from "../services/datas";
 import { init } from "../services/utils";
+import Modale from "./Modale";
 
 export function Images(props) {
 
@@ -8,6 +10,8 @@ export function Images(props) {
     const [addImage, setAddImage] = useState(false)
     const [indexImage, setIndexImage] = useState(0)
     const [file, setFile] = useState()
+    const [visible, setVisible] = useState(false)
+    const [modaleKey, setMdaleKey] = useState(1)
     const url = "api/image_animals?animal=" + props.id
 
     useEffect ( () => {
@@ -26,6 +30,15 @@ export function Images(props) {
 
     const handleChange = (ev) => {
         setFile(ev.target.files[0])
+    }
+
+    const handleAddImage = async () => {
+        if (await AnimalServices.checkconnexion()) {
+            setAddImage(true)
+        } else {
+            setVisible(true)
+            setMdaleKey(m => m+1)
+        }
     }
 
     const handleSubmit = (ev) => {
@@ -64,7 +77,12 @@ export function Images(props) {
                 <button type="submit">Ajouter</button>
             </form>
         }
-        <button onClick={() => setAddImage(true)}>ajouter une image</button>
+        <button onClick={handleAddImage}>ajouter une image</button>
+        <Modale visible={visible}
+                context="add"
+                animalId={0}
+                key={modaleKey}
+        />
     </div>
 
 }

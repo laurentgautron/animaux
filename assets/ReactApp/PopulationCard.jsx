@@ -127,8 +127,8 @@ export function Population (props) {
                 <h1 className="mt-4 mb-4">liste des populations pour l'animal: <span className="d-inline-block">{props.animalName}</span></h1>
                 <button onClick={() => props.onDescription()} className="btn btn-primary me-2 mb-4">description</button>
                 <button onClick={handleAddPopuplation} className="btn btn-primary mb-4">ajouter une population</button>
-                <div className="d-flex justify-content-center align-items-center">
-                    <div className="w-50">
+                <div className=" row d-sm-flex justify-content-center align-items-center">
+                    <div className="col-12 col-sm-6">
                         <table className="mb-4">
                             <caption>
                                 population par années de l'animal {props.animalName}
@@ -152,7 +152,7 @@ export function Population (props) {
                             </tbody>
                         </table>
                     </div>
-                    <div className="w-50 d-flex justify-content-center">graphique</div>
+                    <div className="col-6 d-flex justify-content-center">graphique</div>
                 </div>
                 <Pagination view={view} onPage={handlePage}/>
             </div>}

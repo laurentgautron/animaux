@@ -10,6 +10,7 @@ class AnimalImageController
 {
     public function __invoke(Animal $animal, Request $request)
     {
+        //dd('bonjour controller');
         $image = new ImageAnimal($animal);
         $uploadFile = $request->files->get('file');
         //dd($request);

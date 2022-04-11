@@ -18,8 +18,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * @Vich\Uploadable
  */
 #[ORM\Entity(repositoryClass: ImageAnimalRepository::class)]
-//#[ApiFilter(SearchFilter::class, properties: ['animal' => 'exact',])]
-// #[ApiFilter(BooleanFilter::class, properties: ['featured'])]
 #[
 ApiResource(
     attributes: ["pagination_enabled" => false],
@@ -30,11 +28,9 @@ ApiResource(
         'post' => [
             'path' => 'animals/{id}/image',
             'controller' => AnimalImageController::class,
-            // 'normalization_context' => ['groups' => ['image:read:collection']],
-            // 'denormalization_context' => ['groups' => ['image:write:collection']],
-            'deserialize' => false
+            //'deserialize' => true
         ]
-    ]
+    ],
 ),
 ApiFilter(SearchFilter::class, properties: ['animal' => 'exact']),
 ApiFilter(BooleanFilter::class, properties: ['featured'])
@@ -124,7 +120,7 @@ class ImageAnimal
         return $this->imagePath;
     }
 
-    public function SetImagePath(String $imagePath): ImageAnimal
+    public function SetImagePath(?String $imagePath): ImageAnimal
     {
         $this->imagePath = $imagePath;
         return $this;

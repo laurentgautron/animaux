@@ -13,6 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 
 /**
  * @Vich\Uploadable
@@ -27,7 +28,25 @@ ApiResource(
         'get' ,
         'post' => [
             'path' => 'animals/{id}/image',
+            'deserialize' =>false,
             'controller' => AnimalImageController::class,
+            'openapi_context' => [
+                'requestBody' => [
+                    'content' => [
+                        'multipart/form-data' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'file' => [
+                                        'type' => 'string',
+                                        'format' => 'binary',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             //'deserialize' => true
         ]
     ],
@@ -65,11 +84,6 @@ class ImageAnimal
     #[ORM\Column(type: 'boolean')]
     //#[Groups(['read:collection', 'imge:write:collection'])]
     private $featured;
-
-    public function __construct($animal)
-    {
-        $this->setAnimal($animal);
-    }
     
     public function getId(): ?int
     {

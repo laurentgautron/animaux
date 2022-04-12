@@ -25,7 +25,6 @@ class ImageAnimalNormalizer implements ContextAwareNormalizerInterface, Normaliz
     
     public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        //dd('bonjour normalizer');
         $object->setImageUrl($this->storage->resolveUri($object, 'imageFile'));
         $context[self::ALREADY_CALLED] = true;
         return $this->normalizer->normalize($object, $format, $context);

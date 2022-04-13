@@ -11,6 +11,7 @@ export function Images(props) {
     const [file, setFile] = useState()
     const [visible, setVisible] = useState(false)
     const [modaleKey, setModaleKey] = useState(1)
+
     const url = "api/image_animals?animal=" + props.id
 
     useEffect (() => {
@@ -56,7 +57,6 @@ export function Images(props) {
     }
 
     const changeImage = (step) => {
-        console.log('le step: ', step)
         setIndexImage( index => (index + step+ imageList.length) % imageList.length )
     }
 
@@ -80,8 +80,12 @@ export function Images(props) {
         })
     }
 
-    console.log('animal: ', props.id)
-    console.log('destruction: ', wantDelete)
+    let toggleButtonAddImage = addImage ? 
+                        null : 
+                        <button className="btn btn-primary" onClick={handleAddImage}>
+                            ajouter une image
+                        </button>
+
     return <div className="images">
         <h1 className="my-5">{props.children}</h1>
         { imageList.length !== 0 ? <div className="d-flex flex-column align-items-center">
@@ -101,13 +105,13 @@ export function Images(props) {
             </div>
         }
         { addImage &&
-            <form name="form" id="form" onSubmit={handleSubmit}>
-                <label htmlFor="file">choisir un fichier</label>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="file">choisir une image à ajouter</label>
                 <input type="file" name="file" id="file" onChange={handleChange}/>
                 <button className="btn btn-primary" type="submit">Ajouter</button>
             </form>
         }
-        <button className="btn btn-primary" onClick={handleAddImage}>ajouter une image</button>
+        {toggleButtonAddImage}
         {!wantDelete ?
             <Modale visible={visible}
                     context="add"

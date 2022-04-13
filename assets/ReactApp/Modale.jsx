@@ -14,8 +14,6 @@ const Modale = ({visible, animalId, context, del, changeId}) => {
     }
 
     const url = '/login/' + animalId
-    console.log('dans la modale:', context)
-    console.log('visibilité: ', visible)
     return (show && <div className="overlay">
             <div className='bg-danger wrapper d-flex flex-column justify-content-center align-items-center'>
                 {context === "change" | context === 'add' && <div className='text-center'>

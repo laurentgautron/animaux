@@ -11,6 +11,7 @@ export function Images(props) {
     const [file, setFile] = useState()
     const [visible, setVisible] = useState(false)
     const [modaleKey, setModaleKey] = useState(1)
+    const [featuredOption, setFeaturedOption] = useState(false)
 
     const url = "api/image_animals?animal=" + props.id
 
@@ -23,13 +24,17 @@ export function Images(props) {
             return response.json()
         })
         .then(resp => {
-            console.log('la liste animaux images: ', resp)
             setImageList(resp)
         })
     },[])
 
     const handleChange = (ev) => {
         setFile(ev.target.files[0])
+    }
+
+    const handleChangeFeatured = (ev) => {
+        let bool = ev.target.value === "yes" ? true : false
+        setFeaturedOption(bool)
     }
 
     const handleAddImage = async () => {
@@ -45,6 +50,7 @@ export function Images(props) {
         ev.preventDefault()
         let formData = new FormData()
         formData.append("file", file)
+        formData.append("featured", featuredOption)
         fetch('api/animals/' + props.id + "/image", {
             method: "POST",
             body: formData
@@ -57,7 +63,7 @@ export function Images(props) {
     }
 
     const changeImage = (step) => {
-        setIndexImage( index => (index + step+ imageList.length) % imageList.length )
+        setIndexImage( index => (index + step + imageList.length) % imageList.length )
     }
 
     const handleDelete = async () => {
@@ -86,6 +92,7 @@ export function Images(props) {
                             ajouter une image
                         </button>
 
+
     return <div className="images">
         <h1 className="my-5">{props.children}</h1>
         { imageList.length !== 0 ? <div className="d-flex flex-column align-items-center">
@@ -107,7 +114,28 @@ export function Images(props) {
         { addImage &&
             <form onSubmit={handleSubmit}>
                 <label htmlFor="file">choisir une image à ajouter</label>
-                <input type="file" name="file" id="file" onChange={handleChange}/>
+                <input className="mb-4" type="file" name="file" id="file" onChange={handleChange}/>
+                <p>mettre en avant ?</p>
+                    <div className="form-check">
+                        <input className="form-check-input" 
+                               type="radio" 
+                               name="featured" 
+                               value="yes" 
+                               id="yes"
+                               checked={featuredOption === true} 
+                               onChange={handleChangeFeatured}/>
+                        <label className="form-check-label" htmlFor="yes">oui</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" 
+                               type="radio" 
+                               name="featured" 
+                               value="no" 
+                               id="no"
+                               onChange={handleChangeFeatured}
+                               checked={featuredOption === false}/>
+                        <label className="form-check-label" htmlFor="no">non</label>
+                    </div>
                 <button className="btn btn-primary" type="submit">Ajouter</button>
             </form>
         }

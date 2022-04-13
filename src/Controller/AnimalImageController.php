@@ -8,12 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AnimalImageController
 {
-    public function __invoke(Animal $animal, Request $request)
-    {
+    
+    public function __invoke(Animal $animal, Request $request): ImageAnimal
+    {  
         $image = new ImageAnimal();
+        $featured = $request->request->get('featured') === "false" ? 0 : 1;
         $uploadFile = $request->files->get('file');
         $image->setAnimal($animal);
-        $image->setFeatured(false);
+        $image->setFeatured($featured);
         $image->setImageFile($uploadFile);
         return $image;
     }

@@ -46,7 +46,6 @@ ApiResource(
                     ],
                 ],
             ],
-            //'deserialize' => true
         ]
     ],
 ),

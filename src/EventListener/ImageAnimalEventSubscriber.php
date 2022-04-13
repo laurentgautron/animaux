@@ -5,7 +5,7 @@ namespace App\EventListener;
 use App\Entity\ImageAnimal;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-class ImageAnimalSubscriber
+class ImageAnimalEventSubscriber
 {
     public function __construct(private StorageInterface $storage)
     {

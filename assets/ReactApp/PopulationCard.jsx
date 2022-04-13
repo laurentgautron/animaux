@@ -104,8 +104,7 @@ export function Population (props) {
             method: "DELETE"
         }).then(response => {
             if (response.ok) {
-                console.log('disparu !')
-                props.changeKey()
+                props.changeKey("population")
             }
         })
     }
@@ -184,9 +183,9 @@ export function Population (props) {
                                          changeId={handleEdit}
                                          key={modaleKey}
                                 />:
-                                <Modale  visible={visible}
-                                           context="change"
-                                           animalId={props.id}
-                                           key={modaleKey}/>}
+                                <Modale visible={visible}
+                                        context="change"
+                                        animalId={props.id}
+                                        key={modaleKey}/>}
         </div>)
 }

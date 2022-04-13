@@ -8,14 +8,15 @@ const Modale = ({visible, animalId, context, del, changeId}) => {
     const handleClick = () => {
         setShow(s => !s)
         del()
-        changeId(0)
+        if (changeId) {
+            changeId(0)
+        }
     }
 
     const url = '/login/' + animalId
-
-    console.log('dans la modale: ', show)
+    console.log('dans la modale:', context)
+    console.log('visibilité: ', visible)
     return (show && <div className="overlay">
-            {console.log('faut connecter')}
             <div className='bg-danger wrapper d-flex flex-column justify-content-center align-items-center'>
                 {context === "change" | context === 'add' && <div className='text-center'>
                     <h1>vous devez vous connecter pour faire cette opération</h1>

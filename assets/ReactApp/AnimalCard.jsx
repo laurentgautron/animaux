@@ -20,6 +20,7 @@ class AnimalCard extends React.Component
             showPopulation: false,
             showImages: false,
             populationKey: 1,
+            imageKey: 1,
             modaleKey: 1
         }
     }
@@ -111,10 +112,17 @@ class AnimalCard extends React.Component
         this.props.changeId(id)
     }
 
-    changeKey = () => {
-        this.setState(state =>({
-            populationKey: state.populationKey + 1
-        }))
+    changeKey = (item) => {
+        switch (item) {
+            case "population":
+                this.setState(state =>({
+                    populationKey: state.populationKey + 1
+                }))
+            case "image":
+                this.setState(state =>({
+                    imageKey: state.imageKey + 1
+                }))
+        }
     }
 
     render() {
@@ -195,7 +203,7 @@ class AnimalCard extends React.Component
                                             changeKey={this.changeKey}
                                             />}
             {this.state.showImages && 
-                <Images id={this.props.animalId}>
+                <Images id={this.props.animalId} key={this.state.imageKey} changeKey={this.changeKey}>
                 les images de l'animal: <span className="d-inline-block">{this.state.animalName}</span>
                 </Images>
             }

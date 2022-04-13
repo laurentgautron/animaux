@@ -13,7 +13,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use PhpParser\Node\Scalar\MagicConst\Dir;
 
 /**
  * @Vich\Uploadable
@@ -58,6 +57,7 @@ ApiFilter(BooleanFilter::class, properties: ['featured'])
 class ImageAnimal
 {
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
+    #[Groups(['image:read:collection'])]
     private ?int $id = null;
 
     #[Groups(['image:read:collection', 'read:collection'])]

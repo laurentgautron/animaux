@@ -3,16 +3,18 @@
 namespace App\EventListener;
 
 use App\Entity\ImageAnimal;
+use App\Repository\ImageAnimalRepository;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-class ImageAnimalEventSubscriber
+class ImageAnimalDelete
 {
     public function __construct(private StorageInterface $storage)
     {
         
     }
 
-    public function postRemove(ImageAnimal $imageAnimal)
+    public function postRemove(ImageAnimal $imageAnimal, LifecycleEventArgs $args): void
     {
         $path = $this->storage->resolveUri($imageAnimal, 'imageFile');
         if (file_exists($path)) {

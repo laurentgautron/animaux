@@ -59,7 +59,7 @@ class ImageAnimal
     #[Groups(['image:read:collection'])]
     private ?int $id = null;
 
-    #[Groups(['image:read:collection', 'read:collection'])]
+    #[Groups(['image:read:collection'])]
     public $imageUrl;
 
     /**
@@ -69,7 +69,6 @@ class ImageAnimal
     public $imageFile;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    //#[Groups(['image:read:collection', 'image:write:collection'])]
     private $imagePath;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
@@ -81,7 +80,6 @@ class ImageAnimal
     private $animal;
 
     #[ORM\Column(type: 'boolean')]
-    //#[Groups(['read:collection', 'imge:write:collection'])]
     private $featured;
     
     public function getId(): ?int
@@ -89,7 +87,7 @@ class ImageAnimal
         return $this->id;
     }
 
-    public function getImageFile(): File
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }

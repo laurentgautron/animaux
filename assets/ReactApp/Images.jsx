@@ -86,6 +86,11 @@ export function Images(props) {
         })
     }
 
+    const handleFeatured = () => {
+        console.log("j'envoie: ", imageList[indexImage])
+        fetch("featured/image/" + imageList[indexImage]['id'])
+    }
+
     let toggleButtonAddImage = addImage ? 
                         null : 
                         <button className="btn btn-primary" onClick={handleAddImage}>
@@ -97,6 +102,7 @@ export function Images(props) {
         <h1 className="my-5">{props.children}</h1>
         { imageList.length !== 0 ? <div className="d-flex flex-column align-items-center">
             <button className="btn btn-primary mb-5" onClick={handleDelete}>supprimer</button>
+            <button className="btn btn-primary mb-5" onClick={handleFeatured}>mettre en avant</button>
             <div className="pictures d-flex justify-content-center align-items-center">
                 { indexImage > 0 && 
                     <button className="btn" onClick={() => changeImage(-1)}>&lt;</button>
@@ -112,7 +118,7 @@ export function Images(props) {
             </div>
         }
         { addImage &&
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="mb-5">
                 <label htmlFor="file">choisir une image à ajouter</label>
                 <input className="mb-4" type="file" name="file" id="file" onChange={handleChange}/>
                 <p>mettre en avant ?</p>

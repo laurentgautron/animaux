@@ -80,6 +80,7 @@ class ImageAnimal
     private $animal;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['image:read:collection'])]
     private $featured;
     
     public function getId(): ?int

@@ -29,7 +29,7 @@ class AnimalImageController extends AbstractController
         $featured = $request->request->get('featured') === "false" ? 0 : 1;
         $uploadFile = $request->files->get('file');
         if ($featured === 1) {
-            $this->changeFeatured($animal, $featured, $image);
+            $this->changeFeatured($animal, $image);
         }
         $image->setAnimal($animal);
         $image->setFeatured($featured);
@@ -37,9 +37,8 @@ class AnimalImageController extends AbstractController
         return $image;
     }
 
-    public function changeFeatured(Animal $animal, Bool $featured, ImageAnimal $image)
+    public function changeFeatured(Animal $animal, ImageAnimal $image)
     {
-        //dd('au debut du change featured');
         $imageActualyFeatured = $this->imageAnimalRepository
                                      ->findBy([
                                          "animal" => $animal->getId(),
@@ -49,19 +48,19 @@ class AnimalImageController extends AbstractController
             $imageActualyFeatured[0]->setFeatured(0);
             $this->em->persist($imageActualyFeatured[0]);
         }
-        //dd($image->getFeatured());
+        // if ilmage is in collection: not a new image
         if ($image->getFeatured() !== null) {
-            //dd('bonjour image');
             $image->setFeatured(1);
             $this->em->persist($image);
         }
         $this->em->flush();
     }
 
+    // to change image featured in collection 
     #[Route("featured/image/{id}", name: "app_change_featured")]
     public function changeFeaturedCollection(ImageAnimal $image): Response
     {
-        $this->changeFeatured($image->getAnimal(), 1, $image);
+        $this->changeFeatured($image->getAnimal(), $image);
         return $this->json(true);
     }
 }

@@ -183,7 +183,9 @@ class AnimalCard extends React.Component
                                                 context="destruction"
                                                 del={this.del}
                                                 changeId={this.props.changeId}
-                                                key={this.state.modaleKey}/>
+                                                key={this.state.modaleKey}>
+                                                vous vouler détruire cette fiche ?
+                                               </Modale>
                 }
             </div>}
             {this.state.wantModify && <Form 

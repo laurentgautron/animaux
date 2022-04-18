@@ -75,7 +75,7 @@ export function Images(props) {
     }
 
     const del = () => {
-        console.log('bonjour delete')
+        console.log('bonjour delete: ', imageList)
         fetch('api/image_animals/' + imageList[indexImage]['id'], {
             method: "DELETE"
         })
@@ -158,7 +158,9 @@ export function Images(props) {
                     del={del}
                     context="destruction"
                     key={modaleKey}
-            />
+            >
+            vous voulez détruire cette image ?
+            </Modale>
         }
     </div>
 

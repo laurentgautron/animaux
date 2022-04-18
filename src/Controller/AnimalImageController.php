@@ -6,7 +6,6 @@ use App\Entity\Animal;
 use App\Entity\ImageAnimal;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ImageAnimalRepository;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +24,6 @@ class AnimalImageController extends AbstractController
     public function __invoke(Animal $animal, Request $request): ImageAnimal
     {  
         $image = new ImageAnimal();
-        
         $featured = $request->request->get('featured') === "false" ? 0 : 1;
         $uploadFile = $request->files->get('file');
         if ($featured === 1) {
@@ -37,6 +35,8 @@ class AnimalImageController extends AbstractController
         return $image;
     }
 
+    // find featured image in collection
+    // change if user has decided
     public function changeFeatured(Animal $animal, ImageAnimal $image)
     {
         $imageActualyFeatured = $this->imageAnimalRepository
@@ -48,7 +48,7 @@ class AnimalImageController extends AbstractController
             $imageActualyFeatured[0]->setFeatured(0);
             $this->em->persist($imageActualyFeatured[0]);
         }
-        // if ilmage is in collection: not a new image
+        // if image is in collection: it's not a new image
         if ($image->getFeatured() !== null) {
             $image->setFeatured(1);
             $this->em->persist($image);

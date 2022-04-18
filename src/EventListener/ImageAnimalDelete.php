@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use App\Entity\ImageAnimal;
-use App\Repository\ImageAnimalRepository;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Vich\UploaderBundle\Storage\StorageInterface;
 

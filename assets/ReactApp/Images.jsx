@@ -51,9 +51,13 @@ export function Images(props) {
         let formData = new FormData()
         formData.append("file", file)
         formData.append("featured", featuredOption)
+        console.log("le formData: ", formData)
         fetch('api/animals/' + props.id + "/image", {
             method: "POST",
-            body: formData
+            body: formData,
+            header: {
+                "Content-Type": 'multipart/form-data'
+            }
         })
         .then(response => {
             if (response.ok) {

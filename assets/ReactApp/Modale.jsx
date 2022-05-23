@@ -16,7 +16,7 @@ const Modale = ({visible, animalId, context, del, changeId, children}) => {
     const url = '/login/' + animalId
     return (show && <div className="overlay">
             <div className='bg-danger wrapper d-flex flex-column justify-content-center align-items-center'>
-                {context === "change" || context === 'add' && <div className='text-center'>
+                {(context == "change" || context == "add") && <div className='text-center'>
                     <h1>vous devez vous connecter pour faire cette opération</h1>
                     <a className="btn btn-primary mt-4" href={url}>Se connecter</a>
                 </div>}

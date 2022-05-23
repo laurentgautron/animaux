@@ -90,7 +90,6 @@ class AnimalCard extends React.Component
                 }))
             }
         } else {
-            console.log('je rends visible')
             this.setState(state => ({
                 visible: true,
                 modaleKey: state.modaleKey + 1
@@ -133,24 +132,24 @@ class AnimalCard extends React.Component
              !this.state.showImages &&
             <div className="one-card">
                 <div className="mt-4">
-                    <div className="btn-action mb-4">
+                    <div className="btn-action">
                         <button type="button" 
-                                className="btn btn-primary" 
+                                className="btn btn-primary mb-4" 
                                 onClick={this.onClick}>
                             modifier
                         </button>
                         <button type="button" 
-                                className="btn btn-primary" 
+                                className="btn btn-primary mb-4" 
                                 onClick={this.onClick}>
                             supprimer
                         </button>
                         <button type="button" 
-                                className="btn btn-primary" 
+                                className="btn btn-primary mb-4" 
                                 onClick={ () => this.setState({showPopulation: true})}>
                             populations
                         </button>
                         <button type="button" 
-                                className="btn btn-primary" 
+                                className="btn btn-primary mb-4" 
                                 onClick={ () => this.setState({showImages: true})}>
                             images
                         </button>

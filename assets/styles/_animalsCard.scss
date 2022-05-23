@@ -25,8 +25,14 @@
 .one-card {
     h1 {
         font-size: 5rem;
+        @include little-phone {
+            font-size: 3em;
+        }
     }
     p {
+        @include little-phone {
+            font-size: 1em;
+        }
         font-size: 3rem;
     }
     div {

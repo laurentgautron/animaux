@@ -50,7 +50,6 @@ class HelloApp extends React.Component
     }
 
     newAnimal = async () => {
-        console.log('dans le new animal')
         if (await AnimalServices.checkconnexion()) {
             this.setState({
                 addAnimal: true
@@ -65,7 +64,6 @@ class HelloApp extends React.Component
     }
 
     handleChangeId = (id) => {
-        console.log('dans le changeid de helloapp')
         if (id === this.state.id) {
             this.setState(state => ({
                 animalKey: state.animalKey + 1
@@ -78,11 +76,6 @@ class HelloApp extends React.Component
 
     
     render() {
-<<<<<<< HEAD
-        console.log("animal id: ", this.state.id)
-=======
-        console.log('la clé de animal dans helloapp: ', this.state.animalKey)
->>>>>>> deleteFile
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
         return <div key={this.state.animalKey}>
                 {this.state.id !== 0 ?

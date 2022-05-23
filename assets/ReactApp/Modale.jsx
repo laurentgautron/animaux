@@ -14,7 +14,6 @@ const Modale = ({visible, animalId, context, del, changeId, children}) => {
     }
 
     const url = '/login/' + animalId
-    console.log('le show: ', show)
     return (show && <div className="overlay">
             <div className='bg-danger wrapper d-flex flex-column justify-content-center align-items-center'>
                 {(context == "change" || context == "add") && <div className='text-center'>

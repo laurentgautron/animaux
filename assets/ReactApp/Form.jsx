@@ -15,7 +15,6 @@ export function Form (props) {
     const [form, setForm] = useState(initFunction(props))
     const [formErrors, setFormErrors] = useState(init(props.fields))
     const [options, setOptions] = useState({})
-    const [display, setDisplay] = useState(true)
 
     const extractDatasSelect = (datas) => {
         // need value and iri for select
@@ -145,6 +144,7 @@ export function Form (props) {
                     setFormErrors(validation(props.fields, resp))
                 } else {
                     // callBack to change id in HelloApp
+                    console.log("le id de onEdit: ", props.id)
                     props.onEdit(props.id)
                 }
             })

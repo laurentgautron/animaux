@@ -76,12 +76,12 @@ class HelloApp extends React.Component
     }
 
     render() {
+        console.log('la clé de animal dans helloapp: ', this.state.animalKey)
         let buttonResearchText = this.state.fullResearch ? 'recherche simple' : 'recherche détaillée'
-        return <div>
+        return <div key={this.state.animalKey}>
                 {this.state.id !== 0 ?
                     <AnimalCard animalId={this.state.id} 
-                                changeId={this.handleChangeId} 
-                                key={this.state.animalKey}/>
+                                changeId={this.handleChangeId} />
                     : <div>
                         {!this.state.addAnimal ? <div>
                             <div className="new-action d-flex justify-center mt-4 mb-3">

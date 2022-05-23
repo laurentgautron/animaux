@@ -181,8 +181,10 @@ export function Population (props) {
                                          context="destruction"
                                          del={del}
                                          changeId={handleEdit}
-                                         key={modaleKey}
-                                />:
+                                         key={modaleKey}>
+                                        vous voulez détruire cette population ?
+                                         </Modale>
+                                :
                                 <Modale visible={visible}
                                         context="change"
                                         animalId={props.id}

@@ -22,6 +22,7 @@ class AnimalCard extends React.Component
             populationKey: 1,
             imageKey: 1,
             modaleKey: 1,
+            componentKey: 1
         }
     }
 

@@ -21,7 +21,8 @@ class AnimalCard extends React.Component
             showImages: false,
             populationKey: 1,
             imageKey: 1,
-            modaleKey: 1
+            modaleKey: 1,
+            componentKey: 1
         }
     }
 
@@ -110,6 +111,9 @@ class AnimalCard extends React.Component
     changeId = (id) => {
         console.log('je change le id: ', id)
         this.props.changeId(id)
+        this.setState({
+            wantModify: false
+        })
     }
 
     changeKey = (item) => {

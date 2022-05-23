@@ -6,7 +6,7 @@ const Modale = ({visible, animalId, context, del, changeId, children}) => {
     const [show, setShow] = useState(visible)
 
     const handleClick = () => {
-        setShow(s => !s)
+        setShow(false)
         del()
         if (changeId) {
             changeId(0)

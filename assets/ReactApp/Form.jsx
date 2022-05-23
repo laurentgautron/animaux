@@ -144,6 +144,7 @@ export function Form (props) {
                     setFormErrors(validation(props.fields, resp))
                 } else {
                     // callBack to change id in HelloApp
+                    console.log("le id de onEdit: ", props.id)
                     props.onEdit(props.id)
                 }
             })

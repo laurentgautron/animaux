@@ -108,6 +108,7 @@ class AnimalCard extends React.Component
     }
 
     changeId = (id) => {
+        console.log('je change le id: ', id)
         this.props.changeId(id)
     }
 

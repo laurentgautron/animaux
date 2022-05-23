@@ -15,6 +15,7 @@ export function Form (props) {
     const [form, setForm] = useState(initFunction(props))
     const [formErrors, setFormErrors] = useState(init(props.fields))
     const [options, setOptions] = useState({})
+    const [display, setDisplay] = useState(true)
 
     const extractDatasSelect = (datas) => {
         // need value and iri for select

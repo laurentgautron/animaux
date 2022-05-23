@@ -6,7 +6,7 @@ const Modale = ({visible, animalId, context, del, changeId, children}) => {
     const [show, setShow] = useState(visible)
 
     const handleClick = () => {
-        setShow(s => !s)
+        setShow(false)
         del()
         if (changeId) {
             changeId(0)
@@ -14,6 +14,7 @@ const Modale = ({visible, animalId, context, del, changeId, children}) => {
     }
 
     const url = '/login/' + animalId
+    console.log('le show: ', show)
     return (show && <div className="overlay">
             <div className='bg-danger wrapper d-flex flex-column justify-content-center align-items-center'>
                 {(context == "change" || context == "add") && <div className='text-center'>

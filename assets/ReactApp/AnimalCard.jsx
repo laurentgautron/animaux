@@ -131,7 +131,7 @@ class AnimalCard extends React.Component
     }
 
     render() {
-        return <div className="animalCard">
+        return <div className="animalCard" id="beginning">
             {!this.state.wantModify && 
              !this.state.destructionSuccess && 
              !this.state.showPopulation &&

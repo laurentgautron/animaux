@@ -1,8 +1,12 @@
 *::first-letter {
     text-transform: capitalize;
 }
+
+html, body {
+    height: 100%
+}
+
 body {
-    height: 100%;
     background-color: var(--bs-gray-dark);
     position: relative;
     a {
@@ -28,7 +32,8 @@ body {
             background-color: var(--bs-blue);
         }
     }
-    #root {
+    .container-fluid {
         height: 100%;
+        overflow: scroll;
     }
 }

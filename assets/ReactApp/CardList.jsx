@@ -14,6 +14,7 @@ class CardList extends React.Component
             animalsNumber: 0,
             view: {},
             key: 1,
+            loading: true
         }
     }
 
@@ -23,6 +24,7 @@ class CardList extends React.Component
     }
 
     findAnimalList = async (url) => {
+        console.log("dans le find")
         const response = await fetch(url)
         const rep = await response.json()
         let featureJoinAnimal = []
@@ -37,7 +39,8 @@ class CardList extends React.Component
         this.setState({
             animalList: featureJoinAnimal,
             animalsNumber: rep["hydra:totalItems"],
-            view: rep["hydra:view"]
+            view: rep["hydra:view"],
+            loading: false
         })
     }
 
@@ -47,11 +50,13 @@ class CardList extends React.Component
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.url !== this.state.url) {
+            this.setState({loading:false})
             this.findAnimalList(this.state.url)
         } else if (prevProps.url !== this.props.url) {
             this.setState( state => ({
                 key: state.key + 1,
-                animalList: []
+                animalList: [],
+                loading: false
             }))
             this.findAnimalList(this.props.url)
         } 
@@ -64,7 +69,8 @@ class CardList extends React.Component
     }
 
     render() {
-        return <div className="card-list">
+        return <> {this.state.loading ? <p>en attente</p>:
+        <div className="card-list" id="beginning">
             <ul>
                 {this.state.animalList.length !== 0 && this.state.animalList.map( element => {
                     return <li key={element[0]['@id']}>
@@ -83,7 +89,8 @@ class CardList extends React.Component
                 <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/> :
                 <div>pas de résultat</div>
             }
-        </div>
+        </div>}
+        </>
     }
 }
 

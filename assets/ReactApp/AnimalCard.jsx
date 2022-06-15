@@ -22,7 +22,8 @@ class AnimalCard extends React.Component
             populationKey: 1,
             imageKey: 1,
             modaleKey: 1,
-            componentKey: 1
+            componentKey: 1,
+            loading: true
         }
     }
 
@@ -213,7 +214,7 @@ class AnimalCard extends React.Component
                 les images de l'animal: <span className="d-inline-block">{this.state.animalName}</span>
                 </Images>
             }
-        </div> 
+        </div>
     }
 }
 

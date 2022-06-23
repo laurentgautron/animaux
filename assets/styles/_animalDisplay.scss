@@ -6,10 +6,17 @@
         justify-content: center;
         align-items: center;
     }
+    .no_result {
+        height: 100vh;
+    }
 }
 .btn-action {
     button {
         margin-left: 0.3rem;
         margin-right: 0.3rem;
     }
+}
+
+.loading {
+    height: 100vh;
 }

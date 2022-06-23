@@ -2,10 +2,6 @@
     text-transform: capitalize;
 }
 
-html, body {
-    height: 100%
-}
-
 body {
     background-color: var(--bs-gray-dark);
     position: relative;
@@ -34,6 +30,6 @@ body {
     }
     .container-fluid {
         height: 100%;
-        overflow: scroll;
+        // overflow: scroll;
     }
 }

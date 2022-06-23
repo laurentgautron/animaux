@@ -69,8 +69,8 @@ class CardList extends React.Component
     }
 
     render() {
-        return <> {this.state.loading ? <p>en attente</p>:
-        <div className="card-list" id="beginning">
+        return <> {this.state.loading ? <p class="text-center loading">Chargement des  données ...</p>:
+        <div className="card-list">
             <ul>
                 {this.state.animalList.length !== 0 && this.state.animalList.map( element => {
                     return <li key={element[0]['@id']}>
@@ -87,7 +87,7 @@ class CardList extends React.Component
             </ul>
             {this.state.animalList.length !== 0 ? 
                 <Pagination view={this.state.view} onPage={this.handlePage} key={this.state.key}/> :
-                <div>pas de résultat</div>
+                <div class="no_result text-center">pas de résultat</div>
             }
         </div>}
         </>
